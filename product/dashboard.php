@@ -7,7 +7,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-  <?php include("../css.php") ?>
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <style>
     :root {
@@ -73,13 +74,20 @@
       </li>
       <li>
         <a class="d-block p-2 px-3 text-decoration-none" href="">
+          <i class="bi bi-book me-2"></i> 文章管理
+        </a>
+      </li>
+      <li>
+        <a class="d-block p-2 px-3 text-decoration-none" href="">
           <i class="bi bi-paypal me-2"></i> 付款方式
         </a>
       </li>
+
+    </ul>
   </aside>
   <main class="main-content p-3">
     <div class="d-flex justify-content-between">
-      <h1>這是標題</h1>
+      <h1>文章管理</h1>
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#">Action</a></li>
         <li><a class="dropdown-item" href="#">Another action</a></li>
@@ -102,7 +110,9 @@
 
 
 
-
+  </main>
 </body>
 
 </html>
+dashboard.php
+目前顯示的是「dashboard.php」。
