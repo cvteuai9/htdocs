@@ -109,16 +109,16 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             <!-- nav -->
             <ul class="nav nav-underline ps-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="">全部</a>
+                    <a class="nav-link text-success" href="">全部</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">紅茶</a>
+                    <a class="nav-link text-success" href="">紅茶</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">綠茶</a>
+                    <a class="nav-link text-success" href="">綠茶</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">青茶(烏龍茶)</a>
+                    <a class="nav-link text-success" href="">青茶(烏龍茶)</a>
                 </li>
             </ul>
             <hr class="my-1">
@@ -127,16 +127,16 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     <form action="">
                         <div class="d-flex justify-content-start">
                             <input type="text" class="form-control">
-                            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>
                 </div>
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary">Left</button>
-                        <button type="button" class="btn btn-primary">Middle</button>
+                        <button type="button" class="btn btn-success">Left</button>
+                        <button type="button" class="btn btn-success">Middle</button>
                     </div>
-                    <a href="" class="btn btn-primary"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
+                    <a href="" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
                 </div>
             </div>
         </div>
@@ -175,9 +175,9 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                             <td><?= $row["price"] ?></td>
                             <td><?= $row["created_at"] ?></td>
                             <td>
-                                <a href="" class="btn btn-primary">檢視</a>
-                                <a href="" class="btn btn-primary">修改</a>
-                                <a href="" class="btn btn-primary">刪除</a>
+                                <a href="" class="btn btn-success">檢視</a>
+                                <a href="" class="btn btn-success">修改</a>
+                                <a href="" class="btn btn-success">刪除</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
