@@ -25,14 +25,24 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
     OR pack.name LIKE '%$search%'
     OR style.name LIKE '%$search%'
     ORDER BY id ASC";
-} else if ($_GET["page"]) {
+} else if (isset($_GET["page"]) && isset($_GET["order"])) {
     $page = $_GET["page"];
+    $order = $_GET["order"];
     $firstItem = ($page - 1) * $perPage;
     $pageCount = ceil($allCount / $perPage);
-    $sql = "$sqlAll
-    ORDER BY id ASC LIMIT $firstItem, $perPage";
+    switch ($order) {
+        case 1:
+            $sql = "$sqlAll
+            ORDER BY id ASC LIMIT $firstItem, $perPage";
+            break;
+
+        case 2:
+            $sql = "$sqlAll
+            ORDER BY id DESC LIMIT $firstItem, $perPage";
+            break;
+    }
 } else {
-    header("location:product-list.php?page=1");
+    header("location:product-list.php?page=1&order=1");
 }
 
 $result = $conn->query($sql);
@@ -169,8 +179,8 @@ if (isset($_GET["page"])) {
                 </div>
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-success">Left</button>
-                        <button type="button" class="btn btn-success">Middle</button>
+                        <a href="?page=<?= $page ?>&order=1" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                        <a href="?page=<?= $page ?>&order=2" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
                     </div>
                     <a href="" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
                 </div>
@@ -232,7 +242,7 @@ if (isset($_GET["page"])) {
                             <ul class="pagination">
                                 <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
                                     <li class="page-item <?php if ($i == $page) echo "active" ?>">
-                                        <a class="page-link" href="?page=<?= $i ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>">
                                             <?= $i ?>
                                         </a>
                                     </li>
