@@ -1,15 +1,38 @@
 <?php
 require_once("../db_connect.php");
 
-$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name FROM product_category_relation pcr
-JOIN products p ON pcr.product_id = p.id
-JOIN brand b ON pcr.brand_id = b.id
-JOIN tea_category tc ON pcr.tea_id = tc.id
-JOIN pack_category pack ON pcr.package_id = pack.id
-JOIN style ON pcr.style_id = style.id";
+$page = $_GET["page"];
+$perPage = 10;
+$firstItem = ($page - 1) * $perPage;
+$pageCount = ceil($allUserCount / $perPage);
+if (isset($_GET["search"]) && !empty($_GET["search"])) {
+    $search = $_GET["search"];
+    $sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name FROM product_category_relation pcr
+    JOIN products p ON pcr.product_id = p.id
+    JOIN brand b ON pcr.brand_id = b.id
+    JOIN tea_category tc ON pcr.tea_id = tc.id
+    JOIN pack_category pack ON pcr.package_id = pack.id
+    JOIN style ON pcr.style_id = style.id
+    WHERE p.id LIKE '%$search%'
+    OR p.name LIKE '%$search%'
+    OR b.name LIKE '%$search%'
+    OR tc.name LIKE '%$search%'
+    OR pack.name LIKE '%$search%'
+    OR style.name LIKE '%$search%'
+    ORDER BY id ASC LIMIT $firstItem, $perPage";
+} else {
+    $sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name FROM product_category_relation pcr 
+    JOIN products p ON pcr.product_id = p.id 
+    JOIN brand b ON pcr.brand_id = b.id 
+    JOIN tea_category tc ON pcr.tea_id = tc.id
+    JOIN pack_category pack ON pcr.package_id = pack.id
+    JOIN style ON pcr.style_id = style.id
+    ORDER BY id ASC LIMIT $firstItem, $perPage";
+}
 
 $result = $conn->query($sql);
 $rows = $result->fetch_all(MYSQLI_ASSOC);
+$allCount = $result->num_rows;
 ?>
 
 <!doctype html>
@@ -103,10 +126,9 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
         </ul>
     </aside>
     <div class="main-content ">
-        <!-- header -->
-        <div class="container">
+        <div class="container-fluid">
             <h1 class="m-0 pt-3">商品列表</h1>
-            <!-- nav -->
+            <!-- 分類nav -->
             <ul class="nav nav-underline ps-2">
                 <li class="nav-item">
                     <a class="nav-link text-success" href="">全部</a>
@@ -124,12 +146,18 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             <hr class="my-1">
             <div class="row g-3 justify-content-between">
                 <div class="col-auto">
+                    <!-- 搜尋表單 -->
                     <form action="">
                         <div class="d-flex justify-content-start">
-                            <input type="text" class="form-control">
+                            <?php if (isset($_GET["search"])) : //有搜尋條件時才會出現重置按鈕 
+                            ?>
+                                <a href="product-list.php" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i></a>
+                            <?php endif; ?>
+                            <input type="text" class="form-control" placeholder="Search..." name="search">
                             <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>
+                    <p style="font-size: 12px;" class="mt-2">請輸入商品id、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
                 </div>
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
@@ -140,53 +168,67 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                 </div>
             </div>
         </div>
-        <div class="container py-3">
+        <div class="container-fluid py-3">
             <div class="py-2 d-flex gap-3">
                 <div>
-                    共 3 筆
+                    共 <?= $allCount ?> 筆
                 </div>
                 <div>
                     第三頁/共四頁
                 </div>
             </div>
         </div>
-        <div class="container">
-            <table class="table table-bordered text-center">
-                <thead class="bg-warning-subtle">
-                    <th>編號</th>
-                    <th>圖片</th>
-                    <th>商品名稱</th>
-                    <th>品牌</th>
-                    <th>茶種</th>
-                    <th>包裝/茶葉類型</th>
-                    <th>價格</th>
-                    <th>建立時間</th>
-                    <th>操作</th>
-                </thead>
-                <tbody>
-                    <?php foreach ($rows as $row) : ?>
-                        <tr>
-                            <td><?= $row["id"] ?></td>
-                            <td>1</td>
-                            <td><?= $row["product_name"] ?></td>
-                            <td><?= $row["brand_name"] ?></td>
-                            <td><?= $row["tea_category_name"] ?></td>
-                            <td><?= $row["package_name"] ?> / <?= $row["style_name"] ?></td>
-                            <td><?= $row["price"] ?></td>
-                            <td><?= $row["created_at"] ?></td>
-                            <td>
-                                <a href="" class="btn btn-success">檢視</a>
-                                <a href="" class="btn btn-success">修改</a>
-                                <a href="" class="btn btn-success">刪除</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+        <div class="container-fluid">
+            <!-- 商品表格 -->
+            <?php if ($result->num_rows > 0) : ?>
+                <table class="table table-bordered text-center">
+                    <thead class="bg-warning-subtle text-nowrap">
+                        <th>編號</th>
+                        <th>圖片</th>
+                        <th>商品名稱</th>
+                        <th>品牌</th>
+                        <th>茶種</th>
+                        <th>包裝/茶葉類型</th>
+                        <th>價格</th>
+                        <th>建立時間</th>
+                        <th>操作</th>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($rows as $row) : ?>
+                            <tr class="text-nowrap">
+                                <td><?= $row["id"] ?></td>
+                                <td>1</td>
+                                <td><?= $row["product_name"] ?></td>
+                                <td><?= $row["brand_name"] ?></td>
+                                <td><?= $row["tea_category_name"] ?></td>
+                                <td><?= $row["package_name"] ?> / <?= $row["style_name"] ?></td>
+                                <td><?= $row["price"] ?></td>
+                                <td><?= $row["created_at"] ?></td>
+                                <td>
+                                    <a href="" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="" class="btn btn-success"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="" class="btn btn-success"><i class="fa-regular fa-trash-can"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+                <?php if (isset($_GET["page"])) : ?>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                <li class="page-item 
+                    <?php if ($i == $page) echo "active" ?>
+                    "><a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>"><?= $i ?></a></li>
+                            <?php endfor; ?>
+                        </ul>
+                    </nav>
+                <?php endif; ?>
+            <?php else : ?>
+                無符合條件的商品
+            <?php endif; ?>
         </div>
-
-
-
     </div>
 
 </body>
