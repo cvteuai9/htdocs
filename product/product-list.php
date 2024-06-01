@@ -1,38 +1,46 @@
 <?php
 require_once("../db_connect.php");
 
-$page = $_GET["page"];
+// 全部資料
+$sqlAll = "SELECT p.id, p.name AS product_name, p.price, p.created_at, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name FROM product_category_relation pcr 
+JOIN products p ON pcr.product_id = p.id 
+JOIN brand b ON pcr.brand_id = b.id 
+JOIN tea_category tc ON pcr.tea_id = tc.id
+JOIN pack_category pack ON pcr.package_id = pack.id
+JOIN style ON pcr.style_id = style.id";
+$resultAll = $conn->query($sqlAll);
+$allCount = $resultAll->num_rows;
+
+// 一頁顯示10筆資料
 $perPage = 10;
-$firstItem = ($page - 1) * $perPage;
-$pageCount = ceil($allUserCount / $perPage);
+
+// 有搜尋條件時
 if (isset($_GET["search"]) && !empty($_GET["search"])) {
     $search = $_GET["search"];
-    $sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name FROM product_category_relation pcr
-    JOIN products p ON pcr.product_id = p.id
-    JOIN brand b ON pcr.brand_id = b.id
-    JOIN tea_category tc ON pcr.tea_id = tc.id
-    JOIN pack_category pack ON pcr.package_id = pack.id
-    JOIN style ON pcr.style_id = style.id
+    $sql = "$sqlAll
     WHERE p.id LIKE '%$search%'
     OR p.name LIKE '%$search%'
     OR b.name LIKE '%$search%'
     OR tc.name LIKE '%$search%'
     OR pack.name LIKE '%$search%'
     OR style.name LIKE '%$search%'
+    ORDER BY id ASC";
+} else if ($_GET["page"]) {
+    $page = $_GET["page"];
+    $firstItem = ($page - 1) * $perPage;
+    $pageCount = ceil($allCount / $perPage);
+    $sql = "$sqlAll
     ORDER BY id ASC LIMIT $firstItem, $perPage";
 } else {
-    $sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name FROM product_category_relation pcr 
-    JOIN products p ON pcr.product_id = p.id 
-    JOIN brand b ON pcr.brand_id = b.id 
-    JOIN tea_category tc ON pcr.tea_id = tc.id
-    JOIN pack_category pack ON pcr.package_id = pack.id
-    JOIN style ON pcr.style_id = style.id
-    ORDER BY id ASC LIMIT $firstItem, $perPage";
+    header("location:product-list.php?page=1");
 }
 
 $result = $conn->query($sql);
 $rows = $result->fetch_all(MYSQLI_ASSOC);
-$allCount = $result->num_rows;
+$productCount = $result->num_rows;
+if (isset($_GET["page"])) {
+    $productCount = $allCount;
+}
 ?>
 
 <!doctype html>
@@ -151,13 +159,13 @@ $allCount = $result->num_rows;
                         <div class="d-flex justify-content-start">
                             <?php if (isset($_GET["search"])) : //有搜尋條件時才會出現重置按鈕 
                             ?>
-                                <a href="product-list.php" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i></a>
+                                <a href="product-list.php?page=1" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i></a>
                             <?php endif; ?>
                             <input type="text" class="form-control" placeholder="Search..." name="search">
                             <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>
-                    <p style="font-size: 12px;" class="mt-2">請輸入商品id、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
+                    <p style="font-size: 12px;" class="mt-2">請輸入商品編號、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
                 </div>
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
@@ -171,10 +179,14 @@ $allCount = $result->num_rows;
         <div class="container-fluid py-3">
             <div class="py-2 d-flex gap-3">
                 <div>
-                    共 <?= $allCount ?> 筆
+                    共 <?= $productCount ?> 筆
                 </div>
                 <div>
-                    第三頁/共四頁
+                    <?php if (isset($_GET["page"])) : ?>
+                        第 <?= $_GET["page"] ?> 頁 / 共 <?= $pageCount ?> 頁
+                    <?php else : ?>
+                        第 1 頁 / 共 1 頁
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -215,15 +227,19 @@ $allCount = $result->num_rows;
                 </table>
 
                 <?php if (isset($_GET["page"])) : ?>
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                                <li class="page-item 
-                    <?php if ($i == $page) echo "active" ?>
-                    "><a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>"><?= $i ?></a></li>
-                            <?php endfor; ?>
-                        </ul>
-                    </nav>
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                    <li class="page-item <?php if ($i == $page) echo "active" ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+                    </div>
                 <?php endif; ?>
             <?php else : ?>
                 無符合條件的商品
