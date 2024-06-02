@@ -315,7 +315,7 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                                 <td><?= $row["price"] ?></td>
                                 <td><?= $row["created_at"] ?></td>
                                 <td>
-                                    <a href="" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="product-detail.php?id=<?= $row["id"] ?>" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
                                     <a href="" class="btn btn-success"><i class="fa-regular fa-pen-to-square"></i></a>
                                     <a href="" class="btn btn-success"><i class="fa-regular fa-trash-can"></i></a>
                                 </td>
