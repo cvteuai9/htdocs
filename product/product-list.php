@@ -206,8 +206,11 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                     <a class="nav-link text-success  <?php if (isset($_GET["category"]) && $_GET["category"] == 3) echo "active" ?>" href="product-list.php?page=1&order=1&category=3">青茶(烏龍茶)</a>
                 </li>
             </ul>
+
             <hr class="my-3">
+
             <div class="row g-3 justify-content-between">
+
                 <div class="col-auto">
                     <!-- 搜尋表單 -->
                     <form action="">
@@ -222,6 +225,7 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                     </form>
                     <p style="font-size: 12px;" class="mt-2">請輸入商品編號、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
                 </div>
+
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <?php if (isset($_GET["category"])) : ?>
@@ -232,10 +236,13 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                             <a href="?page=<?= $page ?>&order=2" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
                         <?php endif; ?>
                     </div>
-                    <a href="" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
+
+                    <!-- 新增商品頁按鈕 -->
+                    <a href="product-add.php" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
                 </div>
             </div>
         </div>
+
         <div class="container-fluid">
             <div class="row justify-content-between">
                 <div class="col-auto py-2 d-flex gap-3">
@@ -315,9 +322,20 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                                 <td><?= $row["price"] ?></td>
                                 <td><?= $row["created_at"] ?></td>
                                 <td>
-                                    <a href="product-detail.php?id=<?= $row["id"] ?>" class="btn btn-success"><i class="fa-solid fa-eye"></i></a>
-                                    <a href="" class="btn btn-success"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="" class="btn btn-success"><i class="fa-regular fa-trash-can"></i></a>
+                                    <!-- 檢視商品 -->
+                                    <a href="product-detail.php?id=<?= $row["id"] ?>" class="btn btn-success">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+
+                                    <!-- 商品編輯頁按鈕 -->
+                                    <a href="product-edit.php?id=<?= $row["id"] ?>" class="btn btn-success">
+                                        <i class="fa-regular fa-pen-to-square"></i>
+                                    </a>
+
+                                    <!-- 刪除商品按鈕 -->
+                                    <a href="" class="btn btn-success">
+                                        <i class="fa-regular fa-trash-can"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
