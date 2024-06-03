@@ -228,11 +228,13 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
 
         </ul>
     </aside>
-    <div class="main-content ">
+    <div class="main-content">
         <div class="container-fluid">
-            <h1 class="m-0 pt-3">商品列表</h1>
+            <div class="text-center mt-3 pt-3">
+                <h1>商品列表</h1>
+            </div>
             <!-- 分類nav -->
-            <ul class="nav nav-underline ps-2">
+            <ul class="nav nav-underline ps-2 fs-5">
                 <li class="nav-item">
                     <a class="nav-link text-success <?php if (!isset($_GET["category"]) && !isset($_GET["valid"])) echo "active" ?>" href="product-list.php?page=1&order=1">全部</a>
                 </li>

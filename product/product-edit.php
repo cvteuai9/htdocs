@@ -140,24 +140,23 @@ $rowId = $result->fetch_assoc();
     <main class="main-content p-3">
         <!-- 返回商品列表按鈕 -->
         <div class="container-fluid mb-2">
+            <div class="text-center m-0">
+                <h1>商品編輯頁</h1>
+            </div>
             <div>
-                <a class="btn btn-success fs-4 mb-3" href="product-list.php?page=1&order=1">
+                <a class="btn btn-success fs-5 mb-3" href="product-list.php?page=1&order=1">
                     <i class="fa-solid fa-arrow-left"></i> 返回商品列表
                 </a>
             </div>
             <div>
-                <a class="btn btn-success fs-4 mb-3" href="product-detail.php?id=<?= $rowId["id"] ?>">
+                <a class="btn btn-success fs-5 mb-3" href="product-detail.php?id=<?= $rowId["id"] ?>">
                     <i class="fa-solid fa-arrow-left"></i> 返回商品詳情
                 </a>
             </div>
         </div>
         <hr>
-        <div class="container text-center mb-4">
-            <h1>商品編輯頁</h1>
-        </div>
-
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-start">
 
                 <!-- 商品圖片預覽區 -->
                 <div class="col-lg-4 d-flex flex-column align-items-center">

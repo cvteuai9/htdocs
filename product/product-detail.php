@@ -7,7 +7,7 @@ if (!isset($_GET["id"])) {
     $id = $_GET["id"];
 }
 
-$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.description, p.weight, tc.name AS tc_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name, p_img.path FROM product_category_relation pcr 
+$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.description, p.weight, p.valid, tc.name AS tc_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name, p_img.path FROM product_category_relation pcr 
 JOIN product_images p_img ON pcr.product_id = p_img.id
 JOIN products p ON pcr.product_id = p.id 
 JOIN brand b ON pcr.brand_id = b.id 
@@ -114,60 +114,75 @@ $row = $result->fetch_assoc();
     <main class="main-content p-3">
 
         <!-- 返回商品列表按鈕 -->
-        <div class="container-fluid mb-5">
-            <a class="btn btn-success fs-4 mb-3" href="product-list.php?page=1&order=1">
-                <i class="fa-solid fa-arrow-left"></i> 返回商品列表
-            </a>
+        <div class="container-fluid m-0">
+            <div class="text-center">
+                <h1>商品資訊</h1>
+            </div>
+            <div>
+                <a class="btn btn-success fs-5 mb-3" href="product-list.php?page=1&order=1">
+                    <i class="fa-solid fa-arrow-left"></i> 返回商品列表
+                </a>
+            </div>
         </div>
         <hr>
         <!-- 商品詳情 -->
         <div class="container">
-            <div class="row g-3 justify-content-between">
+            <div class="row g-3 justify-content-start">
                 <!-- 商品圖 -->
                 <div class="col-lg-6">
                     <img class="product-img object-fit-contain" src="../product_images/<?= $row["path"] ?>" alt="">
                 </div>
 
                 <!-- 商品詳細資訊 -->
-                <div class="col-lg-5">
+                <div class="col-lg-4">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th class="text-center h4 m-0" colspan="2">商品詳情</th>
                             </tr>
                         </thead>
-                        <tbody class="align-middle">
+                        <tbody class="align-middle text-center">
                             <tr>
-                                <th class="text-center">商品編號</th>
-                                <td class="text-end"><?= $row["id"] ?></td>
+                                <th>商品編號</th>
+                                <td><?= $row["id"] ?></td>
                             </tr>
                             <tr>
-                                <th class="text-center">商品名稱</th>
+                                <th>商品名稱</th>
                                 <td><?= $row["product_name"] ?></td>
                             </tr>
                             <tr>
-                                <th class="text-center">品牌</th>
+                                <th>品牌</th>
                                 <td><?= $row["brand_name"] ?></td>
                             </tr>
                             <tr>
-                                <th class="text-center">茶種</th>
+                                <th>茶種</th>
                                 <td><?= $row["tc_name"] ?></td>
                             </tr>
                             <tr>
-                                <th class="text-center">包材 / 類型</th>
+                                <th>包材 / 類型</th>
                                 <td><?= $row["package_name"] ?> / <?= $row["style_name"] ?></td>
                             </tr>
                             <tr>
-                                <th class="text-center">重量</th>
-                                <td class="text-end"><?= $row["weight"] ?></td>
+                                <th>重量</th>
+                                <td><?= $row["weight"] ?></td>
                             </tr>
                             <tr>
-                                <th class="text-center">單價</th>
-                                <td class="text-end"><?= $row["price"] ?></td>
+                                <th>單價</th>
+                                <td><?= $row["price"] ?></td>
                             </tr>
                             <tr>
-                                <th class="text-center">建立日期</th>
-                                <td class="text-end"><?= $row["created_at"] ?></td>
+                                <th>狀態</th>
+                                <td>
+                                    <?php if ($row["valid"] == 1) : ?>
+                                        上架中
+                                    <?php else : ?>
+                                        下架
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>建立日期</th>
+                                <td><?= $row["created_at"] ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -175,11 +190,6 @@ $row = $result->fetch_assoc();
                     <!-- 商品編輯頁按鈕 -->
                     <a href="product-edit.php?id=<?= $row["id"] ?>" class="btn btn-success">
                         <i class="fa-regular fa-pen-to-square"></i>
-                    </a>
-
-                    <!-- 移除商品按鈕 -->
-                    <a href="" class="btn btn-success">
-                        <i class="fa-regular fa-trash-can"></i>
                     </a>
                 </div>
 
