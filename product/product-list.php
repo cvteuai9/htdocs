@@ -313,7 +313,7 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                             <tr class="text-nowrap">
                                 <td><?= $row["id"] ?></td>
                                 <td>
-                                    <img class="product-img object-fit-cover" src="<?= $row["path"] ?>" alt="">
+                                    <img class="product-img object-fit-cover" src="../product_images/<?= $row["path"] ?>" alt="">
                                 </td>
                                 <td><?= $row["product_name"] ?></td>
                                 <td><?= $row["brand_name"] ?></td>

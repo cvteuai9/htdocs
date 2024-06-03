@@ -279,6 +279,8 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
 
 
     </main>
+
+    <!-- Javascript -->
     <?php include("../js.php") ?>
     <script>
         function previewImage(event) {

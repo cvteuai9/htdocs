@@ -125,7 +125,7 @@ $row = $result->fetch_assoc();
             <div class="row g-3 justify-content-between">
                 <!-- 商品圖 -->
                 <div class="col-lg-6">
-                    <img class="product-img object-fit-cover" src="<?= $row["path"] ?>" alt="">
+                    <img class="product-img object-fit-contain" src="../product_images/<?= $row["path"] ?>" alt="">
                 </div>
 
                 <!-- 商品詳細資訊 -->
