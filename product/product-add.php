@@ -154,7 +154,7 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
                             <tr>
                                 <th>商品名稱</th>
                                 <td>
-                                    <input class="form-control" type="text" name="productName" placeholder="請輸入商品名稱...">
+                                    <input class="form-control" type="text" name="product_name" placeholder="請輸入商品名稱...">
                                 </td>
                             </tr>
 
@@ -266,23 +266,12 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
     </main>
 
     <!-- Javascript -->
     <?php include("../js.php") ?>
     <script>
+        // 圖片預覽函式
         function previewImage(event) {
             const preview = document.getElementById('preview');
             const file = event.target.files[0];

@@ -1,6 +1,39 @@
 <?php
 require_once("../db_connect.php");
 
+if (!isset($_GET["id"])) {
+    echo "無此商品，或您未遵循正常管道進入此頁面";
+    exit;
+} else {
+    $id = $_GET["id"];
+}
+
+$sqlTc = "SELECT id, name AS tc_name FROM tea_category";
+$sqlBrand = "SELECT id, name AS brand_name FROM brand";
+$sqlPack = "SELECT id, name AS pack_name FROM pack_category";
+$sqlStyle = "SELECT id, name AS style_name FROM style";
+
+$resultTc = $conn->query($sqlTc);
+$resultBrand = $conn->query($sqlBrand);
+$resultPack = $conn->query($sqlPack);
+$resultStyle = $conn->query($sqlStyle);
+
+$rowsTc = $resultTc->fetch_all(MYSQLI_ASSOC);
+$rowsBrand = $resultBrand->fetch_all(MYSQLI_ASSOC);
+$rowsPack = $resultPack->fetch_all(MYSQLI_ASSOC);
+$rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
+
+
+$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.description, p.weight, p_img.path, p.stock, tc.name AS tc_name, b.name AS brand_name, pack.name AS pack_name, style.name AS style_name FROM product_category_relation pcr 
+JOIN product_images p_img ON pcr.product_id = p_img.id
+JOIN products p ON pcr.product_id = p.id 
+JOIN brand b ON pcr.brand_id = b.id 
+JOIN tea_category tc ON pcr.tea_id = tc.id
+JOIN pack_category pack ON pcr.package_id = pack.id
+JOIN style ON pcr.style_id = style.id
+WHERE p.id = $id";
+$result = $conn->query($sql);
+$rowId = $result->fetch_assoc();
 
 ?>
 
@@ -34,6 +67,20 @@ require_once("../db_connect.php");
 
         .main-content {
             margin: var(--header-height) 0 0 var(--aside-witch);
+        }
+
+        #preview {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #preview img {
+            max-width: 100%;
+            max-height: 100%;
         }
     </style>
 </head>
@@ -91,21 +138,206 @@ require_once("../db_connect.php");
         </ul>
     </aside>
     <main class="main-content p-3">
+        <!-- 返回商品列表按鈕 -->
+        <div class="container-fluid mb-2">
+            <div>
+                <a class="btn btn-success fs-4 mb-3" href="product-list.php?page=1&order=1">
+                    <i class="fa-solid fa-arrow-left"></i> 返回商品列表
+                </a>
+            </div>
+            <div>
+                <a class="btn btn-success fs-4 mb-3" href="product-detail.php?id=<?= $rowId["id"] ?>">
+                    <i class="fa-solid fa-arrow-left"></i> 返回商品詳情
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="container text-center mb-4">
+            <h1>商品編輯頁</h1>
+        </div>
 
+        <div class="container">
+            <div class="row justify-content-center">
 
+                <!-- 商品圖片預覽區 -->
+                <div class="col-lg-4 d-flex flex-column align-items-center">
+                    <div id="preview">
+                        <img src="../product_images/<?= $rowId["path"] ?>" alt="">
+                    </div>
+                    <div class="h4 mt-1">圖片預覽</div>
+                </div>
 
+                <div class="col-lg-6">
+                    <!-- 編輯商品表單 -->
+                    <form action="doProductUpdate.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="<?= $rowId["id"] ?>">
+                        <table class="table table-bordered align-middle text-center">
+                            <!-- 商品圖片 -->
+                            <tr>
+                                <th>商品圖片</th>
+                                <td>
+                                    <!-- accept 限制檔案類型，image/* 所有image的類型都可上傳 -->
+                                    <input type="file" name="image" id="image" accept="image/*" onchange="previewImage(event)" required>
+                                </td>
+                            </tr>
 
+                            <!-- 商品名稱 -->
+                            <tr>
+                                <th>商品名稱</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1 ">(原) : <span class="text-success text-decoration-underline"><?= $rowId["product_name"] ?></span></p>
+                                    </div>
+                                    <input class="form-control" type="text" name="product_name" placeholder="請輸入商品名稱..." value="<?= $rowId["product_name"] ?>">
+                                </td>
+                            </tr>
 
+                            <!-- 品牌 -->
+                            <tr>
+                                <th>品牌</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["brand_name"] ?></span></p>
+                                    </div>
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="brand_id">
+                                            <?php foreach ($rowsBrand as $row) : ?>
+                                                <option value="<?= $row["id"] ?>" <?php if ($rowId["brand_name"] == $row["brand_name"]) echo "selected" ?>><?= $row["brand_name"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label for="floatingSelect">更改品牌</label>
+                                    </div>
+                                </td>
+                            </tr>
 
+                            <!-- 茶種 -->
+                            <tr>
+                                <th>茶種</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["tc_name"] ?></span></p>
+                                    </div>
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="tea_id">
+                                            <?php foreach ($rowsTc as $row) : ?>
+                                                <option value="<?= $row["id"] ?>" <?php if ($rowId["tc_name"] == $row["tc_name"]) echo "selected" ?>><?= $row["tc_name"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label for="floatingSelect">更改茶種</label>
+                                    </div>
+                                </td>
+                            </tr>
 
+                            <!-- 包裝方式 -->
+                            <tr>
+                                <th>包裝方式</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["pack_name"] ?></span></p>
+                                    </div>
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="pack_id">
+                                            <?php foreach ($rowsPack as $row) : ?>
+                                                <option value="<?= $row["id"] ?>" <?php if ($rowId["pack_name"] == $row["pack_name"]) echo "selected" ?>><?= $row["pack_name"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label for="floatingSelect">更改包裝方式</label>
+                                    </div>
+                                </td>
+                            </tr>
 
+                            <!-- 茶葉類型 -->
+                            <tr>
+                                <th>類型</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["style_name"] ?></span></p>
+                                    </div>
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="style_id">
+                                            <?php foreach ($rowsStyle as $row) : ?>
+                                                <option value="<?= $row["id"] ?>"><?= $row["style_name"] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <label for="floatingSelect">更改茶葉類型</label>
+                                    </div>
+                                </td>
+                            </tr>
 
+                            <!-- 商品描述 -->
+                            <tr>
+                                <th>商品描述</th>
+                                <td>
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px" name="description"><?= $rowId["description"] ?></textarea>
+                                    </div>
 
+                                </td>
+                            </tr>
 
+                            <!-- 重量 -->
+                            <tr>
+                                <th>重量</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["weight"] ?></span></p>
+                                    </div>
+                                    <input class="form-control" type="text" name="weight" placeholder="請輸入重量..." value="<?= $rowId["weight"] ?>">
+                                </td>
+                            </tr>
 
+                            <!-- 單價 -->
+                            <tr>
+                                <th>單價</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["price"] ?></span></p>
+                                    </div>
+                                    <input class="form-control" type="number" name="price" placeholder="請輸入單價金額..." value="<?= $rowId["price"] ?>">
+                                </td>
+                            </tr>
 
-
+                            <!-- 庫存 -->
+                            <tr>
+                                <th>庫存</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["stock"] ?></span></p>
+                                    </div>
+                                    <input class="form-control" type="number" name="stock" placeholder="請輸入庫存數量..." value="<?= $rowId["stock"] ?>">
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="text-end">
+                            <button class="btn btn-success" type="submit">送出</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <!-- Javascript -->
+    <?php include("../js.php") ?>
+    <script>
+        // 圖片預覽函式
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                const img = document.createElement('img');
+                img.src = reader.result;
+                preview.innerHTML = '';
+                preview.appendChild(img);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 </body>
 
 </html>

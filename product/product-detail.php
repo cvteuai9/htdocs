@@ -7,7 +7,7 @@ if (!isset($_GET["id"])) {
     $id = $_GET["id"];
 }
 
-$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.description, p.weight, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name, p_img.path FROM product_category_relation pcr 
+$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.description, p.weight, tc.name AS tc_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name, p_img.path FROM product_category_relation pcr 
 JOIN product_images p_img ON pcr.product_id = p_img.id
 JOIN products p ON pcr.product_id = p.id 
 JOIN brand b ON pcr.brand_id = b.id 
@@ -119,7 +119,7 @@ $row = $result->fetch_assoc();
                 <i class="fa-solid fa-arrow-left"></i> 返回商品列表
             </a>
         </div>
-
+        <hr>
         <!-- 商品詳情 -->
         <div class="container">
             <div class="row g-3 justify-content-between">
@@ -136,7 +136,7 @@ $row = $result->fetch_assoc();
                                 <th class="text-center h4 m-0" colspan="2">商品詳情</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="align-middle">
                             <tr>
                                 <th class="text-center">商品編號</th>
                                 <td class="text-end"><?= $row["id"] ?></td>
@@ -151,7 +151,7 @@ $row = $result->fetch_assoc();
                             </tr>
                             <tr>
                                 <th class="text-center">茶種</th>
-                                <td><?= $row["tea_category_name"] ?></td>
+                                <td><?= $row["tc_name"] ?></td>
                             </tr>
                             <tr>
                                 <th class="text-center">包材 / 類型</th>
@@ -189,21 +189,7 @@ $row = $result->fetch_assoc();
                     <p><?= $row["description"] ?></p>
                 </div>
             </div>
-
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
     </main>
 </body>
 

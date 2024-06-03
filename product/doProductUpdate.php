@@ -1,11 +1,12 @@
 <?php
 require_once("../db_connect.php");
 
-if (!isset($_POST["product_name"])) {
-    echo "請循正常管道進入此頁";
+if (!isset($_POST["id"])) {
+    echo "請循正常管道進入";
     exit;
 }
 
+$id = $_POST["id"];
 // product_images
 $image = $_FILES["image"];
 
@@ -23,8 +24,6 @@ $tea_id = $_POST["tea_id"];
 $pack_id = $_POST["pack_id"];
 $style_id = $_POST["style_id"];
 
-// var_dump($image, $product_name, $brand_id, $tea_id, $package_id, $style_id, $description, $weight, $price, $stock);
-
 // 上傳圖片至目標資料夾
 if ($_FILES["image"]["error"] == 0) {
     // move_uploaded_file({上傳文件在服務器上的臨時文件名稱}, {你希望文件移動到的位置(包含文件名稱)})
@@ -36,28 +35,31 @@ if ($_FILES["image"]["error"] == 0) {
 }
 // 寫入products_images資料表
 $filename = $_FILES["image"]["name"];
-$sqlImages = "INSERT INTO product_images (path) VALUES ('$filename')";
 
-// 新增資料至products table
-$sqlProducts = "INSERT INTO products (name, description, weight, price, stock, created_at) VALUES ('$product_name', '$description', '$weight', '$price', '$stock', '$now')";
+// var_dump($image, $product_name, $brand_id, $tea_id, $pack_id, $style_id, $description, $weight, $price, $stock);
+$sqlProducts = "UPDATE products SET name='$product_name', description='$description', weight='$weight', price='$price', stock='$stock', created_at='$now' WHERE id=$id";
 
-// 新增資料至product_category_relation
-$sqlPcr = "INSERT INTO product_category_relation (brand_id, tea_id, package_id, style_id) VALUES ('$brand_id', '$tea_id', '$pack_id', '$style_id')";
+$sqlImages = "UPDATE product_images SET path = '$filename' WHERE id=$id";
+
+$sqlPcr = "UPDATE product_category_relation SET brand_id = '$brand_id', tea_id = '$tea_id', package_id = '$pack_id', style_id = '$style_id' WHERE product_id=$id";
+
+
 
 if ($conn->query($sqlImages) == TRUE) {
-    echo "product_images table 成功新增資料";
+    echo "product_images table 成功修改資料<br>";
 } else {
-    echo "新增商品圖失敗" . $conn->error;
+    echo "修改商品圖失敗" . $conn->error;
 }
 
 if ($conn->query($sqlProducts) == TRUE) {
-    echo "products table 成功新增資料";
+    echo "products table 成功修改資料<br>";
 } else {
-    echo "新增商品失敗" . $conn->error;
+    echo "修改商品失敗" . $conn->error;
 }
 if ($conn->query($sqlPcr) == TRUE) {
-    echo "product_category_relation table 成功新增資料";
+    echo "product_category_relation table 成功修改資料<br>";
 } else {
-    echo "新增商品關係圖" . $conn->error;
+    echo "修改商品關係圖" . $conn->error;
 }
+
 $conn->close();
