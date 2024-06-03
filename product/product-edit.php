@@ -24,7 +24,7 @@ $rowsPack = $resultPack->fetch_all(MYSQLI_ASSOC);
 $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
 
 
-$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.description, p.weight, p_img.path, p.stock, tc.name AS tc_name, b.name AS brand_name, pack.name AS pack_name, style.name AS style_name FROM product_category_relation pcr 
+$sql = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.description, p.weight, p_img.path, p.stock, p.valid, tc.name AS tc_name, b.name AS brand_name, pack.name AS pack_name, style.name AS style_name FROM product_category_relation pcr 
 JOIN product_images p_img ON pcr.product_id = p_img.id
 JOIN products p ON pcr.product_id = p.id 
 JOIN brand b ON pcr.brand_id = b.id 
@@ -305,6 +305,37 @@ $rowId = $result->fetch_assoc();
                                         <p class="ps-2 m-1">(原) : <span class="text-success text-decoration-underline"><?= $rowId["stock"] ?></span></p>
                                     </div>
                                     <input class="form-control" type="number" name="stock" placeholder="請輸入庫存數量..." value="<?= $rowId["stock"] ?>">
+                                </td>
+                            </tr>
+                            <!-- 狀態 -->
+                            <tr>
+                                <th>狀態</th>
+                                <td>
+                                    <div class="text-end">
+                                        <p class="ps-2 m-1">(原) :
+                                            <span class="text-success text-decoration-underline">
+                                                <?php if ($rowId["valid"] == 1) : ?>
+                                                    上架
+                                                <?php else : ?>
+                                                    下架
+                                                <?php endif; ?>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="valid" id="flexRadioDefault1" <?php if ($rowId["valid"] == 1) echo "checked" ?> value="1">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                上架
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="valid" id="flexRadioDefault2" <?php if ($rowId["valid"] == 0) echo "checked" ?> value="0">
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                下架
+                                            </label>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
