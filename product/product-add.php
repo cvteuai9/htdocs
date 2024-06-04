@@ -66,57 +66,9 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
 </head>
 
 <body>
-    <header class="main-header bg-dark d-flex fixed-top shadow justify-content-between align-items-center">
-        <a href="" class="p-3 bg-black text-white text-decoration-none">
-            tea
-        </a>
+    <!-- header aside -->
+    <?php include("../dashboard-comm.php") ?>
 
-        <div class="text-white me-3">
-            Hi,adain
-            <a href="" class="btn btn-dark">登入</a>
-            <a href="" class="btn btn-dark">登出</a>
-        </div>
-    </header>
-    <aside class="aside-left position-fixed bg-white border-end vh-100 ">
-        <ul class="list-unstyled">
-            <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-house-fill me-2"></i>首頁
-                </a>
-            </li>
-            <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-cart4 me-2"></i></i>商品
-                </a>
-            </li>
-            <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-cash me-2"></i>優惠券
-                </a>
-            </li>
-            <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-flag me-2"></i>課程
-                </a>
-            </li>
-            <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-clipboard2-data me-2"></i> 訂單
-                </a>
-            </li>
-            <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-book me-2"></i> 文章管理
-                </a>
-            </li>
-            <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-paypal me-2"></i> 付款方式
-                </a>
-            </li>
-
-        </ul>
-    </aside>
     <main class="main-content p-3">
         <!-- 返回商品列表按鈕 -->
         <div class="container-fluid mb-2">

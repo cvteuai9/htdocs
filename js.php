@@ -5,3 +5,17 @@
 
 <!-- jquery cdn -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- aside下拉選單 -->
+<script>
+    const pmList = document.querySelectorAll(".pmList")
+    const listWatch = document.querySelectorAll(".listWatch")
+    console.log(pmList);
+    console.log(listWatch);
+    for (let i = 0; i < pmList.length; i++) {
+        pmList[i].addEventListener("click", function() {
+            listWatch[i].classList.toggle("deactive");
+            listWatch[i].classList.toggle("list-active");
+        })
+    }
+</script>
