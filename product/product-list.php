@@ -270,7 +270,11 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                     </form>
                     <p style="font-size: 12px;" class="mt-2">請輸入商品編號、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
                 </div>
+                <div class="col-auto">
+                    <form action="">
 
+                    </form>
+                </div>
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <?php if (isset($_GET["valid"])) : ?>
