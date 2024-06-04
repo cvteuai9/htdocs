@@ -1,10 +1,10 @@
 <?php
 require_once("../db_connect.php");
 
-$sqlTc = "SELECT id, name AS tc_name FROM tea_category";
-$sqlBrand = "SELECT id, name AS brand_name FROM brand";
-$sqlPack = "SELECT id, name AS pack_name FROM pack_category";
-$sqlStyle = "SELECT id, name AS style_name FROM style";
+$sqlTc = "SELECT id, name AS tc_name FROM tea_category WHERE valid=1";
+$sqlBrand = "SELECT id, name AS brand_name FROM brand WHERE valid=1";
+$sqlPack = "SELECT id, name AS pack_name FROM pack_category WHERE valid=1";
+$sqlStyle = "SELECT id, name AS style_name FROM style WHERE valid=1";
 
 $resultTc = $conn->query($sqlTc);
 $resultBrand = $conn->query($sqlBrand);
@@ -140,7 +140,7 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
 
                 <div class="col-lg-6">
                     <form action="doProductAdd.php" method="post" enctype="multipart/form-data">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered align-middle">
                             <!-- 商品圖片 -->
                             <tr>
                                 <th>商品圖片</th>
@@ -255,6 +255,27 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
                                 <th>庫存</th>
                                 <td>
                                     <input class="form-control" type="number" name="stock" placeholder="請輸入庫存數量...">
+                                </td>
+                            </tr>
+
+                            <!-- 上下架 -->
+                            <tr>
+                                <th>狀態</th>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="valid" id="flexRadioDefault1" value="1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                上架
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="valid" id="flexRadioDefault2" value="0">
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                下架
+                                            </label>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </table>

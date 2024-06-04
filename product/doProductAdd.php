@@ -15,6 +15,7 @@ $description = $_POST["description"];
 $weight = $_POST["weight"];
 $price = $_POST["price"];
 $stock = $_POST["stock"];
+$valid = $_POST["valid"];
 $now = date('Y-m-d H:i:s');
 
 // product_category_relation
@@ -39,7 +40,7 @@ $filename = $_FILES["image"]["name"];
 $sqlImages = "INSERT INTO product_images (path) VALUES ('$filename')";
 
 // 新增資料至products table
-$sqlProducts = "INSERT INTO products (name, description, weight, price, stock, created_at) VALUES ('$product_name', '$description', '$weight', '$price', '$stock', '$now')";
+$sqlProducts = "INSERT INTO products (name, description, weight, price, stock, created_at, valid) VALUES ('$product_name', '$description', '$weight', '$price', '$stock', '$now', '$valid')";
 
 // 新增資料至product_category_relation
 $sqlPcr = "INSERT INTO product_category_relation (brand_id, tea_id, package_id, style_id) VALUES ('$brand_id', '$tea_id', '$pack_id', '$style_id')";
@@ -61,3 +62,4 @@ if ($conn->query($sqlPcr) == TRUE) {
     echo "新增商品關係圖" . $conn->error;
 }
 $conn->close();
+header("location: product-list.php");

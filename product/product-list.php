@@ -18,7 +18,18 @@ $allCount = $resultAll->num_rows;
 // 一頁顯示10筆資料
 $perPage = 10;
 
-if (isset($_GET["search"]) && !empty($_GET["search"])) {
+if (isset($_GET["max"]) && isset($_GET["min"])) {
+    // 價格篩選
+    $max = $_GET["max"];
+    $min = $_GET["min"];
+    $sql = "$sqlAll
+    WHERE p.price >= $min AND p.price <= $max
+    ORDER BY id ASC";
+    $result = $conn->query($sql);
+    $rows = $result->fetch_all(MYSQLI_ASSOC);
+    $productCount = $result->num_rows;
+    $pageCount = 1;
+} else if (isset($_GET["search"]) && !empty($_GET["search"])) {
     // 有搜尋條件時
     $search = $_GET["search"];
     $sql = "$sqlAll
@@ -33,6 +44,7 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
     $rows = $result->fetch_all(MYSQLI_ASSOC);
     $productCount = $result->num_rows;
 } else if (isset($_GET["valid"])) {
+    // 已下架商品
     $page = $_GET["page"];
     $order = $_GET["order"];
     $valid = $_GET["valid"];
@@ -66,7 +78,6 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
     $pageCount = ceil($validCount / $perPage);
 } else if (isset($_GET["page"]) && isset($_GET["order"]) && isset($_GET["category"])) {
     // 點擊分類頁籤時
-
     $page = $_GET["page"];
     $order = $_GET["order"];
     $category = $_GET["category"];
@@ -103,7 +114,6 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
     $pageCount = ceil($productCount / $perPage);
 } else if (isset($_GET["page"]) && isset($_GET["order"])) {
     // 商品列表首頁
-
     $page = $_GET["page"];
     $order = $_GET["order"];
     $firstItem = ($page - 1) * $perPage;
@@ -128,9 +138,6 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
 } else {
     header("location:product-list.php?page=1&order=1");
 }
-
-
-
 ?>
 
 <!doctype html>
@@ -143,32 +150,7 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <?php include("../css.php") ?>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        a {
-            text-decoration: none;
-        }
-
-        :root {
-            --aside-witch: 200px;
-            --header-height: 50px;
-        }
-
-        .logo {
-            width: var(--aside-witch);
-        }
-
-        .aside-left {
-            padding-top: var(--header-height);
-            width: var(--aside-witch);
-            top: 50px;
-            overflow: auto;
-        }
-
-        .main-content {
-            margin: var(--header-height) 0 0 var(--aside-witch);
-        }
-
         .product-img {
             width: 100px;
             height: 100px;
@@ -177,55 +159,66 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
 </head>
 
 <body>
-    <header class="main-header bg-dark d-flex fixed-top shadow justify-content-between align-items-center">
-        <a href="" class="p-3 bg-black text-white text-decoration-none">
-            tea
+    <header class="main-header bg-success-subtle d-flex fixed-top shadow justify-content-between align-items-center">
+        <a href="dashboard.php" class="google-font fs-5 p-3 text-success bg-success-subtle">
+            雅茗
         </a>
 
-        <div class="text-white me-3">
-            Hi,admin
+        <div class="d-flex align-middle me-3 gap-3">
+            <p class="google-font fs-5 m-0 pt-1">Hi,admin</p>
             <a href="" class="btn btn-dark">登入</a>
             <a href="" class="btn btn-dark">登出</a>
         </div>
     </header>
-    <aside class="aside-left position-fixed bg-white border-end vh-100 ">
+
+    <aside class="aside-left position-fixed border-end border-3 vh-100 google-font fs-4">
         <ul class="list-unstyled">
             <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
+                <a class="d-block p-2 px-3" href="dashboard.php">
                     <i class="bi bi-house-fill me-2"></i>首頁
                 </a>
             </li>
             <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
+                <a class="d-block p-2 px-3 pmList">
                     <i class="bi bi-cart4 me-2"></i></i>商品管理
                 </a>
+                <ul class="listWatch deactive list-unstyled ps-5 fs-5 position-relative">
+                    <li>
+                        <a href="product-list.php"><i class="fa-solid fa-play fs-6"></i> 商品列表</a>
+                    </li>
+                    <li>
+                        <a href="product-add.php"><i class="fa-solid fa-play fs-6"></i> 新增商品</a>
+                    </li>
+                    <li>
+                        <a href="product-category.php"><i class="fa-solid fa-play fs-6"></i> 商品分類管理</a>
+                    </li>
+                </ul>
             </li>
             <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-cash me-2"></i>優惠券
+                <a class="d-block p-2 px-3" href="">
+                    <i class="bi bi-cash me-2"></i>優惠券管理
                 </a>
             </li>
             <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-flag me-2"></i>課程
+                <a class="d-block p-2 px-3" href="">
+                    <i class="bi bi-flag me-2"></i>課程管理
                 </a>
             </li>
             <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-clipboard2-data me-2"></i> 訂單
+                <a class="d-block p-2 px-3" href="">
+                    <i class="bi bi-clipboard2-data me-2"></i>訂單管理
                 </a>
             </li>
             <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-book me-2"></i> 文章管理
+                <a class="d-block p-2 px-3" href="">
+                    <i class="bi bi-book me-2"></i>文章管理
                 </a>
             </li>
             <li>
-                <a class="d-block p-2 px-3 text-decoration-none" href="">
-                    <i class="bi bi-paypal me-2"></i> 付款方式
+                <a class="d-block p-2 px-3" href="">
+                    <i class="bi bi-paypal me-2"></i>付款方式
                 </a>
             </li>
-
         </ul>
     </aside>
     <div class="main-content">
@@ -255,7 +248,6 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
             <hr class="my-3">
 
             <div class="row g-3 justify-content-between">
-
                 <div class="col-auto">
                     <!-- 搜尋表單 -->
                     <form action="">
@@ -269,11 +261,6 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                         </div>
                     </form>
                     <p style="font-size: 12px;" class="mt-2">請輸入商品編號、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
-                </div>
-                <div class="col-auto">
-                    <form action="">
-
-                    </form>
                 </div>
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
@@ -295,8 +282,40 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
             </div>
         </div>
 
+        <!-- 價格篩選 -->
+        <div class="ms-3 mb-3">
+            <form action="">
+                <div class="row g-3 align-items-center">
+                    <?php if (isset($_GET["min"])) : ?>
+                        <div class="col-auto">
+                            <a class="btn btn-success" href="product-list.php"><i class="fa-solid fa-arrow-rotate-left"></i></a>
+                        </div>
+                    <?php endif; ?>
+                    <?php
+                    $minValue = 0;
+                    $maxValue = 9999;
+                    if (isset($_GET["min"])) $minValue = $_GET["min"];
+                    if (isset($_GET["max"])) $maxValue = $_GET["max"];
+                    ?>
+                    <div class="col-auto">
+                        <input type="number" class="form-control text-end" value="<?= $minValue ?>" name="min" min="0">
+                    </div>
+                    <div class="col-auto">
+                        ~
+                    </div>
+                    <div class="col-auto">
+                        <input type="number" class="form-control text-end" value="<?= $maxValue ?>" name="max" min="0">
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-filter"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <div class="container-fluid">
             <div class="row justify-content-between">
+                <!-- 顯示符合條件的資料筆數 -->
                 <div class="col-auto py-2 d-flex gap-3">
                     <div>
                         共 <?= $productCount ?> 筆
@@ -310,60 +329,67 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                     </div>
                 </div>
                 <div class="col-auto">
-                    <?php if (isset($_GET["valid"])) : ?>
-                        <div class="d-flex justify-content-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                                        <li class="page-item <?php if ($i == $page) echo "active" ?>">
-                                            <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>&valid=<?= $valid ?>">
-                                                <?= $i ?>
-                                            </a>
-                                        </li>
-                                    <?php endfor; ?>
-                                </ul>
-                            </nav>
-                        </div>
-                        <!-- 如果選擇分類頁籤，每一個分頁按鈕外加固定category的值 -->
-                    <?php elseif (isset($_GET["page"]) && isset($_GET["category"])) : ?>
-                        <div class="d-flex justify-content-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                                        <li class="page-item <?php if ($i == $page) echo "active" ?>">
-                                            <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>&category=<?= $category ?>">
-                                                <?= $i ?>
-                                            </a>
-                                        </li>
-                                    <?php endfor; ?>
-                                </ul>
-                            </nav>
-                        </div>
-                    <?php elseif (isset($_GET["page"])) : ?>
-                        <div class="d-flex justify-content-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                                        <li class="page-item <?php if ($i == $page) echo "active" ?>">
-                                            <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>">
-                                                <?= $i ?>
-                                            </a>
-                                        </li>
-                                    <?php endfor; ?>
-                                </ul>
-                            </nav>
-                        </div>
+                    <!-- 如果分頁大於1，則顯示分頁nav -->
+                    <?php if ($pageCount > 1) : ?>
+                        <!-- 「已下架」分類頁籤的分頁 -->
+                        <?php if (isset($_GET["valid"])) : ?>
+                            <div class="d-flex justify-content-center">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                            <li class="page-item <?php if ($i == $page) echo "active" ?>">
+                                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>&valid=<?= $valid ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- 如果選擇分類頁籤，每一個分頁按鈕外加固定category的值 -->
+                        <?php elseif (isset($_GET["page"]) && isset($_GET["category"])) : ?>
+                            <div class="d-flex justify-content-center">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                            <li class="page-item <?php if ($i == $page) echo "active" ?>">
+                                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>&category=<?= $category ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- 無篩選條件時的分頁 -->
+                        <?php elseif (isset($_GET["page"])) : ?>
+                            <div class="d-flex justify-content-center">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                            <li class="page-item <?php if ($i == $page) echo "active" ?>">
+                                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </nav>
+                            </div>
 
+                        <?php endif; ?>
+                    <?php else : ?>
                     <?php endif; ?>
                 </div>
             </div>
-
         </div>
+
+        <!-- 商品表格 -->
         <div class="container-fluid">
-            <!-- 商品表格 -->
+            <!-- 如果符合條件的商品>0，則顯示表格 -->
             <?php if ($result->num_rows > 0) : ?>
-                <table class="table table-bordered text-center">
-                    <thead class="bg-warning-subtle text-nowrap">
+                <table class="table table-bordered text-center table-warning">
+                    <thead class="text-nowrap">
                         <th>編號</th>
                         <th>圖片</th>
                         <th>商品名稱</th>
@@ -424,7 +450,17 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
             <?php endif; ?>
         </div>
     </div>
+    <?php include_once("../js.php") ?>
+    <script>
+        const pmList = document.querySelector(".pmList")
+        const listWatch = document.querySelector(".listWatch")
 
+
+        pmList.addEventListener("click", function() {
+            listWatch.classList.toggle("deactive");
+            listWatch.classList.toggle("list-active");
+        })
+    </script>
 </body>
 
 </html>

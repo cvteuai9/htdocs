@@ -128,7 +128,7 @@ $row = $result->fetch_assoc();
 
             <div class="row justify-content-around text-nowrap align-middle">
                 <div class="col-lg-3">
-                    <form action="doAddCategory.php" method="post">
+                    <form action="doCategoryAdd.php" method="post">
                         <input type="hidden" name="category" value="<?= $category ?>">
                         <table class="table table-bordered text-center align-middle">
                             <thead>
