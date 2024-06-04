@@ -170,7 +170,7 @@ $brandCount = $resultBrand->num_rows;
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success" href="editCategory.php?id=<?= $row["id"] ?>&category=1"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a class="btn btn-success" href="category-edit.php?id=<?= $row["id"] ?>&category=1"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="doDeleteCategory.php?id=<?= $row["id"] ?>&valid=<?= $row["valid"] ?>&category=1" class="btn btn-danger">
                                                     <?php if (isset($_GET["valid"]) && $row["valid"] == 0) : ?>
                                                         <i class="fa-solid fa-plus"></i>
@@ -208,7 +208,7 @@ $brandCount = $resultBrand->num_rows;
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success" href="editCategory.php?id=<?= $row["id"] ?>&category=2"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a class="btn btn-success" href="category-edit.php?id=<?= $row["id"] ?>&category=2"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="doDeleteCategory.php?id=<?= $row["id"] ?>&valid=<?= $row["valid"] ?>&category=2" class="btn btn-danger">
                                                     <?php if (isset($_GET["valid"]) && $row["valid"] == 0) : ?>
                                                         <i class="fa-solid fa-plus"></i>
@@ -246,7 +246,7 @@ $brandCount = $resultBrand->num_rows;
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success" href="editCategory.php?id=<?= $row["id"] ?>&category=3"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a class="btn btn-success" href="category-edit.php?id=<?= $row["id"] ?>&category=3"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="doDeleteCategory.php?id=<?= $row["id"] ?>&valid=<?= $row["valid"] ?>&category=3" class="btn btn-danger">
                                                     <?php if (isset($_GET["valid"]) && $row["valid"] == 0) : ?>
                                                         <i class="fa-solid fa-plus"></i>
@@ -284,7 +284,7 @@ $brandCount = $resultBrand->num_rows;
                                                 <?php endif; ?>
                                             </td>
                                             <td>
-                                                <a class="btn btn-success" href="editCategory.php?id=<?= $row["id"] ?>&category=4"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a class="btn btn-success" href="category-edit.php?id=<?= $row["id"] ?>&category=4"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="doDeleteCategory.php?id=<?= $row["id"] ?>&valid=<?= $row["valid"] ?>&category=4" class="btn btn-danger">
                                                     <?php if (isset($_GET["valid"]) && $row["valid"] == 0) : ?>
                                                         <i class="fa-solid fa-plus"></i>

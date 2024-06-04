@@ -406,7 +406,7 @@ if (isset($_GET["search"]) && !empty($_GET["search"])) {
                                     </a>
 
                                     <!-- 刪除商品按鈕 -->
-                                    <a href="doDelete.php?id=<?= $row["id"] ?>&valid=<?= $valid ?>" class="btn btn-success">
+                                    <a href="doDelete.php?id=<?= $row["id"] ?>&valid=<?= $valid ?>" class="btn btn-danger">
                                         <?php if (isset($_GET["valid"]) && $valid == 0) : ?>
                                             <i class="fa-solid fa-plus"></i>
                                         <?php else : ?>
