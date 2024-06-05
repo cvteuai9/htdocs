@@ -3,9 +3,9 @@ require_once("../db_connect.php");
 
 $id = $_GET["id"];
 //var_dump($id);
-$sql = "SELECT activity.*, ac.name AS category_name, acr.category_id FROM activity_category_relation acr 
-JOIN activity_category ac ON acr.category_id = ac.id
-JOIN activity ON acr.activity_id = activity.id
+$sql = "SELECT activity.*, ac.name AS category_name, ai.path FROM activity 
+JOIN activity_category ac ON activity.category_id = ac.id
+JOIN activity_images ai ON activity.id = ai.id
 WHERE activity.valid=1 AND activity.id = $id ";
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
@@ -17,7 +17,10 @@ $row = $result->fetch_assoc();
 $sqlAc = "SELECT * FROM activity_category";
 $resultAc = $conn->query($sqlAc);
 $rowAc = $resultAc->fetch_all(MYSQLI_ASSOC);
+
+
 //var_dump($row);
+
 if ($result->num_rows > 0) {
     $userExit = true;
     //這邊用於確定有沒有id 有的話就會跑true 沒有的話就會跑false
@@ -26,7 +29,26 @@ if ($result->num_rows > 0) {
     $title = "使用者不存在";
 }
 
+
+// $image = $_FILES["img"];
+// // 上傳圖片至目標資料夾
+// if ($_FILES["img"]["error"] == 0) {
+//     // move_uploaded_file({上傳文件在服務器上的臨時文件名稱}, {你希望文件移動到的位置(包含文件名稱)})
+//     if (move_uploaded_file($_FILES["img"]["activity_images"], "../test/activity_imgages" . $_FILES["img"]["activity_images"])) {
+//         echo "upload success";
+//     } else {
+//         echo "upload FAIL";
+//     }
+// }
+
+// //寫入products_images資料表
+// $filename = $_FILES["img"]["name"];
+
+
+
 ?>
+
+
 <!doctype html>
 <html lang="en">
 
@@ -35,7 +57,27 @@ if ($result->num_rows > 0) {
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
     <?php include("../css.php") ?>
+    <style>
+        .test {
+            height: 60px;
+        }
+
+        #preview {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,7 +92,7 @@ if ($result->num_rows > 0) {
             <div class="card">
                 <div class="card-body">
                     <?php if ($userExit) : ?>
-                        <form action="doUpdateActivity.php" method="post" id="editEventForm">
+                        <form action="doUpdateActivity.php" method="post" id="editEventForm" enctype="multipart/form-data">
                             <input type="hidden" name="id" value="<?= $row["id"] ?>">
                             <div class="mb-3">
                                 <label for="editEventName" class="form-label">活動名稱</label>
@@ -86,12 +128,15 @@ if ($result->num_rows > 0) {
                             </div>
                             <div class="mb-3">
                                 <label for="editEventPhoto" class="form-label">照片</label>
-                                <input type="file" class="form-control" id="img" name="img" value="<?= $row["img"] ?>">
-                                <img id="editEventPhotoPreview" src="" alt="活動照片" class="mt-3" width="100">
+                                <input type="file" class="form-control" id="img" name="img" onchange="previewImage(event)">
+
+                                <div id="preview" class="mt-2">
+                                    <img id="editEventPhotoPreview" src="../activity_images/<?= $row["path"] ?>" alt="活動照片" class="mt-3">
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary">保存修改</button>
-                            <a href="index.html" class="btn btn-secondary">返回</a>
                         </form>
+                        <a href="index.html" class="btn btn-secondary">返回</a>
                     <?php else : ?>
                         <h1>使用者不存在</h1>
                     <?php endif; ?>
@@ -100,6 +145,25 @@ if ($result->num_rows > 0) {
         </div>
     </main>
     <?php include("../js.php") ?>
+    <script>
+        // 圖片預覽函式
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function() {
+                const img = document.createElement('img');
+                img.src = reader.result;
+                preview.innerHTML = '';
+                preview.appendChild(img);
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 </body>
 
 </html>

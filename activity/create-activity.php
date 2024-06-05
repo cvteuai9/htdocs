@@ -1,6 +1,5 @@
 <?php
 require_once("../db_connect.php");
-
 $sql = "SELECT * FROM activity_category";
 $result = $conn->query($sql);
 $rows = $result->fetch_all(MYSQLI_ASSOC);
@@ -18,6 +17,11 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <?php include("../css.php") ?>
+    <style>
+        .test {
+            height: 60px;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,7 +35,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             <!-- 新增活動 --------------------->
             <div class="card mb-4">
                 <div class="card-body">
-                    <form action="create.php" method="post">
+                    <form action="create.php" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="eventName" class="form-label">活動名稱</label>
                             <input type="text" class="form-control" id="name" name="name">
@@ -74,7 +78,10 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
     </main>
-    <?php include("../js.php") ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 
 </html>
