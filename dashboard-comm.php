@@ -24,13 +24,13 @@
             </a>
             <ul class="listWatch deactive list-unstyled ps-5 fs-5">
                 <li>
-                    <a href="product-list.php"><i class="fa-solid fa-play fs-6"></i> 商品列表</a>
+                    <a href="/product/product-list.php"><i class="fa-solid fa-play fs-6"></i> 商品列表</a>
                 </li>
                 <li>
-                    <a href="product-add.php"><i class="fa-solid fa-play fs-6"></i> 新增商品</a>
+                    <a href="/product/product-add.php"><i class="fa-solid fa-play fs-6"></i> 新增商品</a>
                 </li>
                 <li>
-                    <a href="product-category.php"><i class="fa-solid fa-play fs-6"></i> 商品分類管理</a>
+                    <a href="/product/product-category.php"><i class="fa-solid fa-play fs-6"></i> 商品分類管理</a>
                 </li>
             </ul>
         </li>
@@ -45,13 +45,13 @@
             </a>
             <ul class="listWatch deactive list-unstyled ps-5 fs-5">
                 <li>
-                    <a href="product-list.php"><i class="fa-solid fa-play fs-6"></i> 商品列表</a>
+                    <a href="/product/product-list.php"><i class="fa-solid fa-play fs-6"></i> 商品列表</a>
                 </li>
                 <li>
-                    <a href="product-add.php"><i class="fa-solid fa-play fs-6"></i> 新增商品</a>
+                    <a href="/product/product-add.php"><i class="fa-solid fa-play fs-6"></i> 新增商品</a>
                 </li>
                 <li>
-                    <a href="product-category.php"><i class="fa-solid fa-play fs-6"></i> 商品分類管理</a>
+                    <a href="/product/product-category.php"><i class="fa-solid fa-play fs-6"></i> 商品分類管理</a>
                 </li>
             </ul>
         </li>
