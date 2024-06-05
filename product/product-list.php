@@ -3,6 +3,8 @@ require_once("../db_connect.php");
 
 if (!isset($_GET["valid"])) {
     $valid = 1;
+} else {
+    $valid = 0;
 }
 // 全部資料
 $sqlAll = "SELECT p.id, p.name AS product_name, p.price, p.created_at, p.valid, tc.name AS tea_category_name, b.name AS brand_name, pack.name AS package_name, style.name AS style_name, p_img.path FROM product_category_relation pcr 
@@ -11,9 +13,9 @@ JOIN products p ON pcr.product_id = p.id
 JOIN brand b ON pcr.brand_id = b.id 
 JOIN tea_category tc ON pcr.tea_id = tc.id
 JOIN pack_category pack ON pcr.package_id = pack.id
-JOIN style ON pcr.style_id = style.id";
-$resultAll = $conn->query($sqlAll);
-$allCount = $resultAll->num_rows;
+JOIN style ON pcr.style_id = style.id
+WHERE p.valid = $valid";
+
 
 // 一頁顯示10筆資料
 $perPage = 10;
@@ -22,28 +24,66 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
     // 價格篩選
     $max = $_GET["max"];
     $min = $_GET["min"];
-    $sql = "$sqlAll
-    WHERE p.price >= $min AND p.price <= $max
-    ORDER BY id ASC";
+    $page = $_GET["page"];
+    $order = $_GET["order"];
+    $firstItem = ($page - 1) * $perPage;
+
+    $sqlPrice = "$sqlAll AND p.price >= $min AND p.price <= $max";
+    $resultPrice = $conn->query($sqlPrice);
+    $priceCount = $resultPrice->num_rows;
+
+    // 依照order(排序)對應的sql語法
+    switch ($order) {
+        case 1:
+            $sql = "$sqlAll
+            AND p.price >= $min AND p.price <= $max 
+            ORDER BY id ASC LIMIT $firstItem, $perPage";
+            break;
+
+        case 2:
+            $sql = "$sqlAll
+            AND p.price >= $min AND p.price <= $max 
+            ORDER BY id DESC LIMIT $firstItem, $perPage";
+            break;
+    }
     $result = $conn->query($sql);
     $rows = $result->fetch_all(MYSQLI_ASSOC);
-    $productCount = $result->num_rows;
-    $pageCount = 1;
+
+    $productCount = $priceCount;
+    $pageCount = ceil($priceCount / $perPage);
 } else if (isset($_GET["search"]) && !empty($_GET["search"])) {
     // 有搜尋條件時
     $search = $_GET["search"];
-    $sql = "$sqlAll
-    WHERE p.id LIKE '%$search%'
+    $page = $_GET["page"];
+    $order = $_GET["order"];
+    $firstItem = ($page - 1) * $perPage;
+
+    $sqlSearch = "$sqlAll
+    AND (p.id LIKE '%$search%'
     OR p.name LIKE '%$search%'
     OR b.name LIKE '%$search%'
     OR tc.name LIKE '%$search%'
     OR pack.name LIKE '%$search%'
-    OR style.name LIKE '%$search%'
-    ORDER BY id ASC";
+    OR style.name LIKE '%$search%')";
+    $resultSearch = $conn->query($sqlSearch);
+    $searchCount = $resultSearch->num_rows;
+
+    // 依照order(排序)對應的sql語法
+    switch ($order) {
+        case 1:
+            $sql = "$sqlSearch
+            ORDER BY id ASC LIMIT $firstItem, $perPage";
+            break;
+
+        case 2:
+            $sql = "$sqlSearch
+            ORDER BY id DESC LIMIT $firstItem, $perPage";
+            break;
+    }
     $result = $conn->query($sql);
     $rows = $result->fetch_all(MYSQLI_ASSOC);
-    $productCount = $result->num_rows;
-    $pageCount = 1;
+    $productCount = $searchCount;
+    $pageCount = ceil($productCount / $perPage);
 } else if (isset($_GET["valid"])) {
     // 已下架商品
     $page = $_GET["page"];
@@ -52,22 +92,18 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
     $firstItem = ($page - 1) * $perPage;
 
     // 所有符合該分類頁籤的資料筆數
-    $sqlValid = "$sqlAll
-    WHERE p.valid = 0";
-    $resultValid = $conn->query($sqlValid);
+    $resultValid = $conn->query($sqlAll);
     $validCount = $resultValid->num_rows;
 
     // 依照order(排序)對應的sql語法
     switch ($order) {
         case 1:
             $sql = "$sqlAll
-            WHERE p.valid = 0
             ORDER BY id ASC LIMIT $firstItem, $perPage";
             break;
 
         case 2:
             $sql = "$sqlAll
-            WHERE p.valid = 0
             ORDER BY id DESC LIMIT $firstItem, $perPage";
             break;
     }
@@ -86,8 +122,7 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
 
     // 所有符合該分類頁籤的資料筆數
     $sqlCategory = "$sqlAll
-    WHERE tc.id = $category
-    AND p.valid = 1";
+    AND tc.id = $category";
     $resultCategory = $conn->query($sqlCategory);
     $categoryCount = $resultCategory->num_rows;
 
@@ -95,15 +130,13 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
     switch ($order) {
         case 1:
             $sql = "$sqlAll
-            WHERE tc.id = $category
-            AND p.valid = 1
+            AND tc.id = $category
             ORDER BY id ASC LIMIT $firstItem, $perPage";
             break;
 
         case 2:
             $sql = "$sqlAll
-            WHERE tc.id = $category
-            AND p.valid = 1
+            AND tc.id = $category
             ORDER BY id DESC LIMIT $firstItem, $perPage";
             break;
     }
@@ -122,16 +155,16 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
     switch ($order) {
         case 1:
             $sql = "$sqlAll
-            WHERE p.valid = 1
             ORDER BY id ASC LIMIT $firstItem, $perPage";
             break;
 
         case 2:
             $sql = "$sqlAll
-            WHERE p.valid = 1
             ORDER BY id DESC LIMIT $firstItem, $perPage";
             break;
     }
+    $resultAll = $conn->query($sqlAll);
+    $allCount = $resultAll->num_rows;
     $result = $conn->query($sql);
     $rows = $result->fetch_all(MYSQLI_ASSOC);
     $productCount = $allCount;
@@ -193,6 +226,8 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
                 <div class="col-auto">
                     <form id="search-form" action="">
                         <div class="d-flex justify-content-start">
+                            <input type="hidden" name="page" value="1">
+                            <input type="hidden" name="order" value="1">
                             <?php if (isset($_GET["search"])) : //有搜尋條件時才會出現重置按鈕 
                             ?>
                                 <a href="product-list.php?page=1&order=1" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i></a>
@@ -206,12 +241,23 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
                 <!-- 排序 -->
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <?php if (isset($_GET["valid"])) : ?>
+                        <!-- 搜尋後排序 -->
+                        <?php if (isset($_GET["search"])) : ?>
+                            <a href="?page=<?= $page ?>&order=1&search=<?= $search ?>" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                            <a href="?page=<?= $page ?>&order=2&search=<?= $search ?>" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                            <!-- 價格篩選排序 -->
+                        <?php elseif (isset($_GET["max"]) && isset($_GET["min"])) : ?>
+                            <a href="?page=<?= $page ?>&order=1&min=<?= $min ?>&max=<?= $max ?>" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                            <a href="?page=<?= $page ?>&order=2&min=<?= $min ?>&max=<?= $max ?>" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                            <!-- 下架商品排序 -->
+                        <?php elseif (isset($_GET["valid"])) : ?>
                             <a href="?page=<?= $page ?>&order=1&valid=<?= $valid ?>" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
                             <a href="?page=<?= $page ?>&order=2&valid=<?= $valid ?>" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                            <!-- 分類排序 -->
                         <?php elseif (isset($_GET["category"])) : ?>
                             <a href="?page=<?= $page ?>&order=1&category=<?= $category ?>" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
                             <a href="?page=<?= $page ?>&order=2&category=<?= $category ?>" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                            <!-- 一般排序 -->
                         <?php else : ?>
                             <a href="?page=<?= $page ?>&order=1" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
                             <a href="?page=<?= $page ?>&order=2" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
@@ -227,6 +273,8 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
         <div class="ms-3 mb-3">
             <form action="">
                 <div class="row g-3 align-items-center">
+                    <input type="hidden" name="page" value="1">
+                    <input type="hidden" name="order" value="1">
                     <?php if (isset($_GET["min"])) : ?>
                         <div class="col-auto">
                             <a class="btn btn-success" href="product-list.php"><i class="fa-solid fa-arrow-rotate-left"></i></a>
@@ -272,8 +320,38 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
                 <div class="col-auto">
                     <!-- 如果分頁大於1，則顯示分頁nav -->
                     <?php if ($pageCount > 1) : ?>
-                        <!-- 「已下架」分類頁籤的分頁 -->
-                        <?php if (isset($_GET["valid"])) : ?>
+                        <!-- 搜尋後分頁 -->
+                        <?php if (isset($_GET["search"])) : ?>
+                            <div class="d-flex justify-content-center">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                            <li class="page-item <?php if ($i == $page) echo "active" ?>">
+                                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>&search=<?= $search ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- 價格篩選分頁 -->
+                        <?php elseif (isset($_GET["max"]) && isset($_GET["min"])) : ?>
+                            <div class="d-flex justify-content-center">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                            <li class="page-item <?php if ($i == $page) echo "active" ?>">
+                                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>&min=<?= $min ?>&max=<?= $max ?>">
+                                                    <?= $i ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- 「已下架」分類頁籤的分頁 -->
+                        <?php elseif (isset($_GET["valid"])) : ?>
                             <div class="d-flex justify-content-center">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination">

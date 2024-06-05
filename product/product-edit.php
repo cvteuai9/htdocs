@@ -64,6 +64,7 @@ $rowId = $result->fetch_assoc();
 </head>
 
 <body>
+    <!-- header、aside -->
     <?php include("../dashboard-comm.php") ?>
     <main class="main-content p-3">
         <!-- 返回商品列表按鈕 -->
@@ -102,9 +103,8 @@ $rowId = $result->fetch_assoc();
                             <!-- 商品圖片 -->
                             <tr>
                                 <th>商品圖片</th>
-                                <td>
-                                    <!-- accept 限制檔案類型，image/* 所有image的類型都可上傳 -->
-                                    <input type="file" name="image" id="image" accept="image/*" onchange="previewImage(event)" required>
+                                <td class="text-start">
+                                    <input type="file" name="image" id="image" accept="image/*" onchange="previewImage(event)">
                                 </td>
                             </tr>
 
@@ -278,14 +278,6 @@ $rowId = $result->fetch_assoc();
     <!-- Javascript -->
     <?php include("../js.php") ?>
     <script>
-        const pmList = document.querySelector(".pmList")
-        const listWatch = document.querySelector(".listWatch")
-
-
-        pmList.addEventListener("click", function() {
-            listWatch.classList.toggle("deactive");
-            listWatch.classList.toggle("list-active");
-        })
         // 圖片預覽函式
         function previewImage(event) {
             const preview = document.getElementById('preview');
