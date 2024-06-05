@@ -43,6 +43,7 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
     $result = $conn->query($sql);
     $rows = $result->fetch_all(MYSQLI_ASSOC);
     $productCount = $result->num_rows;
+    $pageCount = 1;
 } else if (isset($_GET["valid"])) {
     // 已下架商品
     $page = $_GET["page"];
@@ -188,20 +189,21 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
             <hr class="my-3">
 
             <div class="row g-3 justify-content-between">
+                <!-- 搜尋表單 -->
                 <div class="col-auto">
-                    <!-- 搜尋表單 -->
-                    <form action="">
+                    <form id="search-form" action="">
                         <div class="d-flex justify-content-start">
                             <?php if (isset($_GET["search"])) : //有搜尋條件時才會出現重置按鈕 
                             ?>
                                 <a href="product-list.php?page=1&order=1" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i></a>
                             <?php endif; ?>
-                            <input type="text" class="form-control" placeholder="Search..." name="search">
+                            <input id="search-input" type="text" class="form-control" placeholder="Search..." name="search">
                             <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>
                     <p style="font-size: 12px;" class="mt-2">請輸入商品編號、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
                 </div>
+                <!-- 排序 -->
                 <div class="col-auto">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <?php if (isset($_GET["valid"])) : ?>
@@ -215,7 +217,6 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
                             <a href="?page=<?= $page ?>&order=2" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
                         <?php endif; ?>
                     </div>
-
                     <!-- 新增商品頁按鈕 -->
                     <a href="product-add.php" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
                 </div>
@@ -391,6 +392,18 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
         </div>
     </div>
     <?php include_once("../js.php") ?>
+    <script>
+        const searchForm = document.querySelector("#search-form")
+        const searchInput = document.querySelector("search-input")
+
+        searchForm.addEventListener("submit", function(e) {
+            var input = searchInput.value.trim();
+            if (input === "") {
+                alert("請輸入有效的搜尋條件");
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>
