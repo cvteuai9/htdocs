@@ -3,7 +3,7 @@
         雅茗
     </a>
 
-    <div class="d-flex align-middle me-3 gap-3">
+    <div class="d-flex align-middle gap-3 pe-3">
         <p class="google-font fs-5 m-0 pt-1">Hi,admin</p>
         <a href="" class="btn btn-dark">登入</a>
         <a href="/user/doSingOut.php" class="btn btn-dark">登出</a>
@@ -11,7 +11,6 @@
 </header>
 
 <aside class="aside-left position-fixed border-end border-3 vh-100 google-font fs-5">
-
     <ul class="list-unstyled">
         <li>
             <a class="d-block p-2 px-3" href="/dashboard.php">

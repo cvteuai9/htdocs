@@ -25,30 +25,8 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
     <?php include("../css.php") ?>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
-        :root {
-            --aside-witch: 200px;
-            --header-height: 50px;
-        }
-
-        .logo {
-            width: var(--aside-witch);
-        }
-
-        .aside-left {
-            padding-top: var(--header-height);
-            width: var(--aside-witch);
-            top: 20px;
-            overflow: auto;
-        }
-
-        .main-content {
-            margin: var(--header-height) 0 0 var(--aside-witch);
-        }
-
         #preview {
             width: 400px;
             height: 400px;
@@ -66,9 +44,8 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
 </head>
 
 <body>
-    <!-- header aside -->
+    <!-- header、aside -->
     <?php include("../dashboard-comm.php") ?>
-
     <main class="main-content p-3">
         <!-- 返回商品列表按鈕 -->
         <div class="container-fluid mb-2">
