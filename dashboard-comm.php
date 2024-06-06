@@ -1,8 +1,8 @@
-<header class="main-header bg-success-subtle d-flex fixed-top shadow justify-content-between align-items-center">
+<header class="main-header bg-white d-flex fixed-top shadow justify-content-between align-items-center">
     <div class="my-2">
 <img class="logo-img" src="/tea.png" alt="">
-    <a href="dashboard.php" class="google-font fs-5 p-3 text-success bg-success-subtle">
-        雅茗
+    <a href="dashboard.php" class="google-font fs-5 p-3 text-success bg-white">
+    
     </a>
     </div>
 
@@ -13,7 +13,7 @@
     </div>
 </header>
 
-<aside class="aside-left position-fixed border-end border-3 vh-100 google-font fs-5">
+<aside class="aside-left position-fixed border-end border-3 vh-100 google-font fs-5 ">
 
     <ul class="list-unstyled">
         <li>

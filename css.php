@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
+
+
 <style>
     /* dasgboard 共用 */
     a {
@@ -18,7 +20,7 @@
     }
 
     li>a {
-        color: #198754;
+        color: white;
     }
 
     :root {
@@ -36,7 +38,9 @@
         width: var(--aside-witch);
         top: 20px;
         overflow: auto;
-    }
+    background-color:#198754;
+        }
+    
 
     .deactive {
         height: 0px;
@@ -55,19 +59,34 @@
     .main-content {
         margin: var(--header-height) 0 0 var(--aside-witch);
     }
+    
 
     .google-font {
         font-family: "LXGW WenKai TC", cursive;
         font-weight: 400;
         font-style: normal;
     }
+    .pagination .active .page-link {
+        background-color: #198754;
+        color: white;
+        border-color: #198754;
+    }
+    .pagination .page-link {
+        color: #198754;
+        font-size: 20px;
+        /* --bs-pagination-font-size:30px */
+
+    }
 
     /* 尚謙course */
     .test {
         height: 60px;
     }
+    /* logo */
     .logo-img{
         width: auto;
         height: 50px;
     }
+    
+
 </style>

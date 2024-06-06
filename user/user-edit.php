@@ -72,11 +72,11 @@ $day = $array[2];
     <div class="container">
       <!-- ===回主選單按鈕=== -->
       <div class="py-2">
-        <a class="btn btn-dark" href="user.php?id=<?= $id ?>">
+        <a class="btn btn-success" href="user.php?id=<?= $id ?>">
           <!-- ?? -->
           <i class="fa-solid fa-arrow-left"></i>&nbsp回會員檔案</a>
 
-        <a href="users.php" class="btn btn-dark">會員管理中心</a>
+        <a href="users.php" class="btn btn-success">會員管理中心</a>
       </div>
       <!-- ===回主選單按鈕=== -->
       <?php if ($userExit) : ?>
@@ -95,7 +95,7 @@ $day = $array[2];
 
                   <input type="file" id="fileUpload" name="image" style="display: none;" onchange="displayImage(this)">
                   <!-- accept="image/*"  -->
-                  <button type="button" class="btn btn-dark" onclick="document.getElementById('fileUpload').click();">
+                  <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
                     選擇圖片
                   </button>
                 </div>
@@ -222,7 +222,7 @@ $day = $array[2];
                 </tr>
               </table>
               <div class="py-2 d-flex justify-content-end">
-                <button class="btn btn-dark" type="submit">送出</button>
+                <button class="btn btn-success" type="submit">送出</button>
               </div>
             </div>
             <div class="col-lg-2 mt-3"></div>

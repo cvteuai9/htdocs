@@ -45,7 +45,7 @@
     <!---------------------------------------------這裡是內容 ------------------------------------->
     <div class="container">
       <div class="py-2">
-        <a href="users.php" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
+        <a href="users.php" class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
       </div>
       <form action="doCreateUser.php" method="post">
 
@@ -58,7 +58,7 @@
               <div class="position-absolute  top-100 start-0 ">
                 <input type="file" id="fileUpload" name="file" style="display: none;" onchange="displayImage(this)">
                 <!-- accept="image/*"  -->
-                <button type="button" class="btn btn-dark" onclick="document.getElementById('fileUpload').click();">
+                <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
                   選擇圖片
                 </button>
               </div>
@@ -168,7 +168,7 @@
             endif; ?>
             <!-- 錯誤訊息 -->
             <div class="py-2 d-flex justify-content-end">
-              <button class="btn btn-dark" type="submit">送出</button>
+              <button class="btn btn-success" type="submit">送出</button>
             </div>
             <div class="col-lg-2 mt-3"></div>
           </div>

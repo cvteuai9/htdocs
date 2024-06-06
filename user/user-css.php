@@ -24,6 +24,7 @@
         font-size: 36px;
         text-decoration: none;
         color: #000;
+        
 
         span {
           background: #D33F33;
@@ -58,4 +59,15 @@
           color: #D33F33;
         }
       }
+      .pagination .active .page-link {
+        background-color: #198754;
+        color: white;
+        border-color: #198754;
+    }
+    .pagination .page-link {
+        color: #198754;
+        font-size: 20px;
+        /* --bs-pagination-font-size:30px */
+
+    }
     </style>

@@ -123,7 +123,7 @@ if ($result->num_rows > 0) {
     <div class="container">
       <!-- ===回主選單按鈕=== -->
       <div class="py-2">
-        <a href="users.php" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
+        <a href="users.php" class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
 
       </div>
       <!-- ===回主選單按鈕=== -->
@@ -180,7 +180,7 @@ if ($result->num_rows > 0) {
               </tr>
             </table>
             <div class="py-2 d-flex justify-content-end">
-              <a class="btn btn-dark me-3 " title="編輯使用者" href="user-edit.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen-to-square">&nbsp修改</i></a>
+              <a class="btn btn-success me-3 " title="編輯使用者" href="user-edit.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen-to-square">&nbsp修改</i></a>
               <!-- 修改按鈕 -->
 
               <button class="btn btn-danger" title="刪除使用者" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash-can">&nbsp刪除</i></button>

@@ -197,8 +197,10 @@ if ($_GET["status"] == '') {
   <!-- header、aside -->
   <?php include("../dashboard-comm.php") ?>
   <main class="main-content p-3">
-    <div class="d-flex justify-content-between">
+    <div class="text-center mt-3 pt-3">
       <h1>優惠券清單</h1>
+    </div>
+    <div class="d-flex justify-content-between">
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="#">Action</a></li>
         <li><a class="dropdown-item" href="#">Another action</a></li>
