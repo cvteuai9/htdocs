@@ -92,16 +92,8 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
 
     <?php include("../css.php") ?>
     <style>
-        .activity-img {
-            height: 400px;
-            width: 500px;
-        }
-
         .content_area {
-            height: 50px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            height: 10vh;
         }
     </style>
 </head>
@@ -112,7 +104,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
     <main class="main-content p-3">
         <!---------------------------------------------這裡是內容 ------------------------------------->
         <!-- 活動列表 -->
-        <div class="container-fluid mb-5">
+        <div class="container-fluid mb-5 " style="max-width:72vw; ">
             <div class="d-flex bd-highlight align-items-center ">
                 <h1 class="me-auto p-2 bd-highlight">活動管理</h1>
                 <form action="">
@@ -144,93 +136,92 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class="mb-3 d-flex justify-content-between">
-            <div class="d-flex align-items-center justify-content-center text-nowrap gap-2">
-                <select class="form-select" aria-label="Default select example" id="categorySelect" onchange="location=this.value">
-                    <option value="?page=1&order=1&filter=all" <?php if (!isset($_GET["filter"])) echo "selected" ?>>
-                        所有進行中的活動
-                    </option>
-                    <?php foreach ($rowsCategory as $category) : ?>
-                        <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == $category["id"]) echo "selected" ?> value="?page=1&order=1&filter=<?= $category["id"] ?>">
-                            <?= $category["name"] ?>
+            <div class="mb-3 d-flex justify-content-between">
+                <div class="d-flex align-items-center justify-content-center text-nowrap gap-2">
+                    <select class="form-select" aria-label="Default select example" id="categorySelect" onchange="location=this.value">
+                        <option value="?page=1&order=1&filter=all" <?php if (!isset($_GET["filter"])) echo "selected" ?>>
+                            所有進行中的活動
                         </option>
-                    <?php endforeach; ?>
-                </select>
-                <a class="btn btn-danger bd-highlight" href="activity.php?page=1&order=1&valid=0">已下架</a>
+                        <?php foreach ($rowsCategory as $category) : ?>
+                            <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == $category["id"]) echo "selected" ?> value="?page=1&order=1&filter=<?= $category["id"] ?>">
+                                <?= $category["name"] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="align-items-center justify-content-center">
+                    <a class="btn btn-primary bd-highlight" href="create-activity.php">新增活動</a>
+                    <a class="btn btn-danger bd-highlight" href="activity.php?page=1&order=1&valid=0">已下架</a>
+                </div>
             </div>
-            <div class="align-items-center justify-content-center">
-                <a class="btn btn-primary bd-highlight" href="create-activity.php">新增活動</a>
-            </div>
-        </div>
-        <!-- 活動表格 -->
-        <?php foreach ($rows as $activity) : ?>
-            <div class="card mb-3 border border-dark " style="max-height:auto;">
-                <div class="row pe-5">
-                    <div class="col-md-4">
-                        <img src="../activity_images/<?= $activity["path"] ?>" class="activity-img object-fit-cover" alt="<?= $activity["path"] ?>">
-                    </div>
-                    <div class="col-md-8 mt-1 fw-bolder">
-                        <h2 class="card-title text-decoration-underline"><strong><i class="fa-brands fa-cuttlefish text-warning"></i> <?= $activity["name"] ?></strong></h2>
-                        <div class="card-body ps-5">
-                            <div class="d-flex gap-5">
-                                <p class="card-title"><span class="text-success fs-5">開始日期 :</span> <?= $activity["time_s"] ?></p>
-                                <p class="card-title"><span class="text-success fs-5">結束日期 :</span> <?= $activity["time_e"] ?></p>
+            <!-- 活動表格 -->
+            <div class="mt-2">
+                <?php foreach ($rows as $activity) : ?>
+                    <div class="card mb-3 border border-dark " style="max-height:auto;">
+                        <div class="row pe-5">
+                            <div class="col-md-4">
+                                <img src="../activity_images/<?= $activity["path"] ?>" class="img-fluid" alt="<?= $activity["path"] ?>">
                             </div>
-                            <div class="d-flex justify-content-start gap-5">
-                                <p class="card-title"><span class="text-success fs-5">活動分類 :</span> <?= $activity["category_name"] ?></p>
-                                <p class="card-title"><span class="text-success fs-5">地點 :</span> <?= $activity["point"] ?></p>
-                                <p class="card-title"><span class="text-success fs-5">費用 :</span> <?= $activity["price"] ?></p>
-                                <p class="card-title"><span class="text-success fs-5">活動編號 :</span> <?= $activity["id"] ?></p>
-                            </div>
-                            <!-- 內容 -->
-                            <div class="mt-1">
-                                <p class="content_area">
-                                    <?= $activity["content"] ?>
-                                </p>
-                            </div>
-                            <div class="mt-5">
-                                <a class="btn btn-success btn-sm" href="activity-edit.php?id=<?= $activity["id"] ?>"><i class="fa-solid fa-pen-to-square fs-4"></i></a>
-                                <?php if (isset($_GET["valid"])) : ?>
-                                    <a href="activity-delete.php?id=<?= $activity["id"] ?>&valid=1" class="btn btn-danger btn-sm"><i class="fa-solid fa-plus fs-4"></i></a>
-                                <?php else : ?>
-                                    <a href="activity-delete.php?id=<?= $activity["id"] ?>&valid=0" class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark fs-4"></i></a>
-                                <?php endif; ?>
+                            <div class="col-md-8 mt-3">
+                                <h3 class="card-title "><?= $activity["name"] ?></h3>
+                                <div class="d-flex gap-5">
+                                    <p class="card-title"><span class="text-success">開始日期 :</span> <?= $activity["time_s"] ?></p>
+                                    <p class="card-title"><span class="text-success">結束日期 :</span> <?= $activity["time_e"] ?></p>
+                                </div>
+                                <div class="d-flex justify-content-start gap-5">
+                                    <p class="card-title"><span class="text-success ">活動分類 :</span> <?= $activity["category_name"] ?></p>
+                                    <p class="card-title"><span class="text-success ">地點 :</span> <?= $activity["point"] ?></p>
+                                    <p class="card-title"><span class="text-success ">費用 :</span> <?= $activity["price"] ?></p>
+                                    <p class="card-title"><span class="text-success ">活動編號 :</span> <?= $activity["id"] ?></p>
+                                </div>
+                                <!-- 內容 -->
+                                <div class="mt-1">
+                                    <p class="card-text overflow-hidden
+                                 content_area">
+                                        <?= $activity["content"] ?>
+                                    </p>
+                                </div>
+                                <div class="mt-4">
+                                    <a class="btn btn-success btn-sm me-1" href="activity-edit.php?id=<?= $activity["id"] ?>">編輯</a>
+                                    <?php if (isset($_GET["valid"])) : ?>
+                                        <a href="activity-delete.php?id=<?= $activity["id"] ?>&valid=1" class="btn btn-danger btn-sm">回復上架</a>
+                                    <?php else : ?>
+                                        <a href="activity-delete.php?id=<?= $activity["id"] ?>&valid=0" class="btn btn-danger btn-sm">確認下架</a>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                <?php endforeach; ?>
             </div>
-        <?php endforeach; ?>
-        <!-- 分頁 -->
-        <?php if ($pageCount > 1) : ?>
-            <div class="mt-5">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <?php if (isset($_GET["valid"])) : ?>
-                            <?php $textPagination = "&valid=$valid" ?>
-                        <?php elseif (isset($_GET["filter"])) : ?>
-                            <?php $textPagination = "&filter=$filter" ?>
-                        <?php elseif (isset($_GET["page"])) : ?>
-                            <?php $textPagination = "" ?>
-                        <?php endif; ?>
-                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                            <li class="page-item
+            <!-- 分頁 -->
+            <?php if ($pageCount > 1) : ?>
+                <div class="mt-5">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <?php if (isset($_GET["valid"])) : ?>
+                                <?php $textPagination = "&valid=$valid" ?>
+                            <?php elseif (isset($_GET["filter"])) : ?>
+                                <?php $textPagination = "&filter=$filter" ?>
+                            <?php elseif (isset($_GET["page"])) : ?>
+                                <?php $textPagination = "" ?>
+                            <?php endif; ?>
+                            <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                <li class="page-item
                                 <?php if ($i == $page) echo "active" ?>">
-                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?><?= $textPagination ?>">
-                                    <?= $i ?>
-                                </a>
-                            </li>
-                        <?php endfor; ?>
-                    </ul>
-                </nav>
-            </div>
-        <?php else : ?>
-        <?php endif; ?>
+                                    <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?><?= $textPagination ?>">
+                                        <?= $i ?>
+                                    </a>
+                                </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </nav>
+                </div>
+            <?php else : ?>
+            <?php endif; ?>
     </main>
     <?php include("../js.php") ?>
-
+    </div>
 </body>
 
 </html>
