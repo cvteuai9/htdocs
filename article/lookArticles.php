@@ -48,7 +48,7 @@ $rows = $result->fetch_assoc();
 </head>
 
 <body>
-    <a href="Articles.php"><button class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i>返回</button></a>
+    <a href="Articles.php"><button class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>返回</button></a>
 
     <div class="container">
         <div class="row-cols-1">
