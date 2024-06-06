@@ -109,7 +109,7 @@ $rowsOne = $resultOne->fetch_assoc();
             <input type="file" class="form-control" accept="image/*" onchange="previewImage(event)" name="imgUrl" id="imgUrl">
             <label class="form-label " for="content">文章內容:</label>
             <textarea name="content" id="content" class="form-control" rows="8"><?= $rowsOne["content"] ?></textarea>
-            <button type="submit" class="btn btn-primary">送出</button>
+            <button type="submit" class="btn btn-success">送出</button>
 
         </form>
 
