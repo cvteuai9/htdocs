@@ -66,4 +66,8 @@
     .test {
         height: 60px;
     }
+    .logo-img{
+        width: auto;
+        height: 50px;
+    }
 </style>
