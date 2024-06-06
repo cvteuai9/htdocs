@@ -185,21 +185,19 @@ $pageCount = ceil($productCount / $perPage);
             <hr class="my-3">
             <div class="d-flex gap-3 justify-content-between">
                 <!-- 搜尋表單 -->
-                <div class="flex-grow-1">
-                    <form id="search-form" action="">
-                        <div class="d-flex justify-content-start">
-                            <input type="hidden" name="page" value="1">
-                            <input type="hidden" name="order" value="1">
-                            <?php if (isset($_GET["search"])) : //有搜尋條件時才會出現重置按鈕 
-                            ?>
-                                <a href="product-list.php?page=1&order=1" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i></a>
-                            <?php endif; ?>
-                            <input id="search-input" type="text" class="form-control" placeholder="Search..." name="search">
-                            <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </div>
-                    </form>
+                <form id="search-form" action="" class="flex-grow-1">
+                    <div class="input-group">
+                        <input type="hidden" name="page" value="1">
+                        <input type="hidden" name="order" value="1">
+                        <?php if (isset($_GET["search"])) : //有搜尋條件時才會出現重置按鈕 
+                        ?>
+                            <a href="product-list.php?page=1&order=1" class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-left"></i></a>
+                        <?php endif; ?>
+                        <input id="search-input" type="text" class="form-control" placeholder="Search..." name="search">
+                        <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
                     <p style="font-size: 12px;" class="mt-2">請輸入商品編號、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
-                </div>
+                </form>
                 <!-- 新增商品頁按鈕 -->
                 <div>
                     <a href="product-add.php" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
