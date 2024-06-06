@@ -139,7 +139,7 @@ if ($result->num_rows > 0) {
           <!-- ================== -->
           <?php if ($userExit) : ?>
             <!-- 判斷使用者是否存在 -->
-            <table class="table table-bordered">
+            <table class="table table-user">
               <tr>
                 <th class="text-center">ID</th>
                 <td><?= $row["id"] ?></td>

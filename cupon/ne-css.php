@@ -4,9 +4,6 @@
     .btn-custom {
         background-color: #198754;
         color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 14px;
     }
 
     .btn-custom:hover {

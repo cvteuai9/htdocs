@@ -149,6 +149,8 @@ $pageCount = ceil($productCount / $perPage);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <?php include("../css.php") ?>
+    <?php include("product-css.php") ?>
+
     <style>
         .product-img {
             width: 100px;
@@ -319,8 +321,8 @@ $pageCount = ceil($productCount / $perPage);
         <div class="container-fluid">
             <!-- 如果符合條件的商品>0，則顯示表格 -->
             <?php if ($result->num_rows > 0) : ?>
-                <table class="table table-bordered text-center table-warning">
-                    <thead class="text-nowrap">
+                <table class="table table-match text-center ">
+                    <thead class="text-nowrap table-header">
                         <th>編號</th>
                         <th>圖片</th>
                         <th>商品名稱</th>

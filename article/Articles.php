@@ -322,9 +322,9 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
           <!---------------------------------------------這裡是內容 ------------------------------------->
           <?php if ($result->num_rows > 0) : ?>
             <div class="testt mb-2">
-              <table class="table">
-                <thead>
-                  <tr>
+              <table class="table table-striped">
+                <thead class="">
+                  <tr class="table-header">
 
                     <th>文章編號</th>
                     <th>文章標題</th>
@@ -357,7 +357,7 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
                             </div>
                           </div>
                         </div>
-
+                  </tr>
                   <tr class="">
 
                     <th><?= $row["id"] ?></th>
@@ -369,7 +369,7 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
                     <th class="text-center">
                       <span class="d-inline-block"><a class="d-inline-block me-1" href="lookArticles.php?id=<?php echo $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-eye-fill"></i></button></a>
                         <a class="d-inline-block me-1" href="editArticle.php?id=<?= $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button></a>
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row["id"] ?>"><i class="bi bi-trash3-fill"></i></button></span>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row["id"] ?>"><i class="bi bi-trash3-fill"></i></button></span>
                     </th>
 
 

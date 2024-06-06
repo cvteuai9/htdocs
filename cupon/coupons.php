@@ -213,7 +213,7 @@ if ($_GET["status"] == '') {
     <div class="container">
       <div>
         <?php if (isset($_GET["search"])) : ?>
-          <a href="coupons.php"><button class="btn btn-custom "><i class="fa-solid fa-arrow-left"></i></button></a>
+          <a href="coupons.php"><button class="btn btn-success "><i class="fa-solid fa-arrow-left"></i></button></a>
         <?php endif; ?>
       </div>
 
@@ -222,12 +222,12 @@ if ($_GET["status"] == '') {
           <div class="input-group "> <!-- 搜尋框 -->
 
             <input type="text" class="form-control" placeholder="請輸入優惠券名稱或代碼" name="search">
-            <button class="btn btn-custom " type="submit">
+            <button class="btn btn-success " type="submit">
               <i class="fa-solid fa-magnifying-glass"></i></button>
           </div>
         </form>
         <div class="">
-          <a class="btn btn-custom" href="create-coupon.php" title="增加優惠券"><i class="fa-solid fa-ticket "></i></a>
+          <a class="btn btn-success" href="create-coupon.php" title="增加優惠券"><i class="fa-solid fa-ticket "></i></a>
         </div>
       </div>
       <div class="d-flex">

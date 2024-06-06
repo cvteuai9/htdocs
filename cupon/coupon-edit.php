@@ -51,7 +51,7 @@ if ($result->num_rows > 0) {
 
         <div class="container">
             <div class="py-2">
-                <a class="btn btn-custom" href="coupon.php?id=<?= $id ?>"><i class="fa-solid fa-arrow-left"></i>取消</a>
+                <a class="btn btn-success" href="coupon.php?id=<?= $id ?>"><i class="fa-solid fa-arrow-left"></i>取消</a>
             </div>
             <div class="row justify-content-center ">
                 <div class="col-lg-12">
@@ -129,7 +129,7 @@ if ($result->num_rows > 0) {
 
                             </table>
                             <div class="d-flex justify-content-end gap-2">
-                                <button class="btn btn-custom" type="submit">確認修改</button>
+                                <button class="btn btn-success" type="submit">確認修改</button>
 
                             </div>
                         </form>

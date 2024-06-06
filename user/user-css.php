@@ -70,4 +70,22 @@
         /* --bs-pagination-font-size:30px */
 
     }
+    .table-striped>tbody>tr:nth-child(2n)>td,
+    .table-striped>tbody>tr:nth-child(2n)>th {
+        background-color: #f5f8ff;
+    }
+
+
+    .table-striped>tbody>tr:nth-of-type(odd)>* {
+        --bs-table-bg-type: white;
+    }
+
+    .table-header>tr>th {
+        background-color: #f5f8ff;
+        padding: 15px;
+    }
+    .table-user>tbody>tr:nth-child(2n+1)>td,
+    .table-user>tbody>tr:nth-child(2n+1)>th {
+        background-color: #f5f8ff;
+    }
     </style>

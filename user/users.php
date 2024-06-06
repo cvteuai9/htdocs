@@ -149,8 +149,8 @@ if (isset($_GET["page"])) {
             <!-- =====使用者體驗=== -->
             <?php if ($result->num_rows > 0) : ?>
                 <!-- ================== -->
-                <table class="table table-bordered">
-                    <thead class="text-center">
+                <table class="table table-striped">
+                    <thead class="text-center table-header">
                         <tr>
                             <th>ID</th>
                             <th>姓名</th>

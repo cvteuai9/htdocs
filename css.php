@@ -66,6 +66,7 @@
         font-weight: 400;
         font-style: normal;
     }
+    /* 頁籤顏色 */
     .pagination .active .page-link {
         background-color: #198754;
         color: white;
@@ -77,7 +78,8 @@
         /* --bs-pagination-font-size:30px */
 
     }
-
+    
+    
     /* 尚謙course */
     .test {
         height: 60px;
