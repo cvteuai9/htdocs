@@ -18,7 +18,6 @@
     <div class="d-flex justify-content-between">
       <h1>主控台</h1>
     </div>
-    </div>
     <hr>
   </main>
   <?php include_once("js.php") ?>

@@ -13,7 +13,7 @@ $sql = "SELECT * FROM users WHERE id = $id AND valid=1";
 // echo $sql;
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
-// var_dump($row);//確認抓的到資料
+//var_dump($row);//確認抓的到資料
 
 
 // 圖片區
@@ -44,13 +44,48 @@ if ($result->num_rows > 0) {
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
   <?php include("../css.php") ?>
+  <?php include("user-css.php") ?>
+  <style>
+    .cir {
+      width: 350px;
+      width: 350px;
+      overflow: hidden;
+    }
 
+    img {
+
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 
+    img {
+      background-image: url("images/boy.png");
+      position: center;
+      background-size: 350px;
+
+
+    } */
+
+    /* .img-boy {
+      background-image: url("images/boy.png");
+      position: center;
+      background-size: 350px;
+
+    }
+
+    .img-girl {
+      background-image: url("images/girl.png");
+      position: center;
+      background-size: 350px;
+
+    } */
+  </style>
 </head>
 
 <body>
-  <!-- header、aside -->
   <?php include("../dashboard-comm.php") ?>
   <main class="main-content p-3">
     <div class="d-flex justify-content-between">
@@ -69,7 +104,7 @@ if ($result->num_rows > 0) {
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="deleteModalLabel">會員停權</h1>
+            <h1 class="modal-title fs-5" id="deleteModalLabel">刪除帳號</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -89,67 +124,77 @@ if ($result->num_rows > 0) {
       <!-- ===回主選單按鈕=== -->
       <div class="py-2">
         <a href="users.php" class="btn btn-dark"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
+
       </div>
       <!-- ===回主選單按鈕=== -->
       <div class="row justify-content-center">
         <div class="col-lg-4 mt-3">
-          <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent" style="max-width: 350px;">
-            <img class="object-fit-cover" src="../user_images/user.png">
-          </div>
 
+          <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden cir" style="position: relative; ">
+            <img src="../user_images/<?= $row["images_name"] ?>" alt="">
+
+          </div>
         </div>
-        <div class="col-lg-8 mt-3">
+        <div class="col-lg-6 mt-3">
           <!-- ================== -->
           <?php if ($userExit) : ?>
             <!-- 判斷使用者是否存在 -->
             <table class="table table-bordered">
               <tr>
-                <th>ID</th>
+                <th class="text-center">ID</th>
                 <td><?= $row["id"] ?></td>
               </tr>
               <tr>
-                <th>姓名</th>
+                <th class="text-center">姓名</th>
                 <td><?= $row["name"] ?></td>
               </tr>
               <tr>
-                <th>Email</th>
+                <th class="text-center">帳號</th>
+                <td><?= $row["account"] ?></td>
+              </tr>
+              <tr>
+                <th class="text-center">Email</th>
                 <td><?= $row["email"] ?></td>
               </tr>
               <tr>
-                <th>電話</th>
+                <th class="text-center">密碼</th>
+                <td><?= $row["password"] ?></td>
+              </tr>
+
+              <tr>
+                <th class="text-center">電話</th>
                 <td><?= $row["phone"] ?></td>
               </tr>
-              <th>生日</th>
+              <th class="text-center">生日</th>
               <td><?= $row["birthday"] ?></td>
               </tr>
-              <th>性別</th>
+              <th class="text-center">性別</th>
               <td><?= $row["gender"] ?></td>
-              </tr>
-              <th>城市</th>
+              </tr class="text-center">
+              <th class="text-center">城市</th>
               <td><?= $row["location"] ?></td>
               </tr>
               <tr>
-                <th>資料建立日期</th>
+                <th class="text-center">資料建立日期</th>
                 <td><?= $row["created_at"] ?></td>
               </tr>
             </table>
-
-            <div class="py-2 d-flex ">
-              <a class="btn btn-dark  me-3 " title="編輯使用者" href="user-edit.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen-to-square">&nbsp修改</i></a>
+            <div class="py-2 d-flex justify-content-end">
+              <a class="btn btn-dark me-3 " title="編輯使用者" href="user-edit.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen-to-square">&nbsp修改</i></a>
               <!-- 修改按鈕 -->
 
               <button class="btn btn-danger" title="刪除使用者" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash-can">&nbsp刪除</i></button>
               <!-- 刪除按鈕 -->
             </div>
+            <div class="col-lg-2 mt-3"></div>
+
             <!-- ================== -->
           <?php else : ?>
             <h1>使用者不存在</h1>
           <?php endif; ?>
           <!-- 判斷使用者是否存在 -->
         </div>
-
       </div>
-
     </div>
   </main>
   <?php include("../js.php") ?>

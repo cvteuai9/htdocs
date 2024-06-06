@@ -26,7 +26,7 @@ if (empty($password)) {
     exit;
 }
 
-$password = md5($password);
+// $password = md5($password);
 // echo "$account, $password";
 
 $sql = "SELECT * FROM users WHERE account= '$account' AND password = '$password' AND valid=1";
@@ -53,6 +53,7 @@ unset($_SESSION["errorTimes"]);
 
 
 $_SESSION["user"] = [
+    "id" => $row["id"],
     "account" => $row["account"],
     "name" => $row["name"],
     "email" => $row["email"],
@@ -61,7 +62,4 @@ $_SESSION["user"] = [
 ];
 
 
-header("location: user.php");
-
-
-echo $sql;
+header("location: user.php?id=" . $row["id"]);

@@ -66,48 +66,4 @@
     .test {
         height: 60px;
     }
-
-    /* julia users */
-    body {
-        font-weight: bold;
-    }
-
-    .cart-icon {
-        font-size: 36px;
-        text-decoration: none;
-        color: #000;
-
-        span {
-            background: #D33F33;
-            top: -4px;
-            right: -8px;
-            display: flex;
-            font-size: 14px;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-        }
-    }
-
-    .favorite-icon {
-        background: #31283B;
-        font-size: 1rem;
-        right: 10px;
-        bottom: 10px;
-        width: 2rem;
-        height: 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        box-shadow: #D33F33 3px 3px;
-        color: #F1DAD4;
-
-        &.active {
-            color: #D33F33;
-        }
-    }
 </style>

@@ -7,8 +7,8 @@ if (!isset($_GET["id"])) {
 }
 
 $id = $_GET["id"];
-echo $id;
-$sql = "UPDATE activity SET valid=0 WHERE id=$id";
+$valid = $_GET["valid"];
+$sql = "UPDATE activity SET valid=$valid WHERE id=$id";
 //軟刪除 不會真的直接刪掉。
 
 if ($conn->query($sql) === TRUE) {

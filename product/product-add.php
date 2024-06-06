@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("../db_connect.php");
 
 $sqlTc = "SELECT id, name AS tc_name FROM tea_category WHERE valid=1";
@@ -59,6 +60,13 @@ $rowsStyle = $resultStyle->fetch_all(MYSQLI_ASSOC);
         </div>
 
         <div class="container">
+            <?php if (isset($_SESSION["errorMsg"])) : ?>
+                <div class="text-danger ps-2 text-center">
+                    * <?= $_SESSION["errorMsg"] ?>
+                </div>
+            <?php
+                unset($_SESSION["errorMsg"]);
+            endif; ?>
             <div class="row justify-content-center">
 
                 <!-- 商品圖片預覽區 -->

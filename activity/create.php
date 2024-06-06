@@ -43,4 +43,4 @@ if ($conn->query($sqlImage) === TRUE) {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
 $conn->close();
-// header("location: activity.php");
+header("location: activity.php");

@@ -16,8 +16,6 @@ if ($result->num_rows > 0) {
 } else {
     $couponExit = false;
 }
-
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -143,16 +141,6 @@ if ($result->num_rows > 0) {
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
     </main>
     <?php include("../js.php") ?>
 </body>

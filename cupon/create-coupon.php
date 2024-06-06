@@ -34,7 +34,7 @@
       <form action="doCreateCoupon.php" method="post">
         <div class="mb-2">
           <label for="" class="form-label">優惠券名稱</label>
-          <input type="text" class="form-control" name="name">
+          <input type="text" class="form-control" name="name" required>
         </div>
         <div class="mb-2">
           <label for="" class="form-label">優惠券代碼</label>
@@ -51,13 +51,13 @@
           </select> -->
           <div class="d-flex">
             <div class="form-check col-2">
-              <input class="form-check-input" type="radio" name="category" id="amount" value="金額">
+              <input class="form-check-input" type="radio" name="category" id="amount" value="金額" required>
               <label class="form-check-label" for="amount">
                 金額
               </label>
             </div>
             <div class="form-check col-2">
-              <input class="form-check-input" type="radio" name="category" id="percent" value="百分比">
+              <input class="form-check-input" type="radio" name="category" id="percent" value="百分比" required>
               <label class="form-check-label" for="percent">
                 百分比
               </label>
@@ -66,42 +66,27 @@
         </div>
         <div class="mb-2">
           <label for="" class="form-label">折扣面額</label>
-          <input type="text" class="form-control" name="discount">
+          <input type="text" class="form-control" name="discount" required>
         </div>
+        <div id="error-message"></div>
         <div class="mb-2">
           <label for="" class="form-label">最低消費金額</label>
-          <input type="text" class="form-control" name="min_spend_amount">
+          <input type="text" class="form-control" name="min_spend_amount" required>
         </div>
         <div class="mb-2">
           <label for="" class="form-label">優惠券數量</label>
-          <input type="text" class="form-control" name="stock">
+          <input type="text" class="form-control" name="stock" required>
         </div>
-        <!-- <div class="mb-2 ">
-          <label for="" class="form-label">優惠券狀態</label>
-          <div class="d-flex">
-            <div class="form-check col-2">
-              <input class="form-check-input" type="radio" name="status" id="useful" value="可使用">
-              <label class="form-check-label" for="useful">
-                可使用
-              </label>
-            </div>
-            <div class="form-check col-2">
-              <input class="form-check-input" type="radio" name="status" id="unuseful" value="已停用">
-              <label class="form-check-label" for="unuseful">
-                已停用
-              </label>
-            </div>
-          </div>
-        </div> -->
+
         <div class="d-flex mb-2 text-nowrap">
           <div class="row">
             <div class="col-6">
               <label for="" class="form-label m-2">開始時間</label>
-              <input type="datetime-local" class="form-control" name="start_time" id="start_time">
+              <input type="datetime-local" class="form-control" name="start_time" id="start_time" required>
             </div>
             <div class="col-6">
               <label for="" class="form-label m-2">結束時間</label>
-              <input type="datetime-local" class="form-control" name="end_time" id="end_time">
+              <input type="datetime-local" class="form-control" name="end_time" id="end_time" required>
             </div>
 
 
@@ -118,16 +103,34 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       var startTimeInput = document.getElementById('start_time');
-      console.log(startTimeInput);
-
       var endTimeInput = document.getElementById('end_time');
 
-      // 设置开始时间的最小值为当前时间
       var now = new Date().toISOString().slice(0, 16);
       startTimeInput.min = now;
 
       startTimeInput.addEventListener('change', function() {
         endTimeInput.min = startTimeInput.value;
+      });
+
+      var amountRadio = document.getElementById('amount');
+      var percentRadio = document.getElementById('percent');
+      var discountInput = document.querySelector('input[name="discount"]');
+      var couponForm = document.querySelector('form');
+
+      couponForm.addEventListener('submit', function(event) {
+        var discountValue = parseFloat(discountInput.value);
+        var categoryChecked = document.querySelector('input[name="category"]:checked');
+
+        var errorMeg = ""; // 初始化错误消息
+        if (categoryChecked && categoryChecked.value === '金額' && discountValue <= 1) {
+          errorMeg = "金額折扣應大於1";
+          event.preventDefault();
+        } else if (categoryChecked && categoryChecked.value === '百分比' && (discountValue <= 0 || discountValue >= 1)) {
+          errorMeg = "百分比折扣應為0到1之間的小數";
+          event.preventDefault();
+        }
+        // 将错误消息插入到页面中适当位置
+        document.getElementById('error-message').innerText = errorMeg;
       });
     });
 
@@ -147,8 +150,6 @@
     function fillRandomCode() {
       document.getElementById('coupon-code').value = generateRandomCode();
     }
-
-    console.log(generateRandomCode());
   </script>
 
 

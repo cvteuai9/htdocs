@@ -4,25 +4,54 @@ require_once("../db_connect.php");
 $search = isset($_GET["search"]) ? $_GET["search"] : "";
 $whereClause = "WHERE 1=1";
 $valid = isset($_GET["valid"]) ? $_GET["valid"] : 1;
-// $sqlCategory="SELECT * FROM category ORDER BY id ASC";
-// $resultCate=$conn->query($sqlCategory);
-// $cateRows=$resultCate->fetch_all(MYSQLI_ASSOC);
 
-
-
-
+$perPage = 6;
+$sqlCategory = "SELECT * FROM activity_category";
 $sqlAll = "SELECT activity.*, ac.name AS category_name, ai.path FROM activity 
 JOIN activity_category ac ON activity.category_id = ac.id
 JOIN activity_images ai ON activity.id = ai.id
 WHERE activity.valid = $valid";
 
-if (isset($_GET["search"])) {
-    $whereClause = " AND activity.name LIKE '%$search%'";
-    $sql = "$sqlAll $whereClause";
-} else if (isset($_GET["page"]) && isset($_GET["order"])) {
+// 設定篩選條件
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
+
+// 根據篩選條件獲取總記錄數
+$filter_query = "";
+if ($filter === '1') {
+    $filter_query = "AND activity.category_id = 1";
+} elseif ($filter === '2') {
+    $filter_query = "AND activity.category_id = 2";
+} elseif ($filter === '3') {
+    $filter_query = "AND activity.category_id = 3";
+} elseif ($filter === '4') {
+    $filter_query = "AND activity.category_id = 4";
+} elseif ($filter === '5') {
+    $filter_query = "AND activity.category_id = 5";
+}
+if (isset($_GET["filter"])) {
     $order = $_GET["order"];
     $page = $_GET["page"];
-    $perPage = 6;
+    $firstItem = ($page - 1) * $perPage;
+
+    $sqlChooseCategory = "$sqlAll $filter_query";
+    $resultChooseCategory = $conn->query($sqlChooseCategory);
+    $categoryCount = $resultChooseCategory->num_rows;
+    $pageCount = ceil($categoryCount / $perPage);
+    switch ($order) {
+        case 1:
+            $sql = "$sqlAll $filter_query ORDER BY id ASC LIMIT $firstItem, $perPage";
+            break;
+        case 2:
+            $sql = "$sqlAll $filter_query ORDER BY id DESC LIMIT $firstItem, $perPage";
+            break;
+    }
+} elseif (isset($_GET["search"])) {
+    $whereClause = " AND activity.name LIKE '%$search%'";
+    $sql = "$sqlAll $whereClause";
+} else if (isset($_GET["page"]) && isset($_GET["order"]) && isset($_GET["valid"])) {
+    $order = $_GET["order"];
+    $page = $_GET["page"];
+    $valid = $_GET["valid"];
     $firstItem = ($page - 1) * $perPage;
 
     $resultAll = $conn->query($sqlAll);
@@ -39,13 +68,14 @@ if (isset($_GET["search"])) {
             break;
     }
 } else {
-    header("location: activity.php?page=1&order=1");
+    header("location: activity.php?page=1&order=1&filter=$filter");
 }
 
-
+$resultCategory = $conn->query($sqlCategory);
+$rowsCategory = $resultCategory->fetch_all(MYSQLI_ASSOC);
 
 $result = $conn->query($sql);
-$rows = $result->fetch_all(MYSQLI_BOTH);
+$rows = $result->fetch_all(MYSQLI_ASSOC);
 
 ?>
 
@@ -97,30 +127,36 @@ $rows = $result->fetch_all(MYSQLI_BOTH);
                         </button>
                     </div>
                 </form>
-                <?php if (isset($_GET["page"])) : ?>
-                    <div>
-                        <div class="btn-group ms-1">
-                            <a href="?page=<?= $page ?>&order=1" class="btn btn-primary <?php if ($order == 1) echo "active" ?>">
-                                <i class="fa-solid fa-arrow-down-short-wide"></i>
-                            </a>
-                            <a href="?page=<?= $page ?>&order=2" class="btn btn-primary <?php if ($order == 2) echo "active" ?>">
-                                <i class="fa-solid fa-arrow-down-wide-short"></i>
-                            </a>
-                        </div>
+                <div>
+                    <?php if (isset($_GET["filter"])) : ?>
+                        <?php $textPage = "&filter=$filter" ?>
+                    <?php else : ?>
+                        <?php $textPage = "" ?>
+                    <?php endif; ?>
+                    <div class="btn-group ms-1">
+                        <a href="?page=<?= $page ?>&order=1<?= $textPage ?>" class="btn btn-primary <?php if ($order == 1) echo "active" ?>">
+                            <i class="fa-solid fa-arrow-down-short-wide"></i>
+                        </a>
+                        <a href="?page=<?= $page ?>&order=2<?= $textPage ?>" class="btn btn-primary <?php if ($order == 2) echo "active" ?>">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>
+                        </a>
                     </div>
-                <?php endif; ?>
+                </div>
             </div>
 
         </div>
         <div class="mb-3 d-flex justify-content-between">
             <div class="d-flex align-items-center justify-content-center text-nowrap gap-2">
-                <select class="form-select" aria-label="Default select example" id="categorySelect">
-                    <option selected>課程類別</option>
-                    <?php foreach ($rows as $category) : ?>
-                        <option value=""><?= $category['category_name'] ?></option>
+                <select class="form-select" aria-label="Default select example" id="categorySelect" onchange="location=this.value">
+                    <option value="?page=1&order=1&filter=all" <?php if (!isset($_GET["filter"])) echo "selected" ?>>
+                        所有進行中的活動
+                    </option>
+                    <?php foreach ($rowsCategory as $category) : ?>
+                        <option <?php if (isset($_GET["filter"]) && $_GET["filter"] == $category["id"]) echo "selected" ?> value="?page=1&order=1&filter=<?= $category["id"] ?>">
+                            <?= $category["name"] ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
-                <a class="btn btn-warning bd-highlight" href="activity.php">全部活動</a>
                 <a class="btn btn-danger bd-highlight" href="activity.php?page=1&order=1&valid=0">已下架</a>
             </div>
             <div class="align-items-center justify-content-center">
@@ -155,7 +191,11 @@ $rows = $result->fetch_all(MYSQLI_BOTH);
                             </div>
                             <div class="mt-5">
                                 <a class="btn btn-success btn-sm" href="activity-edit.php?id=<?= $activity["id"] ?>"><i class="fa-solid fa-pen-to-square fs-4"></i></a>
-                                <a href="activity-delete.php?id=<?= $activity["id"] ?>" class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark fs-4"></i></a>
+                                <?php if (isset($_GET["valid"])) : ?>
+                                    <a href="activity-delete.php?id=<?= $activity["id"] ?>&valid=1" class="btn btn-danger btn-sm"><i class="fa-solid fa-plus fs-4"></i></a>
+                                <?php else : ?>
+                                    <a href="activity-delete.php?id=<?= $activity["id"] ?>&valid=0" class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark fs-4"></i></a>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -163,22 +203,27 @@ $rows = $result->fetch_all(MYSQLI_BOTH);
             </div>
         <?php endforeach; ?>
         <!-- 分頁 -->
-        <?php if (isset($_GET["page"])) : ?>
-            <div class="mt-5">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                            <li class="page-item
+        <div class="mt-5">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <?php if (isset($_GET["valid"])) : ?>
+                        <?php $textPagination = "&valid=$valid" ?>
+                    <?php elseif (isset($_GET["filter"])) : ?>
+                        <?php $textPagination = "&filter=$filter" ?>
+                    <?php elseif (isset($_GET["page"])) : ?>
+                        <?php $textPagination = "" ?>
+                    <?php endif; ?>
+                    <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                        <li class="page-item
                                 <?php if ($i == $page) echo "active" ?>">
-                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?>">
-                                    <?= $i ?>
-                                </a>
-                            </li>
-                        <?php endfor; ?>
-                    </ul>
-                </nav>
-            </div>
-        <?php endif; ?>
+                            <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?><?= $textPagination ?>">
+                                <?= $i ?>
+                            </a>
+                        </li>
+                    <?php endfor; ?>
+                </ul>
+            </nav>
+        </div>
         </div>
     </main>
     <?php include("../js.php") ?>

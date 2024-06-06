@@ -5,15 +5,18 @@ $sqlAll = "SELECT* FROM users WHERE valid = 1";
 $resultAll = $conn->query($sqlAll);
 $allUserCount = $resultAll->num_rows;
 
+
+// ==========================
 if (isset($_GET["search"])) {
     $search = $_GET["search"];
     $sql = "SELECT * FROM users WHERE account LIKE '%$search%' AND valid = 1";
+    // $sql = "SELECT * FROM users WHERE account AND phone AND name LIKE '%$search%' AND valid = 1";
     //連結在WHERE後面的條件，可用AND增加
     $pageTitle = "$search 的搜尋結果";
 } else if (isset($_GET["page"]) && isset($_GET["order"])) {
     // 搭配LIMIT
     $page = $_GET["page"];
-    $perPage = 10;
+    $perPage = 7;
     $firstItem = ($page - 1) * $perPage;
     $pageCount = ceil($allUserCount / $perPage);
     $order = $_GET["order"];
@@ -59,12 +62,14 @@ if (isset($_GET["page"])) {
 <html lang="en">
 
 <head>
-    <title>Title</title>
+    <title>會員列表</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
     <?php include("../css.php") ?>
+    <?php include("user-css.php") ?>
+    <style>
+    </style>
 </head>
 
 <body>
@@ -72,13 +77,7 @@ if (isset($_GET["page"])) {
     <?php include("../dashboard-comm.php") ?>
     <main class="main-content p-3">
         <div class="d-flex justify-content-between">
-            <h1>會員管理</h1>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-        </div>
+            <h1>會員列表</h1>
         </div>
         <hr>
         <!---------------------------------------------這裡是內容 ------------------------------------->
@@ -87,18 +86,11 @@ if (isset($_GET["page"])) {
             <div class="py-2 mb-3">
                 <!-- mb-3跟下方空間間距 -->
 
-                <div>
-                    <?php
-                    if (isset($_GET["search"])) : ?>
-                        <a class="btn btn-dark" href="users.php">
-                            <i class="fa-solid fa-backward-step"></i>
-                        </a>
-                    <?php endif; ?>
-                </div>
+
                 <div class="d-flex ">
                     <form action="" class="me-3 flex-grow-1">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search..." name="search">
+                            <input type="text" class="form-control position-relative z-index-1" placeholder="Search..." name="search">
                             <button class="btn btn-dark" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
 
                         </div>
@@ -117,10 +109,22 @@ if (isset($_GET["page"])) {
 
 
             <!-- 顯示搜尋結果人數 -->
-            <div class="pb-2 d-flex justify-content-between">
-                <div>
-                    會員人數：共<?= $userCount ?>人
+            <div class="pb-2 d-flex justify-content-between col-form-label">
+                <div class="d-flex ">
+                    <p class=" mt-2 "> 會員人數：共<?= $userCount ?>人</p>
 
+                </div>
+                <div class="ms-3">
+                    <?php if (isset($_GET["search"]) && $_GET["search"] == "") : ?>
+                        <p class=" text-danger">請輸入搜尋條件</p>
+                        <a href="users.php" class="btn btn-dark justify-content-end">重新搜尋條件</a>
+
+
+
+                    <?php elseif (isset($_GET["search"])) : ?>
+                        <p class=" text-danger"><?php echo "搜尋" . $pageTitle ?></p>
+                        <a href="users.php" class="btn btn-dark justify-content-end">清除搜尋條件</a>
+                    <?php endif; ?>
                 </div>
                 <?php if (isset($_GET["page"])) : ?>
                     <div>
@@ -149,8 +153,8 @@ if (isset($_GET["page"])) {
                         <tr>
                             <th>ID</th>
                             <th>姓名</th>
+                            <th>帳號</th>
                             <th>電話</th>
-                            <th>Email</th>
                             <th>性別</th>
                             <th>城市</th>
                             <th>資料建立日期</th>
@@ -171,9 +175,9 @@ if (isset($_GET["page"])) {
                             <!-- 跑資料庫迴圈 -->
                             <tr class="align-middle">
                                 <td class="text-center"><?= $user["id"] ?></td>
-                                <td class=""><?= $user["name"] ?></td>
-                                <td><?= $user["phone"] ?></td>
-                                <td><?= $user["email"] ?></td>
+                                <td class="text-center"><?= $user["name"] ?></td>
+                                <td class="text-center"><?= $user["account"] ?></td>
+                                <td class="text-center"><?= $user["phone"] ?></td>
                                 <td class="text-center"><?= $user["gender"] ?></td>
                                 <td class="text-center"><?= $user["location"] ?></td>
                                 <td class="text-center"><?= $user["created_at"] ?></td>
@@ -202,24 +206,12 @@ if (isset($_GET["page"])) {
                 <?php endif; ?>
                 <!-- =====使用者體驗=== -->
             <?php else : ?>
-                沒有使用者
+                查無使用者
             <?php endif; ?>
             <!-- ================== -->
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
     </main>
-    <?php include("../js.php") ?>
+    <?php include("../js.php")  ?>
 </body>
 
 </html>

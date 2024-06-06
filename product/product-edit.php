@@ -85,6 +85,13 @@ $rowId = $result->fetch_assoc();
         </div>
         <hr>
         <div class="container">
+            <?php if (isset($_SESSION["errorMsg"])) : ?>
+                <div class="text-danger ps-2 text-center">
+                    * <?= $_SESSION["errorMsg"] ?>
+                </div>
+            <?php
+                unset($_SESSION["errorMsg"]);
+            endif; ?>
             <div class="row justify-content-start">
 
                 <!-- 商品圖片預覽區 -->

@@ -1,6 +1,6 @@
 <?php
 require_once("../db_connect.php");
-
+session_start();
 if (!isset($_POST["product_name"])) {
     echo "請循正常管道進入此頁";
     exit;
@@ -23,6 +23,60 @@ $brand_id = $_POST["brand_id"];
 $tea_id = $_POST["tea_id"];
 $pack_id = $_POST["pack_id"];
 $style_id = $_POST["style_id"];
+if (empty($product_name)) {
+    $errorMsg = "請輸入產品名稱";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($brand_id)) {
+    $errorMsg = "請選擇品牌名稱";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($tea_id)) {
+    $errorMsg = "請選擇茶種";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($pack_id)) {
+    $errorMsg = "請選擇包裝方式";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($style_id)) {
+    $errorMsg = "請選擇茶葉類型";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($description)) {
+    $errorMsg = "請輸入產品描述";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($weight)) {
+    $errorMsg = "請輸入產品重量";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($price)) {
+    $errorMsg = "請輸入價格";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
+if (empty($stock)) {
+    $errorMsg = "請輸入產品庫存量";
+    $_SESSION["errorMsg"] = $errorMsg;
+    header("location: product-add.php");
+    exit;
+}
 
 // var_dump($image, $product_name, $brand_id, $tea_id, $package_id, $style_id, $description, $weight, $price, $stock);
 

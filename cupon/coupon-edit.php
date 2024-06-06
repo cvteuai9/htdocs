@@ -66,13 +66,13 @@ if ($result->num_rows > 0) {
                                 <tr>
                                     <th>優惠券名稱</th>
                                     <td>
-                                        <input type="text" class="form-control" name="name" value="<?= $row["name"] ?>">
+                                        <input type="text" class="form-control" name="name" value="<?= $row["name"] ?>" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>優惠券代碼</th>
                                     <td>
-                                        <input type="text" class="form-control" name="code" id="coupon-code" value="<?= $row["code"] ?>">
+                                        <input type="text" class="form-control" name="code" id="coupon-code" value="<?= $row["code"] ?>" required>
 
                                         <button type="button" class="btn btn-outline-secondary" onclick="fillRandomCode()">生成代碼</button>
                                     </td>
@@ -81,13 +81,13 @@ if ($result->num_rows > 0) {
                                     <th>優惠券種類</th>
                                     <td>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="category" id="amount" value="金額" <?php if ($row["category"] == "金額") : ?>checked<?php endif ?>>
+                                            <input class="form-check-input" type="radio" name="category" id="amount" value="金額" <?php if ($row["category"] == "金額") : ?>checked<?php endif ?> required>
                                             <label class="form-check-label" for="amount">
                                                 金額
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="category" id="percent" value="百分比" <?php if ($row["category"] == "百分比") : ?>checked<?php endif ?>>
+                                            <input class="form-check-input" type="radio" name="category" id="percent" value="百分比" <?php if ($row["category"] == "百分比") : ?>checked<?php endif ?> required>
                                             <label class="form-check-label" for="percent">
                                                 百分比
                                             </label>
@@ -97,32 +97,33 @@ if ($result->num_rows > 0) {
                                 <tr>
                                     <th>折扣面額</th>
                                     <td>
-                                        <input type="text" class="form-control" name="discount" value="<?= $row["discount"] ?>">
+                                        <input type="text" class="form-control" name="discount" value="<?= $row["discount"] ?>" required>
+                                        <div id="error-message"></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>最低消費金額</th>
                                     <td>
-                                        <input type="text" class="form-control" name="min_spend_amount" value="<?= $row["min_spend_amount"] ?>">
+                                        <input type="text" class="form-control" name="min_spend_amount" value="<?= $row["min_spend_amount"] ?>" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>優惠券數量</th>
                                     <td>
-                                        <input type="text" class="form-control" name="stock" value="<?= $row["stock"] ?>">
+                                        <input type="text" class="form-control" name="stock" value="<?= $row["stock"] ?>" required>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th>開始時間</th>
                                     <td>
-                                        <input type="datetime-local" class="form-control" name="start_time" id="start_time" value="<?= $row["start_time"] ?>">
+                                        <input type="datetime-local" class="form-control" name="start_time" id="start_time" value="<?= $row["start_time"] ?>" required>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>結束時間</th>
                                     <td>
-                                        <input type="datetime-local" class="form-control" name="end_time" id="end_time" value="<?= $row["end_time"] ?>">
+                                        <input type="datetime-local" class="form-control" name="end_time" id="end_time" value="<?= $row["end_time"] ?>" required>
                                     </td>
                                 </tr>
 
@@ -157,6 +158,26 @@ if ($result->num_rows > 0) {
             startTimeInput.addEventListener('change', function() {
                 endTimeInput.min = startTimeInput.value;
 
+            });
+            var amountRadio = document.getElementById('amount');
+            var percentRadio = document.getElementById('percent');
+            var discountInput = document.querySelector('input[name="discount"]');
+            var couponForm = document.querySelector('form');
+
+            couponForm.addEventListener('submit', function(event) {
+                var discountValue = parseFloat(discountInput.value);
+                var categoryChecked = document.querySelector('input[name="category"]:checked');
+
+                var errorMeg = ""; // 初始化错误消息
+                if (categoryChecked && categoryChecked.value === '金額' && discountValue <= 1) {
+                    errorMeg = "金額折扣應大於1";
+                    event.preventDefault();
+                } else if (categoryChecked && categoryChecked.value === '百分比' && (discountValue <= 0 || discountValue >= 1)) {
+                    errorMeg = "百分比折扣應為0到1之間的小數";
+                    event.preventDefault();
+                }
+                // 将错误消息插入到页面中适当位置
+                document.getElementById('error-message').innerText = errorMeg;
             });
         });
 

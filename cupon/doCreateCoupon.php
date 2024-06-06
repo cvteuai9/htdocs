@@ -48,4 +48,4 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-header("location: coupons.php?page=1&order=id_asc");
+header("location: coupons.php");

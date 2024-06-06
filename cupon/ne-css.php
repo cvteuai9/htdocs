@@ -63,6 +63,7 @@
         color: white;
         border-color: #A98B73;
     }
+
     /* .pagination {
         --bs-pagination-font-size:20px
     } */
@@ -72,17 +73,17 @@
         color: #A98B73;
         font-size: 20px;
         /* --bs-pagination-font-size:30px */
-        
+
     }
 
     /* 表格顏色 */
 
     .table-striped>tbody>tr:nth-child(2n)>td,
     .table-striped>tbody>tr:nth-child(2n)>th {
-        background-color: #eee0c9 ;
+        background-color: #eee0c9;
     }
 
-    
+
     .table-striped>tbody>tr:nth-of-type(odd)>* {
         --bs-table-bg-type: #fbf7f1;
     }
@@ -100,18 +101,23 @@
         padding: 15px;
     }
 
-    .table-coupon{
-        td{
+    .table-coupon {
+        td {
 
             border-width: 1.5px;
         }
 
-        tr{
+        tr {
 
             border-color: #DABEA7;
             border-style: solid;
             border-width: 1px;
         }
+    }
+
+    /* 建立優惠券錯誤訊息 */
+    #error-message {
+        color: red;
     }
 
     /* 編輯優惠券類別 */
