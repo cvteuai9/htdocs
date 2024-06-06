@@ -53,7 +53,7 @@ if ($result->num_rows > 0) {
 <html lang="en">
 
 <head>
-    <title>activity-edit</title>
+    <title>活動編輯頁</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -86,7 +86,7 @@ if ($result->num_rows > 0) {
     <main class="main-content p-3">
         <!---------------------------------------------這裡是內容 ------------------------------------->
         <!-- 修改活動 -------------------------------------->
-        <div class="container mt-3" style="max-width:72vw;">
+        <div class="container-fluid mt-3" style="max-width:72vw;">
             <a class="btn btn-primary " href="activity.php"><i class="fa-solid fa-arrow-left"></i> 回活動列表</a>
             <h1 class="mb-4 mt-4">修改活動</h1>
             <div class="card">

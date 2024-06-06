@@ -8,11 +8,16 @@
 <!-- google font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC&display=swap" rel="stylesheet">
-
-
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
 <style>
     /* dasgboard 共用 */
+    body {
+        font-family: "Noto Sans TC", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 300;
+        font-style: normal;
+    }
+
     a {
         text-decoration: none;
         cursor: pointer;
@@ -36,6 +41,7 @@
         /* background: #F5F5DC; */
         padding-top: var(--header-height);
         width: var(--aside-witch);
+        background: linear-gradient(0, #0fd850, #f9f047);
         top: 20px;
         overflow: auto;
     background-color:#198754;
@@ -60,24 +66,6 @@
         margin: var(--header-height) 0 0 var(--aside-witch);
     }
     
-
-    .google-font {
-        font-family: "LXGW WenKai TC", cursive;
-        font-weight: 400;
-        font-style: normal;
-    }
-    /* 頁籤顏色 */
-    .pagination .active .page-link {
-        background-color: #198754;
-        color: white;
-        border-color: #198754;
-    }
-    .pagination .page-link {
-        color: #198754;
-        font-size: 20px;
-        /* --bs-pagination-font-size:30px */
-
-    }
     
     
     /* 尚謙course */
