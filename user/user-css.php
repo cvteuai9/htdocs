@@ -24,6 +24,7 @@
         font-size: 36px;
         text-decoration: none;
         color: #000;
+        
 
         span {
           background: #D33F33;
@@ -58,4 +59,33 @@
           color: #D33F33;
         }
       }
+      .pagination .active .page-link {
+        background-color: #198754;
+        color: white;
+        border-color: #198754;
+    }
+    .pagination .page-link {
+        color: #198754;
+        font-size: 20px;
+        /* --bs-pagination-font-size:30px */
+
+    }
+    .table-striped>tbody>tr:nth-child(2n)>td,
+    .table-striped>tbody>tr:nth-child(2n)>th {
+        background-color: #f5f8ff;
+    }
+
+
+    .table-striped>tbody>tr:nth-of-type(odd)>* {
+        --bs-table-bg-type: white;
+    }
+
+    .table-header>tr>th {
+        background-color: #f5f8ff;
+        padding: 15px;
+    }
+    .table-user>tbody>tr:nth-child(2n+1)>td,
+    .table-user>tbody>tr:nth-child(2n+1)>th {
+        background-color: #f5f8ff;
+    }
     </style>

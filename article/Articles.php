@@ -321,6 +321,7 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
             <a href="?delpage=1&page=<?= $page ?>&order=1" class="btn btn-success <?php if ($order == 1) echo "active" ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
             <a href="?delpage=1&page=<?= $page ?>&order=2" class="btn btn-success <?php if ($order == 2) echo "active" ?>">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
           </div>
+
         <?php endif; ?>
       </div>
       <hr>
@@ -371,11 +372,12 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
                 <th><?= $row["created_at"] ?></th>
                 <th><?= $row["updated_at"] ?></th>
 
-                <th class="text-center">
-                  <span class="d-inline-block"><a class="d-inline-block me-1" href="lookArticles.php?id=<?php echo $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-eye-fill"></i></button></a>
-                    <a class="d-inline-block me-1" href="editArticle.php?id=<?= $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button></a>
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row["id"] ?>"><i class="bi bi-trash3-fill"></i></button></span>
-                </th>
+                    <th class="text-center">
+                      <span class="d-inline-block"><a class="d-inline-block me-1" href="lookArticles.php?id=<?php echo $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-eye-fill"></i></button></a>
+                        <a class="d-inline-block me-1" href="editArticle.php?id=<?= $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button></a>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row["id"] ?>"><i class="bi bi-trash3-fill"></i></button></span>
+                    </th>
+
 
 
 

@@ -75,13 +75,14 @@ if (isset($_GET["page"])) {
 <body>
     <!-- header、aside -->
     <?php include("../dashboard-comm.php") ?>
-    <main class="main-content p-3">
-        <div class="d-flex justify-content-between">
+    <main class="main-content p-3 index-main">
+           <div class="text-center mt-3 pt-3">
+
             <h1>會員列表</h1>
         </div>
         <hr>
         <!---------------------------------------------這裡是內容 ------------------------------------->
-        <div class="container">
+        <div class="container ">
 
             <div class="py-2 mb-3">
                 <!-- mb-3跟下方空間間距 -->
@@ -91,12 +92,12 @@ if (isset($_GET["page"])) {
                     <form action="" class="me-3 flex-grow-1">
                         <div class="input-group">
                             <input type="text" class="form-control position-relative z-index-1" placeholder="Search..." name="search">
-                            <button class="btn btn-dark" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
 
                         </div>
                     </form>
 
-                    <a class="btn btn-dark" href="create-user.php">
+                    <a class="btn btn-success" href="create-user.php">
                         <i class="fa-solid fa-user-plus"></i>
                     </a>
 
@@ -117,29 +118,29 @@ if (isset($_GET["page"])) {
                 <div class="ms-3">
                     <?php if (isset($_GET["search"]) && $_GET["search"] == "") : ?>
                         <p class=" text-danger">請輸入搜尋條件</p>
-                        <a href="users.php" class="btn btn-dark justify-content-end">重新搜尋條件</a>
+                        <a href="users.php" class="btn btn-success justify-content-end">重新搜尋條件</a>
 
 
 
                     <?php elseif (isset($_GET["search"])) : ?>
                         <p class=" text-danger"><?php echo "搜尋" . $pageTitle ?></p>
-                        <a href="users.php" class="btn btn-dark justify-content-end">清除搜尋條件</a>
+                        <a href="users.php" class="btn btn-success justify-content-end">清除搜尋條件</a>
                     <?php endif; ?>
                 </div>
                 <?php if (isset($_GET["page"])) : ?>
                     <div>
                         排序：<div class="btn-group">
                             <a href="?page=<?= $page ?>&order=1
-" class="btn btn-dark <?php
+" class="btn btn-success <?php
                         if ($order == 1) echo "active";  ?>">ID<i class="fa-solid fa-arrow-down-short-wide"></i></a>
 
-                            <a href="?page=<?= $page ?>&order=2" class="btn btn-dark <?php
+                            <a href="?page=<?= $page ?>&order=2" class="btn btn-success <?php
                                                                                         if ($order == 2) echo "active";  ?>">ID<i class="fa-solid fa-arrow-down-wide-short "></i></a>
 
-                            <a href="?page=<?= $page ?>&order=3" class="btn btn-dark <?php
+                            <a href="?page=<?= $page ?>&order=3" class="btn btn-success <?php
                                                                                         if ($order == 3) echo "active";  ?>">Name<i class="fa-solid fa-arrow-down-wide-short "></i></a>
 
-                            <a href="?page=<?= $page ?>&order=4" class="btn btn-dark <?php
+                            <a href="?page=<?= $page ?>&order=4" class="btn btn-success <?php
                                                                                         if ($order == 4) echo "active";  ?>">Name<i class="fa-solid fa-arrow-down-wide-short "></i></a>
                         </div>
                     </div>
@@ -148,8 +149,8 @@ if (isset($_GET["page"])) {
             <!-- =====使用者體驗=== -->
             <?php if ($result->num_rows > 0) : ?>
                 <!-- ================== -->
-                <table class="table table-bordered">
-                    <thead class="text-center">
+                <table class="table table-striped">
+                    <thead class="text-center table-header">
                         <tr>
                             <th>ID</th>
                             <th>姓名</th>
@@ -186,7 +187,7 @@ if (isset($_GET["page"])) {
                                                             echo "有效";
                                                         } else echo "停權" ?></td>
                                 <td class="text-center">
-                                    <a class="btn btn-dark" href="user.php?id=<?= $user["id"] ?>">詳細</a>
+                                    <a class="btn btn-success" href="user.php?id=<?= $user["id"] ?>">詳細</a>
                                     <!-- 快速到商品內文 -->
                                 </td>
                             </tr>

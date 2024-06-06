@@ -66,7 +66,7 @@ if ($result->num_rows > 0) {
         </div>
         <div class="container">
             <div class="py-2">
-                <a class="btn btn-custom" href="coupons.php?page=1&order=id_asc"><i class="fa-solid fa-arrow-left"></i>優惠券列表</a>
+                <a class="btn btn-success" href="coupons.php?page=1&order=id_asc"><i class="fa-solid fa-arrow-left"></i>優惠券列表</a>
             </div>
             <div class="row justify-content-center ">
                 <div class="col-lg-12">
@@ -130,10 +130,10 @@ if ($result->num_rows > 0) {
                             </tr>
 
                         </table>
-                        <div class="py-2 d-flex justify-content-between ">
-                            <a class="btn btn-custom " href="coupon-edit.php?id=<?= $row["id"] ?>" title="編輯優惠券"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <div class="py-2 d-flex justify-content-end ">
+                            <a class="btn btn-success me-3" href="coupon-edit.php?id=<?= $row["id"] ?>" title="編輯優惠券"><i class="fa-solid fa-pen-to-square"></i>&nbsp修改</a>
 
-                            <button class="btn btn-custom-d " title="刪除優惠券" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></button>
+                            <button class="btn btn-danger " title="刪除優惠券" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i>&nbsp刪除</button>
                         </div>
                     <?php else : ?>
                         <h1>優惠券不存在</h1>

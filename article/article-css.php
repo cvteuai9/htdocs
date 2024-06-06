@@ -103,4 +103,18 @@
      .page-link {
          color: #198754;
      }
+
+     /* 表格顏色 */
+
+    .table-striped>thead>tr:nth-child(2n)>td,
+    .table-striped>thead>tr:nth-child(2n)>th {
+        background-color: #f5f8ff;
+    }
+
+    .table-header>th {
+        background-color: #f5f8ff;
+        padding: 15px;
+    }
+
+    
  </style>

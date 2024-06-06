@@ -149,6 +149,8 @@ $pageCount = ceil($productCount / $perPage);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <?php include("../css.php") ?>
+    <?php include("product-css.php") ?>
+
     <style>
         .product-img {
             width: 100px;
