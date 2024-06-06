@@ -291,22 +291,22 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
         <?php if (isset($_GET["page"]) && isset($_GET["order"]) && !isset($_GET["category"]) && !isset($_GET["search"]) && !isset($_GET["delpage"])) : ?>
           <div class="btn-group">
 
-            <a href="?page=<?= $page ?>&order=1" class="btn btn-success">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
-            <a href="?page=<?= $page ?>&order=2" class="btn btn-success">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
+            <a href="?page=<?= $page ?>&order=1" class="btn btn-success <?php if($order==1) echo"active"?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+            <a href="?page=<?= $page ?>&order=2" class="btn btn-success <?php if($order==2) echo"active"?>">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
           <?php elseif (isset($_GET["page"]) && isset($_GET["order"]) && isset($_GET["category"]) && !isset($_GET["search"]) && !isset($_GET["delpage"])) : ?>
             <div class="btn-group">
 
-              <a href="?page=<?= $page ?>&order=1&category=<?= $category_id ?>" class="btn btn-success">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
-              <a href="?page=<?= $page ?>&order=2&category=<?= $category_id ?>" class="btn btn-success">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
+              <a href="?page=<?= $page ?>&order=1&category=<?= $category_id ?>" class="btn btn-success <?php if($order==1) echo"active"?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+              <a href="?page=<?= $page ?>&order=2&category=<?= $category_id ?>" class="btn btn-success <?php if($order==2) echo"active"?>">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
 
             <?php elseif (isset($_GET["page"]) && isset($_GET["order"]) && isset($_GET["search"]) && !isset($_GET["category"]) && !isset($_GET["delpage"])) : ?>
               <div class="btn-group">
 
-                <a href="?page=<?= $page ?>&order=1&search=<?= $search ?>" class="btn btn-success">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
-                <a href="?page=<?= $page ?>&order=2&search=<?= $search ?>" class="btn btn-success">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                <a href="?page=<?= $page ?>&order=1&search=<?= $search ?>" class="btn btn-success <?php if($order==1) echo"active"?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                <a href="?page=<?= $page ?>&order=2&search=<?= $search ?>" class="btn btn-success <?php if($order==2) echo"active"?>">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
               <?php elseif (isset($_GET["delpage"]) && !isset($_GET["search"]) && isset($_GET["order"]) && !isset($_GET["category"]) && isset($_GET["page"])) : ?>
-                <a href="?delpage=1&page=<?= $page ?>&order=1" class="btn btn-success">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
-                <a href="?delpage=1&page=<?= $page ?>&order=2" class="btn btn-success">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                <a href="?delpage=1&page=<?= $page ?>&order=1" class="btn btn-success <?php if($order==1) echo"active"?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                <a href="?delpage=1&page=<?= $page ?>&order=2" class="btn btn-success <?php if($order==2) echo"active"?>">id<i class="fa-solid fa-arrow-down-wide-short"></i></a>
 
               <?php endif; ?>
               </div>
