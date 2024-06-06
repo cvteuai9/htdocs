@@ -160,11 +160,10 @@ $pageCount = ceil($productCount / $perPage);
 <body>
     <!-- header aside -->
     <?php include("../dashboard-comm.php") ?>
-    <div class="main-content">
-        <div class="container-fluid ">
-            <div class="text-center mt-3 pt-3">
-                <h1>商品列表</h1>
-            </div>
+    <div class="main-content p-3">
+        <h1>商品列表</h1>
+        <hr>
+        <div class="container">
             <!-- 分類nav -->
             <ul class="nav nav-underline ps-2 fs-5">
                 <li class="nav-item">
@@ -184,9 +183,9 @@ $pageCount = ceil($productCount / $perPage);
                 </li>
             </ul>
             <hr class="my-3">
-            <div class="row g-3 justify-content-between">
+            <div class="d-flex gap-3 justify-content-between">
                 <!-- 搜尋表單 -->
-                <div class="col-auto">
+                <div class="flex-grow-1">
                     <form id="search-form" action="">
                         <div class="d-flex justify-content-start">
                             <input type="hidden" name="page" value="1">
@@ -201,8 +200,47 @@ $pageCount = ceil($productCount / $perPage);
                     </form>
                     <p style="font-size: 12px;" class="mt-2">請輸入商品編號、商品名稱、品牌、茶種、包裝、茶葉類型查詢</p>
                 </div>
+                <!-- 新增商品頁按鈕 -->
+                <div>
+                    <a href="product-add.php" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 價格篩選 -->
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <form action="">
+                    <div class="d-flex gap-2 align-items-center">
+                        <input type="hidden" name="page" value="1">
+                        <input type="hidden" name="order" value="1">
+                        <?php if (isset($_GET["min"])) : ?>
+                            <div class="col-auto">
+                                <a class="btn btn-success" href="product-list.php"><i class="fa-solid fa-arrow-rotate-left"></i></a>
+                            </div>
+                        <?php endif; ?>
+                        <?php
+                        $minValue = 0;
+                        $maxValue = 9999;
+                        if (isset($_GET["min"])) $minValue = $_GET["min"];
+                        if (isset($_GET["max"])) $maxValue = $_GET["max"];
+                        ?>
+                        <div class="col-auto">
+                            <input type="number" class="form-control text-end" value="<?= $minValue ?>" name="min" min="0">
+                        </div>
+                        <div class="col-auto">
+                            ~
+                        </div>
+                        <div class="col-auto">
+                            <input type="number" class="form-control text-end" value="<?= $maxValue ?>" name="max" min="0">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-filter"></i></button>
+                        </div>
+                    </div>
+                </form>
                 <!-- 排序 -->
-                <div class="col-auto">
+                <div>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <!-- 搜尋後排序 -->
                         <?php if (isset($_GET["search"])) : ?>
@@ -223,49 +261,12 @@ $pageCount = ceil($productCount / $perPage);
                         <a href="?page=<?= $page ?>&order=1<?= $textOrder ?>" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
                         <a href="?page=<?= $page ?>&order=2<?= $textOrder ?>" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
                     </div>
-                    <!-- 新增商品頁按鈕 -->
-                    <a href="product-add.php" class="btn btn-success"><i class="fa-regular fa-square-plus"></i> 新增商品</a>
                 </div>
             </div>
-        </div>
-
-        <!-- 價格篩選 -->
-        <div class="container-fluid">
-            <form action="">
-                <div class="row g-3 align-items-center">
-                    <input type="hidden" name="page" value="1">
-                    <input type="hidden" name="order" value="1">
-                    <?php if (isset($_GET["min"])) : ?>
-                        <div class="col-auto">
-                            <a class="btn btn-success" href="product-list.php"><i class="fa-solid fa-arrow-rotate-left"></i></a>
-                        </div>
-                    <?php endif; ?>
-                    <?php
-                    $minValue = 0;
-                    $maxValue = 9999;
-                    if (isset($_GET["min"])) $minValue = $_GET["min"];
-                    if (isset($_GET["max"])) $maxValue = $_GET["max"];
-                    ?>
-                    <div class="col-auto">
-                        <input type="number" class="form-control text-end" value="<?= $minValue ?>" name="min" min="0">
-                    </div>
-                    <div class="col-auto">
-                        ~
-                    </div>
-                    <div class="col-auto">
-                        <input type="number" class="form-control text-end" value="<?= $maxValue ?>" name="max" min="0">
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-filter"></i></button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div class="container-fluid">
-            <div class="row justify-content-between">
+            <!-- 顯示資料總筆數，頁數 -->
+            <div class="container row mt-2 mb-1">
                 <!-- 顯示符合條件的資料筆數 -->
-                <div class="col-auto d-flex gap-3 align-items-end">
+                <div class="col-auto d-flex gap-3 align-items-end p-0">
                     <div>
                         共 <?= $productCount ?> 筆
                     </div>
@@ -277,109 +278,112 @@ $pageCount = ceil($productCount / $perPage);
                         <?php endif; ?>
                     </div>
                 </div>
-                <div class="col-auto">
-                    <!-- 如果分頁大於1，則顯示分頁nav -->
-                    <?php if ($pageCount > 1) : ?>
-                        <div class="d-flex justify-content-center">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination mb-2">
-                                    <!-- 搜尋後分頁 -->
-                                    <?php if (isset($_GET["search"])) : ?>
-                                        <?php $textPage = "&search=" . $search ?>
-                                        <!-- 價格篩選分頁 -->
-                                    <?php elseif (isset($_GET["max"]) && isset($_GET["min"])) : ?>
-                                        <?php $textPage = "&min=" . $min . "&max=" . $max ?>
-                                        <!-- 「已下架」分類頁籤的分頁 -->
-                                    <?php elseif (isset($_GET["valid"])) : ?>
-                                        <?php $textPage = "&valid=" . $valid ?>
-                                        <!-- 如果選擇分類頁籤，每一個分頁按鈕外加固定category的值 -->
-                                    <?php elseif (isset($_GET["page"]) && isset($_GET["category"])) : ?>
-                                        <?php $textPage = "&category=" . $category ?>
-                                        <!-- 無篩選條件時的分頁 -->
-                                    <?php elseif (isset($_GET["page"])) : ?>
-                                        <?php $textPage = "" ?>
-                                    <?php endif; ?>
-                                    <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                                        <li class=" page-item <?php if ($i == $page) echo "active" ?>">
-                                            <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?><?= $textOrder ?>">
-                                                <?= $i ?>
-                                            </a>
-                                        </li>
-                                    <?php endfor; ?>
-                                </ul>
-                            </nav>
-                        </div>
-                    <?php else : ?>
-                    <?php endif; ?>
+                <div class="row justify-content-between">
                 </div>
             </div>
-        </div>
 
-        <!-- 商品表格 -->
-        <div class="container-fluid">
-            <!-- 如果符合條件的商品>0，則顯示表格 -->
-            <?php if ($result->num_rows > 0) : ?>
-                <table class="table table-bordered text-center table-warning">
-                    <thead class="text-nowrap">
-                        <th>編號</th>
-                        <th>圖片</th>
-                        <th>商品名稱</th>
-                        <th>品牌</th>
-                        <th>茶種</th>
-                        <th>包裝/茶葉類型</th>
-                        <th>價格</th>
-                        <th>建立時間</th>
-                        <th>狀態</th>
-                        <th>操作</th>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($rows as $row) : ?>
-                            <tr class="text-nowrap align-middle">
-                                <td><?= $row["id"] ?></td>
-                                <td>
-                                    <img class="product-img object-fit-cover" src="../product_images/<?= $row["path"] ?>" alt="">
-                                </td>
-                                <td><?= $row["product_name"] ?></td>
-                                <td><?= $row["brand_name"] ?></td>
-                                <td><?= $row["tea_category_name"] ?></td>
-                                <td><?= $row["package_name"] ?> / <?= $row["style_name"] ?></td>
-                                <td><?= $row["price"] ?></td>
-                                <td><?= $row["created_at"] ?></td>
-                                <td><?php if ($row["valid"] == 1) : ?>
-                                        上架中
-                                    <?php else : ?>
-                                        下架
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <!-- 檢視商品 -->
-                                    <a href="product-detail.php?id=<?= $row["id"] ?>" class="btn btn-success">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-
-                                    <!-- 商品編輯頁按鈕 -->
-                                    <a href="product-edit.php?id=<?= $row["id"] ?>" class="btn btn-success">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </a>
-
-                                    <!-- 刪除商品按鈕 -->
-                                    <a href="doDelete.php?id=<?= $row["id"] ?>&valid=<?= $valid ?>" class="btn btn-danger">
-                                        <?php if (isset($_GET["valid"]) && $valid == 0) : ?>
-                                            <i class="fa-solid fa-plus"></i>
+            <!-- 商品表格 -->
+            <div class="container  p-0">
+                <!-- 如果符合條件的商品>0，則顯示表格 -->
+                <?php if ($result->num_rows > 0) : ?>
+                    <table class="table table-bordered text-center table-warning">
+                        <thead class="text-nowrap">
+                            <th>編號</th>
+                            <th>圖片</th>
+                            <th>商品名稱</th>
+                            <th>品牌</th>
+                            <th>茶種</th>
+                            <th>包裝/茶葉類型</th>
+                            <th>價格</th>
+                            <th>建立時間</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($rows as $row) : ?>
+                                <tr class="text-nowrap align-middle">
+                                    <td><?= $row["id"] ?></td>
+                                    <td>
+                                        <img class="product-img object-fit-cover" src="../product_images/<?= $row["path"] ?>" alt="">
+                                    </td>
+                                    <td><?= $row["product_name"] ?></td>
+                                    <td><?= $row["brand_name"] ?></td>
+                                    <td><?= $row["tea_category_name"] ?></td>
+                                    <td><?= $row["package_name"] ?> / <?= $row["style_name"] ?></td>
+                                    <td><?= $row["price"] ?></td>
+                                    <td><?= $row["created_at"] ?></td>
+                                    <td><?php if ($row["valid"] == 1) : ?>
+                                            上架中
                                         <?php else : ?>
-                                            <i class="fa-solid fa-xmark"></i>
+                                            下架
                                         <?php endif; ?>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            <?php else : ?>
-                無符合條件的商品
-            <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <!-- 檢視商品 -->
+                                        <a href="product-detail.php?id=<?= $row["id"] ?>" class="btn btn-success">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+
+                                        <!-- 商品編輯頁按鈕 -->
+                                        <a href="product-edit.php?id=<?= $row["id"] ?>" class="btn btn-success">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+
+                                        <!-- 刪除商品按鈕 -->
+                                        <a href="doDelete.php?id=<?= $row["id"] ?>&valid=<?= $valid ?>" class="btn btn-danger">
+                                            <?php if (isset($_GET["valid"]) && $valid == 0) : ?>
+                                                <i class="fa-solid fa-plus"></i>
+                                            <?php else : ?>
+                                                <i class="fa-solid fa-xmark"></i>
+                                            <?php endif; ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else : ?>
+                    無符合條件的商品
+                <?php endif; ?>
+            </div>
+            <div class="col-auto">
+                <!-- 如果分頁大於1，則顯示分頁nav -->
+                <?php if ($pageCount > 1) : ?>
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination mb-2">
+                                <!-- 搜尋後分頁 -->
+                                <?php if (isset($_GET["search"])) : ?>
+                                    <?php $textPage = "&search=" . $search ?>
+                                    <!-- 價格篩選分頁 -->
+                                <?php elseif (isset($_GET["max"]) && isset($_GET["min"])) : ?>
+                                    <?php $textPage = "&min=" . $min . "&max=" . $max ?>
+                                    <!-- 「已下架」分類頁籤的分頁 -->
+                                <?php elseif (isset($_GET["valid"])) : ?>
+                                    <?php $textPage = "&valid=" . $valid ?>
+                                    <!-- 如果選擇分類頁籤，每一個分頁按鈕外加固定category的值 -->
+                                <?php elseif (isset($_GET["page"]) && isset($_GET["category"])) : ?>
+                                    <?php $textPage = "&category=" . $category ?>
+                                    <!-- 無篩選條件時的分頁 -->
+                                <?php elseif (isset($_GET["page"])) : ?>
+                                    <?php $textPage = "" ?>
+                                <?php endif; ?>
+                                <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                    <li class=" page-item <?php if ($i == $page) echo "active" ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?><?= $textOrder ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+                    </div>
+                <?php else : ?>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
+
     <?php include_once("../js.php") ?>
     <script>
         const searchForm = document.querySelector("#search-form")
@@ -393,6 +397,7 @@ $pageCount = ceil($productCount / $perPage);
             }
         });
     </script>
+
 </body>
 
 </html>

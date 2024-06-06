@@ -95,6 +95,16 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
         .content_area {
             height: 10vh;
         }
+
+        #course {
+            width: 400px;
+            height: 400px;
+        }
+
+        #course>img {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 
@@ -102,24 +112,27 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
     <!-- header、aside -->
     <?php include("../dashboard-comm.php") ?>
     <main class="main-content p-3">
+        <h1 class="me-auto p-2 bd-highlight">活動管理</h1>
+        <hr>
         <!---------------------------------------------這裡是內容 ------------------------------------->
         <!-- 活動列表 -->
-        <div class="container-fluid mb-5 " style="max-width:72vw; ">
-            <div class="d-flex bd-highlight align-items-center ">
-                <h1 class="me-auto p-2 bd-highlight">活動管理</h1>
-                <form action="">
-                    <div class="input-group">
-                        <?php if (isset($_GET["search"])) : ?>
-                            <div class="me-3">
-                                <a class="btn btn-success" href="activity.php"><i class="fa-solid fa-arrow-left"></i></a>
-                            </div>
-                        <?php endif; ?>
-                        <input type="text" class="form-control" placeholder="搜尋..." name="search" value="<?= $search ?>">
-                        <button class="btn btn-success" type="submit">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>
-                </form>
+        <div class="container mb-5 ">
+            <div class="d-flex gap-2 bd-highlight align-items-center ">
+                <div class="flex-grow-1">
+                    <form action="">
+                        <div class="input-group">
+                            <?php if (isset($_GET["search"])) : ?>
+                                <div class="me-3">
+                                    <a class="btn btn-success" href="activity.php"><i class="fa-solid fa-arrow-left"></i></a>
+                                </div>
+                            <?php endif; ?>
+                            <input type="text" class="form-control" placeholder="請輸入活動名稱搜尋..." name="search" value="<?= $search ?>">
+                            <button class="btn btn-success" type="submit">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
                 <div>
                     <?php if (isset($_GET["filter"])) : ?>
                         <?php $textPage = "&filter=$filter" ?>
@@ -136,7 +149,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </div>
             </div>
-            <div class="mb-3 d-flex justify-content-between">
+            <div class="my-3 d-flex justify-content-between">
                 <div class="d-flex align-items-center justify-content-center text-nowrap gap-2">
                     <select class="form-select" aria-label="Default select example" id="categorySelect" onchange="location=this.value">
                         <option value="?page=1&order=1&filter=all" <?php if (!isset($_GET["filter"])) echo "selected" ?>>
@@ -159,8 +172,8 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                 <?php foreach ($rows as $activity) : ?>
                     <div class="card mb-3 border border-dark " style="max-height:auto;">
                         <div class="row pe-5">
-                            <div class="col-md-4">
-                                <img src="../activity_images/<?= $activity["path"] ?>" class="img-fluid" alt="<?= $activity["path"] ?>">
+                            <div class="col-md-4" id="course">
+                                <img src="../activity_images/<?= $activity["path"] ?>" class="object-fit-cover" alt="<?= $activity["path"] ?>">
                             </div>
                             <div class="col-md-8 mt-3">
                                 <h3 class="card-title "><?= $activity["name"] ?></h3>
@@ -219,9 +232,9 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                 </div>
             <?php else : ?>
             <?php endif; ?>
+        </div>
     </main>
     <?php include("../js.php") ?>
-    </div>
 </body>
 
 </html>
