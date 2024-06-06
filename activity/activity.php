@@ -48,6 +48,7 @@ if (isset($_GET["filter"])) {
 } elseif (isset($_GET["search"])) {
     $whereClause = " AND activity.name LIKE '%$search%'";
     $sql = "$sqlAll $whereClause";
+    $pageCount = 1;
 } else if (isset($_GET["page"]) && isset($_GET["order"]) && isset($_GET["valid"])) {
     $order = $_GET["order"];
     $page = $_GET["page"];
@@ -203,28 +204,30 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
             </div>
         <?php endforeach; ?>
         <!-- 分頁 -->
-        <div class="mt-5">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <?php if (isset($_GET["valid"])) : ?>
-                        <?php $textPagination = "&valid=$valid" ?>
-                    <?php elseif (isset($_GET["filter"])) : ?>
-                        <?php $textPagination = "&filter=$filter" ?>
-                    <?php elseif (isset($_GET["page"])) : ?>
-                        <?php $textPagination = "" ?>
-                    <?php endif; ?>
-                    <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                        <li class="page-item
+        <?php if ($pageCount > 1) : ?>
+            <div class="mt-5">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <?php if (isset($_GET["valid"])) : ?>
+                            <?php $textPagination = "&valid=$valid" ?>
+                        <?php elseif (isset($_GET["filter"])) : ?>
+                            <?php $textPagination = "&filter=$filter" ?>
+                        <?php elseif (isset($_GET["page"])) : ?>
+                            <?php $textPagination = "" ?>
+                        <?php endif; ?>
+                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                            <li class="page-item
                                 <?php if ($i == $page) echo "active" ?>">
-                            <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?><?= $textPagination ?>">
-                                <?= $i ?>
-                            </a>
-                        </li>
-                    <?php endfor; ?>
-                </ul>
-            </nav>
-        </div>
-        </div>
+                                <a class="page-link" href="?page=<?= $i ?>&order=<?= $order ?><?= $textPagination ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                </nav>
+            </div>
+        <?php else : ?>
+        <?php endif; ?>
     </main>
     <?php include("../js.php") ?>
 
