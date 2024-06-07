@@ -36,12 +36,12 @@ if (isset($_GET["search"])) {
             break;
     }
 
-    $sql = "SELECT * FROM users WHERE valid=1 $orderClause LIMIT $firstItem, $perPage";
+    $sql = "SELECT * FROM users WHERE valid = 1 $orderClause LIMIT $firstItem, $perPage";
 
     // 選擇排序功能
 
 } else {
-    $sql = "SELECT id, name, email, phone FROM users WHERE valid = 1";
+    $sql = "SELECT id, name, email, phone FROM users";
     $pageTitle = "使用者列表";
     header("location: users.php?page=1&order=1");
 }
@@ -123,7 +123,7 @@ if (isset($_GET["page"])) {
 
 
                     <?php elseif (isset($_GET["search"])) : ?>
-                        <p class=" text-danger"><?php echo "搜尋" . $pageTitle ?></p>
+                        <p class=" text-danger"><?php echo "搜尋&nbsp" . $pageTitle ?></p>
                         <a href="users.php" class="btn btn-success justify-content-end">清除搜尋條件</a>
                     <?php endif; ?>
                 </div>

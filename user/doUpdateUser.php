@@ -16,7 +16,7 @@ if ($_FILES["image"]["size"] == 0) {
     // 上傳圖片至目標資料夾
     if ($_FILES["image"]["error"] == 0) {
         // move_uploaded_file({上傳文件在服務器上的臨時文件名稱}, {你希望文件移動到的位置(包含文件名稱)})
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../user_images/" . $_FILES["image"]["name"])) {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], "user_images/" . $_FILES["image"]["name"])) {
             echo "upload success";
         } else {
             echo "upload FAIL";
@@ -30,7 +30,6 @@ $email = $_POST["email"];
 $phone = $_POST["phone"];
 $gender = $_POST["gender"];
 $password = $_POST["password"];
-// $date = $_POST["birthday"];
 $year = $_POST["birthday-y"];
 $month = $_POST["birthday-m"];
 $day = $_POST["birthday-d"];
@@ -38,16 +37,13 @@ $location = $_POST["location"];
 
 $date = $year . '-' . $month . '-' . $day;
 
-
-
-
 // echo $name;
-
+$password = md5($password);
 $sql = "UPDATE users SET name='$name', images_name='$filename', email='$email',password='$password', phone='$phone',gender='$gender',location='$location',birthday='$date'  WHERE id=$id";
 // ,location='$location'
 
 
-echo $sql;
+// echo $sql;
 // exit;
 
 if ($conn->query($sql) === TRUE) {

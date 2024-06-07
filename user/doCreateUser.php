@@ -25,16 +25,6 @@ $day = $_POST["birthday-d"];
 
 $date = $year . '-' . $month . '-' . $day;
 
-// 檢查帳號是否重複
-$sqlCheckUser = "SELECT * FROM users WHERE account='$account'";
-$resultCheck = $conn->query($sqlCheckUser);
-if ($resultCheck->num_rows > 0) {
-    // echo "此帳號已經有人註冊";
-    $errorMsg = "此帳號已經有人註冊";
-    $_SESSION["errorMsg"] = $errorMsg;
-    header("location: sign-up.php");
-    exit;
-}
 // if (empty($name) || empty($email) || empty($password) || empty($phone) || empty($gender) || empty($date) || empty($location)) {
 //     echo "請填入必要欄位";
 //     exit;
@@ -81,7 +71,6 @@ if (empty($date)) {
     header("location: create-user.php");
     exit;
 }
-
 if ($_FILES["image"]["size"] == 0) {
     $filename = "user.png";
 } else {
@@ -101,20 +90,28 @@ if ($_FILES["image"]["size"] == 0) {
 $password = md5($password);
 $now = date('Y-m-d H:i:s');
 // echo $name, $email,$password,$phone,$location,$gender ,$date,$account,$now;
+$sql = "INSERT INTO users (name, images_name, email, password, phone, location, gender, birthday, account, created_at)
+	VALUES ('$name', '$filename','$email','$password','$phone','$location','$gender ','$date','$account','$now')";
 
-$sql = "INSERT INTO users(name, images_name, account,email, password,phone,location,gender,birthday,created_at, valid) VALUES('$name', '$filename', '$account','$email','$password','$phone','$location','$gender ', '$date','$now',1)";
+
+
+
 
 
 
 
 if ($conn->query($sql) === TRUE) {
     $last_id = $conn->insert_id;
-
-    $errorMsg = "新資料輸入完成, id 為" . $last_id;
+ 
+    // $errorMsg = "新資料輸入完成, id 為". $last_id ;
+    $errorMsg = "註冊成功！";
     $_SESSION["errorMsg"] = $errorMsg;
+    
 } else {
-
-    echo "Error" . $sql . "<br>" . $conn->error;
+    
+    $errorMsg = "註冊失敗,請重新填寫資訊！";
+    $_SESSION["errorMsg"] = $errorMsg;
+    // echo "Error" . $sql . "<br>" . $conn->error;
 }
 
 $conn->close();

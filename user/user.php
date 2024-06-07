@@ -1,5 +1,3 @@
-<!--  -->
-
 <!-- ============================== -->
 <?php
 if (!isset($_GET["id"])) {
@@ -9,21 +7,12 @@ if (!isset($_GET["id"])) {
 }
 
 require_once("../db_connect.php");
-$sql = "SELECT * FROM users WHERE id = $id AND valid=1";
+$sql = "SELECT * FROM users WHERE id = $id";
+// $sql = "SELECT * FROM users WHERE id = $id AND valid=1";
 // echo $sql;
 $result = $conn->query($sql);
 $row = $result->fetch_assoc();
 //var_dump($row);//確認抓的到資料
-
-
-// 圖片區
-// $sqlImages = "SELECT *FROM images WHERE valid=1";
-// $resultImg = $conn->query($sqlImages);
-// $ImgRows = $resultImg->fetch_all(MYSQLI_ASSOC);
-// $id = $_GET["id"];
-
-// $sql = "SELECT users.*, images.name AS images_name FROM users JOIN images ON users.images_id =images.id
-// WHERE users.id= $id";
 
 // 圖片區
 if ($result->num_rows > 0) {
@@ -99,7 +88,6 @@ if ($result->num_rows > 0) {
     </div>
     <hr>
     <!---------------------------------------------這裡是內容 ------------------------------------->
-    <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -123,23 +111,23 @@ if ($result->num_rows > 0) {
     <div class="container">
       <!-- ===回主選單按鈕=== -->
       <div class="py-2">
-        <a href="users.php" class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
+        <a href="users.php" class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員列表</a>
 
       </div>
       <!-- ===回主選單按鈕=== -->
       <div class="row justify-content-center">
         <div class="col-lg-4 mt-3">
 
-          <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden cir" style="position: relative; ">
-            <img src="../user_images/<?= $row["images_name"] ?>" alt="">
+          <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent shadow p-3 mb-5 bg-body-tertiary rounded" style="position: relative; ">
+            <img src="../user_images/<?= $row["images_name"] ?>" alt="使用者<?= $row["name"] ?>的照片">
 
           </div>
         </div>
-        <div class="col-lg-6 mt-3">
+        <div class="col-lg-6 ms-5 mt-3 shadow p-3 bg-body-tertiary rounded">
           <!-- ================== -->
           <?php if ($userExit) : ?>
             <!-- 判斷使用者是否存在 -->
-            <table class="table table-user">
+            <table class="table table-bordered">
               <tr>
                 <th class="text-center">ID</th>
                 <td><?= $row["id"] ?></td>
@@ -156,11 +144,11 @@ if ($result->num_rows > 0) {
                 <th class="text-center">Email</th>
                 <td><?= $row["email"] ?></td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <th class="text-center">密碼</th>
-                <td><?= $row["password"] ?></td>
-              </tr>
-
+                <td>$row["password"]</td>
+              </tr> -->
+             
               <tr>
                 <th class="text-center">電話</th>
                 <td><?= $row["phone"] ?></td>
@@ -178,8 +166,14 @@ if ($result->num_rows > 0) {
                 <th class="text-center">資料建立日期</th>
                 <td><?= $row["created_at"] ?></td>
               </tr>
+              <tr>
+                <th class="text-center">帳號狀態</th>
+                <td><?php if ($row["valid"] == 1) {
+                      echo "有效";
+                    } else echo "停權" ?></td>
+              </tr>
             </table>
-            <div class="py-2 d-flex justify-content-end">
+            <div class="   d-flex justify-content-end">
               <a class="btn btn-success me-3 " title="編輯使用者" href="user-edit.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen-to-square">&nbsp修改</i></a>
               <!-- 修改按鈕 -->
 
@@ -194,10 +188,25 @@ if ($result->num_rows > 0) {
           <?php endif; ?>
           <!-- 判斷使用者是否存在 -->
         </div>
+
       </div>
+
     </div>
+    <!-- bootstrapJS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
   </main>
-  <?php include("../js.php") ?>
 </body>
 
 </html>

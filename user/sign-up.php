@@ -11,7 +11,7 @@ session_start();
 <html lang="en">
 
 <head>
-  <title>test-sign-up</title>
+  <title>註冊帳號</title>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -48,8 +48,11 @@ session_start();
 <body>
   <div class="container">
     <div class="justify-content-center text-center pt-3">
-      <h2 class="text-shadow-sm fw-bold pt-3">drinking tea...</h2>
-      <h6 class="text-dark text-shadow-sm fw-bold">歡迎註冊帳號</h6>
+
+    <img style="width: 500px;" src="/tea.png" alt="">
+      <!-- <h5 class="text-shadow-sm fw-bold">drinking tea...</h5> -->
+      <h6 class="text-dark text-shadow-sm text-center fw-bold">歡迎註冊帳號</h6>
+
     </div>
 
     <form action="doSignup.php" method="post" enctype="multipart/form-data">
@@ -58,28 +61,27 @@ session_start();
         <!-- vh-100 -->
 
 
+
         <div class="d-flex justify-content-center">
           <div class="row col justify-content-center">
-            <div class="col-lg-4 mt-3">
-
-              <div class="position-relative">
-                <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent " style="max-width: 350px;">
+            <!-- 左側照片 -->
+            <div class="col-lg-4 mt-3 ">
+              <div class="position-relative" >
+                <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent shadow p-3 mb-5 bg-body-tertiary rounded" style="max-width: 350px;">
                   <img id="previewImage" src="../user_images/user.png">
                 </div>
-                <div class="position-absolute m-0 top-100 start-0 ">
+                <div class="position-absolute bottom-0 start-50 translate-middle-x ">
                   <input type="file" id="fileUpload" name="image" style="display: none;" onchange="displayImage(this)">
                   <!-- accept="image/*"  -->
-                  <button type="button" class="btn btn-dark" onclick="document.getElementById('fileUpload').click();">
+                  <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
                     選擇圖片
                   </button>
                 </div>
-
-
               </div>
             </div>
-
-            <!-- 左側照片 -->
-            <div class="col-lg-6 mt-3">
+            <!-- 右側資訊 -->
+            <div class="col-lg-6 ms-5 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+            <!-- <div class="col-2 col-lg-6 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded"> -->
 
               <table class="table table-bordered align-middle justify-content-center">
                 <tr>
@@ -100,12 +102,22 @@ session_start();
                 </tr>
                 <tr>
                   <th for="" class="form-label">密碼</th>
-                  <td><input type="text" class="form-control" name="password">
+                  <td>
+                    <input type="text" class="form-control" name="password">
                   </td>
                 </tr>
                 <tr>
                   <th for="" class="form-label " nowrap="nowrap">再輸入一次密碼</th>
-                  <td><input type="password" class="form-control" name="repassword">
+                  <td class="position-relative">
+                    <input type="password" class="form-control " name="repassword" id="floatingPassword" placeholder="Password" name="password" oninput="checkInput()">
+                    <div id="button2" class="btn position-absolute d-flex top-50 end-0  z-3 lookEye d-none" onclick="switchButton()">
+                      <i class="fa-solid fa-eye fa-lg" style="color: #0f4c3a;"></i>
+                    </div>
+                    <div id="button1" class="btn position-absolute d-flex top-50 end-0 z-3 unlookEye d-none" onclick="switchButton()">
+                      <i class="fa-solid fa-eye-slash fa-lg" style="color: #0f4c3a;"></i>
+                    </div>
+                    <!-- <input type="password" class="form-control" name="repassword"> -->
+
                   </td>
                 </tr>
                 <tr>
@@ -153,10 +165,10 @@ session_start();
                   </th>
                   <td><select name="location" id="" class="form-select" type="text">
                       <option selected="" value="0">請選擇</option>
-                      <option value="臺北市<">臺北市</option>
-                      <option value="彰化縣<">彰化縣</option>
+                      <option value="臺北市">臺北市</option>
+                      <option value="彰化縣">彰化縣</option>
                       <option value="南投縣">南投縣</option>
-                      <option value="嘉義市3">嘉義市</option>
+                      <option value="嘉義市">嘉義市</option>
                       <option value="嘉義縣">嘉義縣</option>
                       <option value="雲林縣">雲林縣</option>
                       <option value="臺南市">臺南市</option>
@@ -184,7 +196,7 @@ session_start();
 
                   <td colspan="2">
                     <div class="d-flex justify-content-between">
-                      <div>
+                      <div class="ms-3 mt-1 fs-5">
                         <!-- 錯誤訊息 -->
                         <?php if (isset($_SESSION["errorMsg"])) : ?>
                           <div class="text-danger">
@@ -194,8 +206,8 @@ session_start();
                         endif; ?>
                         <!-- 錯誤訊息 -->
                       </div>
-                      <div><a type="submit" class="btn btn-warning" href="sign-in.php">返回登入</a>
-                        <button type="submit" class="btn btn-success ">註冊</button>
+                      <div><a type="submit" class="btn btn-warning" href="sign-in.php"><span class="fw-bold">返回登入</span></a>
+                        <button type="submit" class="btn btn-success "><span class="fw-bold">註冊</span></button>
                       </div>
                     </div>
 
@@ -223,27 +235,18 @@ session_start();
                 </div> -->
                 <!-- Modal -->
               </table>
-              <div class="d-flex justify-content-between">
-                <p class="text-white text-shadow-sm fs-6">© Just Taiwan Tea</p>
 
-              </div>
             </div>
 
           </div>
         </div>
       </div>
     </form>
+    <div class="d-flex justify-content-center">
+      <p class="text-white text-shadow-sm fs-6">© Just Taiwan Tea</p>
+
+    </div>
   </div>
-
-
-
-
-
-
-
-
-
-
   <!-- ===========圖片JS=========== -->
   <script>
     // 圖片上傳
@@ -262,13 +265,50 @@ session_start();
   <script>
     // 圖片讀取失敗時
     const previewImage = document.getElementById('previewImage');
-    const profilePicPath = '../user_images/profilepic.jpg';
+    const profilePicPath = 'C:\\xampp\\htdocs\\project\\images\\profilepic.JPG';
 
     previewImage.onerror = function() {
       previewImage.src = profilePicPath;
     };
   </script>
   <!-- ===========圖片JS=========== -->
+
+  <!-- 顯示密碼eye btn -->
+  <script>
+    function switchButton() {
+      var button1 = document.getElementById('button1');
+      var button2 = document.getElementById('button2');
+      var inputField = document.getElementById('floatingPassword');
+
+      if (button1.classList.contains('d-none')) {
+        button1.classList.remove('d-none');
+        button2.classList.add('d-none');
+        inputField.type = 'password';
+      } else {
+        button1.classList.add('d-none');
+        button2.classList.remove('d-none');
+        inputField.type = 'text';
+      }
+    }
+
+    function checkInput() {
+      var inputField = document.getElementById('floatingPassword');
+      var button1 = document.getElementById('button1');
+      var button2 = document.getElementById('button2');
+
+      if (inputField.value.trim() !== "") {
+        if (button2.classList.contains('d-none')) {
+          button1.classList.remove('d-none');
+        } else {
+          button2.classList.remove('d-none');
+        }
+      } else {
+        button1.classList.add('d-none');
+        button2.classList.add('d-none');
+      }
+    }
+  </script>
+  <!-- 顯示密碼eye btn -->
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 
