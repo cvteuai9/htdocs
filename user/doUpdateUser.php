@@ -1,4 +1,5 @@
 <?php
+session_start();
 // 上傳會員修改功能
 require_once("../db_connect.php");
 if (!isset($_POST["name"])) {
@@ -46,11 +47,21 @@ $sql = "UPDATE users SET name='$name', images_name='$filename', email='$email',p
 // echo $sql;
 // exit;
 
+
+
+
+$_SESSION["updateMsg"] =  $updateMsg;
+
 if ($conn->query($sql) === TRUE) {
     //執行讀取資料表動作
+    $updateMsg = "更新成功！";
+    $_SESSION["updateMsg"] = $updateMsg;
+    // $updateMsg = "新資料輸入完成, id 為 $last_id";
     echo "更新成功";
 } else {
     echo "更新資料錯誤:" . $conn->error;
 }
-header("location: user-edit.php?id=" . $id);
+
+
+header("location: user.php?id=" . $id);
 $conn->close();

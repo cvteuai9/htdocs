@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (!isset($_GET["id"])) {
   $id = 1; //若沒有選特定的，顯示預設第一筆資料
 } else {
@@ -233,7 +234,8 @@ if ($result->num_rows > 0) {
 
           </table>
           <div class="py-2 d-flex ms0r justify-content-end">
-            <button class="btn btn-success" type="submit">送出</button>
+          
+          <button class="btn btn-success" type="submit">送出</button>
           </div>
         </form>
         <div class="col-lg-2 mt-3"></div>
