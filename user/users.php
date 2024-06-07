@@ -12,7 +12,7 @@ if (isset($_GET["search"])) {
     $sql = "SELECT * FROM users WHERE account LIKE '%$search%' AND valid = 1";
     // $sql = "SELECT * FROM users WHERE account AND phone AND name LIKE '%$search%' AND valid = 1";
     //連結在WHERE後面的條件，可用AND增加
-    $pageTitle = "$search 的搜尋結果";
+    $pageTitle = "$search 的結果";
 } else if (isset($_GET["page"]) && isset($_GET["order"])) {
     // 搭配LIMIT
     $page = $_GET["page"];
@@ -76,7 +76,7 @@ if (isset($_GET["page"])) {
     <!-- header、aside -->
     <?php include("../dashboard-comm.php") ?>
     <main class="main-content p-3 index-main">
-           <div class="text-center mt-3 pt-3">
+        <div class="text-center mt-3 pt-3">
 
             <h1>會員列表</h1>
         </div>
@@ -100,7 +100,6 @@ if (isset($_GET["page"])) {
                     <a class="btn btn-success" href="create-user.php">
                         <i class="fa-solid fa-user-plus"></i>
                     </a>
-
                 </div>
 
 
@@ -111,16 +110,16 @@ if (isset($_GET["page"])) {
 
             <!-- 顯示搜尋結果人數 -->
             <div class="pb-2 d-flex justify-content-between col-form-label">
-                <div class="d-flex ">
-                    <p class=" mt-2 "> 會員人數：共<?= $userCount ?>人</p>
+                <div class="d-flex">
+                    <div>
+                        <p class=" mt-2 "> 會員人數：共<?= $userCount ?>人</p>
+                    </div>
 
                 </div>
                 <div class="ms-3">
                     <?php if (isset($_GET["search"]) && $_GET["search"] == "") : ?>
                         <p class=" text-danger">請輸入搜尋條件</p>
                         <a href="users.php" class="btn btn-success justify-content-end">重新搜尋條件</a>
-
-
 
                     <?php elseif (isset($_GET["search"])) : ?>
                         <p class=" text-danger"><?php echo "搜尋&nbsp" . $pageTitle ?></p>
@@ -130,15 +129,14 @@ if (isset($_GET["page"])) {
                 <?php if (isset($_GET["page"])) : ?>
                     <div>
                         排序：<div class="btn-group">
-                            <a href="?page=<?= $page ?>&order=1
-" class="btn btn-success <?php
-                        if ($order == 1) echo "active";  ?>">ID<i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                            <a href="?page=<?= $page ?>&order=1" class="btn btn-success <?php
+                                                                                        if ($order == 1) echo "active";  ?>">ID<i class="fa-solid fa-arrow-down-short-wide"></i></a>
 
                             <a href="?page=<?= $page ?>&order=2" class="btn btn-success <?php
                                                                                         if ($order == 2) echo "active";  ?>">ID<i class="fa-solid fa-arrow-down-wide-short "></i></a>
 
                             <a href="?page=<?= $page ?>&order=3" class="btn btn-success <?php
-                                                                                        if ($order == 3) echo "active";  ?>">Name<i class="fa-solid fa-arrow-down-wide-short "></i></a>
+                                                                                        if ($order == 3) echo "active";  ?>">Name<i class="fa-solid fa-arrow-down-short-wide"></i></a>
 
                             <a href="?page=<?= $page ?>&order=4" class="btn btn-success <?php
                                                                                         if ($order == 4) echo "active";  ?>">Name<i class="fa-solid fa-arrow-down-wide-short "></i></a>

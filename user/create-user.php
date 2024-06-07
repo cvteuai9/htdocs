@@ -88,7 +88,7 @@
                 <th for="" class="form-label ">密碼</th>
                 <td class="position-relative"> <input type="password" class="form-control " name="password" id="floatingPassword" placeholder="Password" name="password" oninput="checkInput()">
                   <div id="button2" class="btn position-absolute d-flex top-50 end-0  z-3 lookEye d-none" onclick="switchButton()">
-                    <i class="fa-solid fa-eye fa-lg" style="color: #0f4c3a;"></i>
+                    <i class="fa-solid fa-eye fa-lg " style="color: #0f4c3a;"></i>
                   </div>
                   <div id="button1" class="btn position-absolute d-flex top-50 end-0 z-3 unlookEye d-none" onclick="switchButton()">
                     <i class="fa-solid fa-eye-slash fa-lg" style="color: #0f4c3a;"></i>

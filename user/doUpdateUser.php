@@ -35,11 +35,16 @@ $year = $_POST["birthday-y"];
 $month = $_POST["birthday-m"];
 $day = $_POST["birthday-d"];
 $location = $_POST["location"];
-
+// 如果使用者未更改密碼，則取以前的值
+if (empty($password)) {
+    $password = $row["password"];
+} else {
+    // 如果有更改則加密
+    $password = md5($password);
+}
 $date = $year . '-' . $month . '-' . $day;
 
 // echo $name;
-$password = md5($password);
 $sql = "UPDATE users SET name='$name', images_name='$filename', email='$email',password='$password', phone='$phone',gender='$gender',location='$location',birthday='$date'  WHERE id=$id";
 // ,location='$location'
 

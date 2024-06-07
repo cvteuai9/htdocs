@@ -88,7 +88,7 @@ $rowsOne = $resultOne->fetch_assoc();
             <a href="Articles.php"><button class="btn btn-success mb-2"><i class="bi bi-arrow-bar-left"></i>返回</button></a>
             <a class="d-inline-block me-1"><button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $rowsOne["id"] ?>"><i class="fa-solid fa-rotate-left"></i></button></a>
         </div>
-        <form action="doeditArticle.php" class=" form-control mb-3" method="post">
+        <form action="doeditArticle.php" class=" form-control mb-3" method="post" enctype="multipart/form-data">
 
             <input type="hidden" class="form-control" value="<?= $rowsOne["id"] ?>" name="id">
             <label class="form-label " for="title">文章標題:</label>

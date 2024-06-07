@@ -42,6 +42,10 @@ session_start();
       height: 100%;
       object-fit: cover;
     }
+
+    .signupBtn {
+      bottom: 30px;
+    }
   </style>
 </head>
 
@@ -49,7 +53,7 @@ session_start();
   <div class="container">
     <div class="justify-content-center text-center pt-3">
 
-    <img style="width: 500px;" src="/tea.png" alt="">
+      <img style="width: 500px;" src="/tea.png" alt="">
       <!-- <h5 class="text-shadow-sm fw-bold">drinking tea...</h5> -->
       <h6 class="text-dark text-shadow-sm text-center fw-bold">歡迎註冊帳號</h6>
 
@@ -66,11 +70,11 @@ session_start();
           <div class="row col justify-content-center">
             <!-- 左側照片 -->
             <div class="col-lg-4 mt-3 ">
-              <div class="position-relative" >
+              <div class="position-relative d-flex justify-content-center">
                 <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent shadow p-3 mb-5 bg-body-tertiary rounded" style="max-width: 350px;">
                   <img id="previewImage" src="../user_images/user.png">
                 </div>
-                <div class="position-absolute bottom-0 start-50 translate-middle-x ">
+                <div class="signupBtn position-absolute start-50 translate-middle-x">
                   <input type="file" id="fileUpload" name="image" style="display: none;" onchange="displayImage(this)">
                   <!-- accept="image/*"  -->
                   <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
@@ -81,7 +85,7 @@ session_start();
             </div>
             <!-- 右側資訊 -->
             <div class="col-lg-6 ms-5 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <!-- <div class="col-2 col-lg-6 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded"> -->
+              <!-- <div class="col-2 col-lg-6 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded"> -->
 
               <table class="table table-bordered align-middle justify-content-center">
                 <tr>

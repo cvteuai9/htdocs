@@ -134,7 +134,9 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     </form>
                 </div>
                 <div>
-                    <?php if (isset($_GET["filter"])) : ?>
+                    <?php if (isset($_GET["valid"])) : ?>
+                        <?php $textPage = "&valid=$valid" ?>
+                    <?php elseif (isset($_GET["filter"])) : ?>
                         <?php $textPage = "&filter=$filter" ?>
                     <?php else : ?>
                         <?php $textPage = "" ?>

@@ -6,7 +6,7 @@
     </div>
 
     <div class="d-flex align-middle me-3 gap-3">
-        <p class=" fs-5 m-0 pt-1">Hi,admin</p>
+        <p class=" fs-5 m-0 pt-1">第六組</p>
         <!-- <a href="" class="btn btn-dark">登入</a> -->
         <a href="/user/doSingOut.php" class="btn btn-dark">登出</a>
     </div>

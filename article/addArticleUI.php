@@ -61,7 +61,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
     <div class="container">
 
         <a href="Articles.php"><button class="btn btn-success"><i class="bi bi-arrow-bar-left"></i>返回</button></a>
-        <form action="doaddArticleUI.php" class=" form-control" method="post">
+        <form action="doaddArticleUI.php" class=" form-control" method="post" enctype="multipart/form-data">
             <label class="form-label " for="title">文章標題:</label>
             <input type="text" class=" form-control " name="title" id="title">
             <label for="choose" class="form-label">文章種類</label>
