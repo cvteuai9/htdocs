@@ -38,6 +38,16 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
             AND p.price >= $min AND p.price <= $max 
             ORDER BY id DESC LIMIT $firstItem, $perPage";
             break;
+        case 3:
+            $sql = "$sqlAll
+            AND p.price >= $min AND p.price <= $max 
+            ORDER BY price ASC LIMIT $firstItem, $perPage";
+            break;
+        case 4:
+            $sql = "$sqlAll
+            AND p.price >= $min AND p.price <= $max 
+            ORDER BY price DESC LIMIT $firstItem, $perPage";
+            break;
     }
     $productCount = $priceCount;
 } else if (isset($_GET["search"]) && !empty($_GET["search"])) {
@@ -64,6 +74,14 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
             $sql = "$sqlSearch
             ORDER BY id DESC LIMIT $firstItem, $perPage";
             break;
+        case 3:
+            $sql = "$sqlSearch
+            ORDER BY price ASC LIMIT $firstItem, $perPage";
+            break;
+        case 4:
+            $sql = "$sqlSearch
+            ORDER BY price DESC LIMIT $firstItem, $perPage";
+            break;
     }
 
     $productCount = $searchCount;
@@ -84,6 +102,14 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
         case 2:
             $sql = "$sqlAll
             ORDER BY id DESC LIMIT $firstItem, $perPage";
+            break;
+        case 3:
+            $sql = "$sqlAll
+            ORDER BY price ASC LIMIT $firstItem, $perPage";
+            break;
+        case 4:
+            $sql = "$sqlAll
+            ORDER BY price DESC LIMIT $firstItem, $perPage";
             break;
     }
     // 符合條件的商品總數productCount = 該分類頁籤下的商品總數categoryCount
@@ -111,6 +137,16 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
             AND tc.id = $category
             ORDER BY id DESC LIMIT $firstItem, $perPage";
             break;
+        case 3:
+            $sql = "$sqlAll
+            AND tc.id = $category
+            ORDER BY price ASC LIMIT $firstItem, $perPage";
+            break;
+        case 4:
+            $sql = "$sqlAll
+            AND tc.id = $category
+            ORDER BY price DESC LIMIT $firstItem, $perPage";
+            break;
     }
     // 符合條件的商品總數productCount = 該分類頁籤下的商品總數categoryCount
     $productCount = $categoryCount;
@@ -125,6 +161,14 @@ if (isset($_GET["max"]) && isset($_GET["min"])) {
         case 2:
             $sql = "$sqlAll
             ORDER BY id DESC LIMIT $firstItem, $perPage";
+            break;
+        case 3:
+            $sql = "$sqlAll
+            ORDER BY price ASC LIMIT $firstItem, $perPage";
+            break;
+        case 4:
+            $sql = "$sqlAll
+            ORDER BY price DESC LIMIT $firstItem, $perPage";
             break;
     }
     $resultAll = $conn->query($sqlAll);
@@ -260,6 +304,8 @@ $pageCount = ceil($productCount / $perPage);
                         <?php endif; ?>
                         <a href="?page=<?= $page ?>&order=1<?= $textOrder ?>" class="btn btn-success <?php if ($order == 1) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-short-wide"></i></a>
                         <a href="?page=<?= $page ?>&order=2<?= $textOrder ?>" class="btn btn-success <?php if ($order == 2) echo "active"; ?>">id <i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                        <a href="?page=<?= $page ?>&order=3<?= $textOrder ?>" class="btn btn-success <?php if ($order == 3) echo "active"; ?>"><i class="fa-solid fa-money-bill-1"></i> <i class="fa-solid fa-arrow-down-short-wide"></i></a>
+                        <a href="?page=<?= $page ?>&order=4<?= $textOrder ?>" class="btn btn-success <?php if ($order == 4) echo "active"; ?>"><i class="fa-solid fa-money-bill-1"></i> <i class="fa-solid fa-arrow-down-wide-short"></i></a>
                     </div>
                 </div>
             </div>
@@ -286,8 +332,8 @@ $pageCount = ceil($productCount / $perPage);
             <div class="container  p-0">
                 <!-- 如果符合條件的商品>0，則顯示表格 -->
                 <?php if ($result->num_rows > 0) : ?>
-                    <table class="table table-bordered text-center table-warning">
-                        <thead class="text-nowrap">
+                    <table class="table table-match text-center">
+                        <thead class="table-header text-nowrap">
                             <th>編號</th>
                             <th>圖片</th>
                             <th>商品名稱</th>
@@ -306,7 +352,7 @@ $pageCount = ceil($productCount / $perPage);
                                     <td>
                                         <img class="product-img object-fit-cover" src="../product_images/<?= $row["path"] ?>" alt="">
                                     </td>
-                                    <td><?= $row["product_name"] ?></td>
+                                    <td class="text-wrap"><?= $row["product_name"] ?></td>
                                     <td><?= $row["brand_name"] ?></td>
                                     <td><?= $row["tea_category_name"] ?></td>
                                     <td><?= $row["package_name"] ?> / <?= $row["style_name"] ?></td>

@@ -98,7 +98,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
 
         #course {
             width: 400px;
-            height: 400px;
+            height: 310px;
         }
 
         #course>img {
@@ -188,13 +188,13 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                                     <p class="card-title"><span class="text-success ">活動編號 :</span> <?= $activity["id"] ?></p>
                                 </div>
                                 <!-- 內容 -->
-                                <div class="mt-1">
+                                <div class="mt-2">
                                     <p class="card-text overflow-hidden
                                  content_area">
                                         <?= $activity["content"] ?>
                                     </p>
                                 </div>
-                                <div class="mt-4">
+                                <div class="mt-3">
                                     <a class="btn btn-success btn-sm me-1" href="activity-edit.php?id=<?= $activity["id"] ?>">編輯</a>
                                     <?php if (isset($_GET["valid"])) : ?>
                                         <a href="activity-delete.php?id=<?= $activity["id"] ?>&valid=1" class="btn btn-danger btn-sm">回復上架</a>

@@ -328,9 +328,9 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
       <!---------------------------------------------這裡是內容 ------------------------------------->
       <?php if ($result->num_rows > 0) : ?>
         <div class="testt mb-2">
-          <table class="table">
+          <table class="table table-striped">
             <thead>
-              <tr>
+              <tr class="table-header">
 
                 <th>文章編號</th>
                 <th>文章標題</th>

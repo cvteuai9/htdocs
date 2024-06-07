@@ -8,9 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
-      body {
-        font-weight: bold;
-      }
+
 
       .cir {
         width: 200px;
@@ -36,7 +34,7 @@
         font-size: 36px;
         text-decoration: none;
         color: #000;
-        
+
 
         span {
           background: #D33F33;
@@ -71,33 +69,37 @@
           color: #D33F33;
         }
       }
+
       .pagination .active .page-link {
         background-color: #198754;
         color: white;
         border-color: #198754;
-    }
-    .pagination .page-link {
+      }
+
+      .pagination .page-link {
         color: #198754;
         font-size: 20px;
         /* --bs-pagination-font-size:30px */
 
-    }
-    .table-striped>tbody>tr:nth-child(2n)>td,
-    .table-striped>tbody>tr:nth-child(2n)>th {
+      }
+
+      .table-striped>tbody>tr:nth-child(2n)>td,
+      .table-striped>tbody>tr:nth-child(2n)>th {
         background-color: #f5f8ff;
-    }
+      }
 
 
-    .table-striped>tbody>tr:nth-of-type(odd)>* {
+      .table-striped>tbody>tr:nth-of-type(odd)>* {
         --bs-table-bg-type: white;
-    }
+      }
 
-    .table-header>tr>th {
+      .table-header>tr>th {
         background-color: #f5f8ff;
         padding: 15px;
-    }
-    .table-user>tbody>tr:nth-child(2n+1)>td,
-    .table-user>tbody>tr:nth-child(2n+1)>th {
+      }
+
+      .table-user>tbody>tr:nth-child(2n+1)>td,
+      .table-user>tbody>tr:nth-child(2n+1)>th {
         background-color: #f5f8ff;
-    }
+      }
     </style>
