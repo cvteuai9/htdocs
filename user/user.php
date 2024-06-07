@@ -1,5 +1,6 @@
 <!-- ============================== -->
 <?php
+session_start();
 if (!isset($_GET["id"])) {
   $id = 1; //若沒有選特定的，顯示預設第一筆資料
 } else {
@@ -148,7 +149,7 @@ if ($result->num_rows > 0) {
                 <th class="text-center">密碼</th>
                 <td>$row["password"]</td>
               </tr> -->
-             
+
               <tr>
                 <th class="text-center">電話</th>
                 <td><?= $row["phone"] ?></td>
@@ -172,14 +173,26 @@ if ($result->num_rows > 0) {
                       echo "有效";
                     } else echo "停權" ?></td>
               </tr>
+              <tr>
+              <td colspan="2">
+              <div class="ms-3 mt-1 fs-5">
+              <!-- 資料更新訊息 -->
+                <?php if (isset($_SESSION["updateMsg"])) : ?>
+                  <div class="text-danger">
+                    <?= $_SESSION["updateMsg"] ?>
+                  </div>
+                <?php unset($_SESSION["updateMsg"]);
+                endif; ?>
+                <!-- 資料更新訊息 -->
+              <div class="d-flex justify-content-end">
+                <a class="btn btn-success me-3 " title="編輯使用者" href="user-edit.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen-to-square">&nbsp修改</i></a>
+                <!-- 修改按鈕 -->
+  
+                <button class="btn btn-danger" title="刪除使用者" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash-can">&nbsp刪除</i></button>
+                <!-- 刪除按鈕 --></div>
+                </td>  
+              </tr>
             </table>
-            <div class="   d-flex justify-content-end">
-              <a class="btn btn-success me-3 " title="編輯使用者" href="user-edit.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen-to-square">&nbsp修改</i></a>
-              <!-- 修改按鈕 -->
-
-              <button class="btn btn-danger" title="刪除使用者" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash-can">&nbsp刪除</i></button>
-              <!-- 刪除按鈕 -->
-            </div>
             <div class="col-lg-2 mt-3"></div>
 
             <!-- ================== -->
