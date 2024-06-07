@@ -1,9 +1,8 @@
 <header class="main-header bg-white d-flex fixed-top shadow justify-content-between align-items-center">
     <div class="my-2">
-<img class="logo-img" src="/tea.png" alt="">
-    <a href="dashboard.php" class="google-font fs-5 p-3 text-success bg-white">
-    
-    </a>
+        <a href="/dashboard.php" class="fs-5 p-3 text-success bg-white">
+            <img class="logo-img" src="/tea.png" alt="">
+        </a>
     </div>
 
     <div class="d-flex align-middle me-3 gap-3">
@@ -14,7 +13,7 @@
 </header>
 
 
-<aside class="aside-left position-fixed border-end border-3 vh-100  fs-5">
+<aside class="aside-left position-fixed border-end border-3 vh-100 fs-5 bg-success">
 
 
     <ul class="list-unstyled">

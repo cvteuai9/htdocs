@@ -156,7 +156,7 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
 <html lang="en">
 
 <head>
-  <title>Title</title>
+  <title>文章列表</title>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -199,7 +199,7 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
 <body>
   <?php include("../dashboard-comm.php") ?>
   <main class="main-content p-3">
-    <h1>文章管理</h1>
+    <h1>文章列表</h1>
     <hr>
 
     </div>
@@ -372,11 +372,11 @@ $rowsChange = $resultChange->fetch_all(MYSQLI_ASSOC);
                 <th><?= $row["created_at"] ?></th>
                 <th><?= $row["updated_at"] ?></th>
 
-                    <th class="text-center">
-                      <span class="d-inline-block"><a class="d-inline-block me-1" href="lookArticles.php?id=<?php echo $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-eye-fill"></i></button></a>
-                        <a class="d-inline-block me-1" href="editArticle.php?id=<?= $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button></a>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row["id"] ?>"><i class="bi bi-trash3-fill"></i></button></span>
-                    </th>
+                <th class="text-center">
+                  <span class="d-inline-block"><a class="d-inline-block me-1" href="lookArticles.php?id=<?php echo $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-eye-fill"></i></button></a>
+                    <a class="d-inline-block me-1" href="editArticle.php?id=<?= $row["id"] ?>"><button class="btn btn-success"><i class="bi bi-pencil-fill"></i></button></a>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?= $row["id"] ?>"><i class="bi bi-trash3-fill"></i></button></span>
+                </th>
 
 
 

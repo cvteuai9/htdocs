@@ -47,7 +47,7 @@
       <div class="py-2">
         <a href="users.php" class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
       </div>
-      <form action="doCreateUser.php" method="post">
+      <form action="doCreateUser.php" method="post" enctype="multipart/form-data">
 
         <div class="row justify-content-center">
           <div class="col-lg-4 mt-3">
@@ -56,7 +56,7 @@
                 <img id="previewImage" src="../user_images/user.png">
               </div>
               <div class="position-absolute  top-100 start-0 ">
-                <input type="file" id="fileUpload" name="file" style="display: none;" onchange="displayImage(this)">
+                <input type="file" id="fileUpload" name="image" style="display: none;" onchange="displayImage(this)">
                 <!-- accept="image/*"  -->
                 <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
                   選擇圖片

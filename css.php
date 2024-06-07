@@ -41,12 +41,12 @@
         /* background: #F5F5DC; */
         padding-top: var(--header-height);
         width: var(--aside-witch);
-        background: linear-gradient(0, #0fd850, #f9f047);
+        /* background: linear-gradient(0, #0fd850, #f9f047); */
         top: 20px;
         overflow: auto;
-    background-color:#198754;
-        }
-    
+        background-color: #198754;
+    }
+
 
     .deactive {
         height: 0px;
@@ -65,18 +65,17 @@
     .main-content {
         margin: var(--header-height) 0 0 var(--aside-witch);
     }
-    
-    
-    
+
+
+
     /* 尚謙course */
     .test {
         height: 60px;
     }
+
     /* logo */
-    .logo-img{
+    .logo-img {
         width: auto;
         height: 50px;
     }
-    
-
 </style>
