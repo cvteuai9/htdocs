@@ -81,32 +81,34 @@ if ($result->num_rows > 0) {
         <a href="users.php" class="btn btn-success">會員管理中心</a>
       </div>
       <!-- ===回主選單按鈕=== -->
-      <form action="doUpdateUser.php" method="post" enctype="multipart/form-data">
       <?php if ($userExit) : ?>
-        <div class="row justify-content-center">
-          <div class="col-lg-4 mt-3 col-2" >
-            <div class="position-relative">
-              <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent shadow p-3 mb-5 bg-body-tertiary rounded">
-                <img id="previewImage" src="../user_images/<?= $row["images_name"] ?> ">
-                <!-- <img id="previewImage" src="/upload/<? //$image["pic_name"] 
-                                                          ?>" alt="圖片預覽" class="object-fit-cover"> -->
-              </div>
 
-              <div class="position-absolute bottom-0 start-50 b translate-middle-x ">
+        <form action="doUpdateUser.php" method="post" enctype="multipart/form-data">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 mt-3 col-2">
+              <div class="position-relative">
+                <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent shadow p-3 mb-5 bg-body-tertiary rounded">
+                  <img id="previewImage" src="../user_images/<?= $row["images_name"] ?> ">
+                  <!-- <img id="previewImage" src="/upload/<? //$image["pic_name"] 
+                                                            ?>" alt="圖片預覽" class="object-fit-cover"> -->
+                </div>
 
-                <input type="file" id="fileUpload" name="image" style="display: none;" onchange="displayImage(this)">
-                <!-- accept="image/*"  -->
-                <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
-                  選擇圖片
-                </button>
+                <div class="position-absolute bottom-0 start-50 b translate-middle-x ">
+
+                  <input type="file" id="fileUpload" name="image" style="display: none;" onchange="displayImage(this)">
+                  <!-- accept="image/*"  -->
+                  <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
+                    選擇圖片
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
 
-          
-          <div class="col-lg-6 ms-5 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <?php //if ($userExit) : ?>
+
+            <div class="col-lg-6 ms-5 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+              <?php //if ($userExit) : 
+              ?>
               <table class="table table-bordered align-middle justify-content-center  rounded">
                 <input type="hidden" name="id" value="<?= $row["id"] ?>">
                 <tr>
@@ -129,7 +131,7 @@ if ($result->num_rows > 0) {
                 </tr>
                 <tr>
                   <th class="text-center">密碼</th>
-                  <td><input type="text" class="form-control" name="password"placeholder="輸入新密碼" ></td>
+                  <td><input type="text" class="form-control" name="password" placeholder="輸入新密碼"></td>
                 </tr>
                 <tr>
                   <th class="text-center">電話</th>
@@ -168,14 +170,14 @@ if ($result->num_rows > 0) {
                       <p class="mt-3">&nbsp日&nbsp</p>
 
                     </div>
+            </div>
           </div>
-        </div>
 
-        </tr>
-        <tr>
-          <th class="text-center">性別</th>
-          <td>
-            <?php
+          </tr>
+          <tr>
+            <th class="text-center">性別</th>
+            <td>
+              <?php
               // 從資料庫獲取的性別描述
               $gender_description = $row["gender"];
 
@@ -187,93 +189,94 @@ if ($result->num_rows > 0) {
               ]; // 將描述轉換成對應的值
               $gender_value = $gender_map[$gender_description] ?? null;
               // 使用 null 作為預設值以處理未知性別
-            ?>
-            <select name="gender" id="gender" class="form-select">
-              <option value="1" <?= ($gender_value == 1 ? 'selected' : ''); ?>>女性</option>
-              <option value="2" <?= ($gender_value == 2 ? 'selected' : ''); ?>>男性</option>
-              <option value="3" <?= ($gender_value == 3 ? 'selected' : ''); ?>>其他</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <th class="text-center">城市</th>
-          <td>
-            <!-- <?php $location = $row["location"]; ?> -->
-            <select name="location" id="" class="form-select" type="text">
-              <option value="臺北市" <?= ($location == "臺北市" ? 'selected' : ''); ?>>臺北市</option>
-              <option value="彰化縣" <?= ($location == "彰化縣" ? 'selected' : ''); ?>>彰化縣</option>
-              <option value="南投縣" <?= ($location == "南投縣" ? 'selected' : ''); ?>>南投縣</option>
-              <option value="嘉義市" <?= ($location == "嘉義市" ? 'selected' : ''); ?>>嘉義市</option>
-              <option value="嘉義縣" <?= ($location == "嘉義縣" ? 'selected' : ''); ?>>嘉義縣</option>
-              <option value="雲林縣" <?= ($location == "雲林縣" ? 'selected' : ''); ?>>雲林縣</option>
-              <option value="臺南市" <?= ($location == "臺南市" ? 'selected' : ''); ?>>臺南市</option>
-              <option value="高雄市" <?= ($location == "高雄市" ? 'selected' : ''); ?>>高雄市</option>
-              <option value="澎湖縣" <?= ($location == "澎湖縣" ? 'selected' : ''); ?>>澎湖縣</option>
-              <option value="屏東縣" <?= ($location == "屏東縣" ? 'selected' : ''); ?>>屏東縣</option>
-              <option value="臺東縣" <?= ($location == "臺東縣" ? 'selected' : ''); ?>>臺東縣</option>
-              <option value="基隆市" <?= ($location == "基隆市" ? 'selected' : ''); ?>>基隆市</option>
-              <option value="花蓮縣" <?= ($location == "花蓮縣" ? 'selected' : ''); ?>>花蓮縣</option>
-              <option value="金門縣" <?= ($location == "金門縣" ? 'selected' : ''); ?>>金門縣</option>
-              <option value="連江縣" <?= ($location == "連江縣" ? 'selected' : ''); ?>>連江縣</option>
-              <option value="新北市" <?= ($location == "新北市" ? 'selected' : ''); ?>>新北市</option>
-              <option value="宜蘭縣" <?= ($location == "宜蘭縣" ? 'selected' : ''); ?>>宜蘭縣</option>
-              <option value="新竹市" <?= ($location == "新竹市" ? 'selected' : ''); ?>>新竹市</option>
-              <option value="新竹縣" <?= ($location == "新竹縣" ? 'selected' : ''); ?>>新竹縣</option>
-              <option value="桃園市" <?= ($location == "桃園市" ? 'selected' : ''); ?>>桃園市</option>
-              <option value="苗栗縣" <?= ($location == "苗栗縣" ? 'selected' : ''); ?>>苗栗縣</option>
-              <option value="臺中市" <?= ($location == "臺中市" ? 'selected' : ''); ?>>臺中市</option>
-            </select>
-          </td>
-        </tr>
+              ?>
+              <select name="gender" id="gender" class="form-select">
+                <option value="1" <?= ($gender_value == 1 ? 'selected' : ''); ?>>女性</option>
+                <option value="2" <?= ($gender_value == 2 ? 'selected' : ''); ?>>男性</option>
+                <option value="3" <?= ($gender_value == 3 ? 'selected' : ''); ?>>其他</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th class="text-center">城市</th>
+            <td>
+              <!-- <?php $location = $row["location"]; ?> -->
+              <select name="location" id="" class="form-select" type="text">
+                <option value="臺北市" <?= ($location == "臺北市" ? 'selected' : ''); ?>>臺北市</option>
+                <option value="彰化縣" <?= ($location == "彰化縣" ? 'selected' : ''); ?>>彰化縣</option>
+                <option value="南投縣" <?= ($location == "南投縣" ? 'selected' : ''); ?>>南投縣</option>
+                <option value="嘉義市" <?= ($location == "嘉義市" ? 'selected' : ''); ?>>嘉義市</option>
+                <option value="嘉義縣" <?= ($location == "嘉義縣" ? 'selected' : ''); ?>>嘉義縣</option>
+                <option value="雲林縣" <?= ($location == "雲林縣" ? 'selected' : ''); ?>>雲林縣</option>
+                <option value="臺南市" <?= ($location == "臺南市" ? 'selected' : ''); ?>>臺南市</option>
+                <option value="高雄市" <?= ($location == "高雄市" ? 'selected' : ''); ?>>高雄市</option>
+                <option value="澎湖縣" <?= ($location == "澎湖縣" ? 'selected' : ''); ?>>澎湖縣</option>
+                <option value="屏東縣" <?= ($location == "屏東縣" ? 'selected' : ''); ?>>屏東縣</option>
+                <option value="臺東縣" <?= ($location == "臺東縣" ? 'selected' : ''); ?>>臺東縣</option>
+                <option value="基隆市" <?= ($location == "基隆市" ? 'selected' : ''); ?>>基隆市</option>
+                <option value="花蓮縣" <?= ($location == "花蓮縣" ? 'selected' : ''); ?>>花蓮縣</option>
+                <option value="金門縣" <?= ($location == "金門縣" ? 'selected' : ''); ?>>金門縣</option>
+                <option value="連江縣" <?= ($location == "連江縣" ? 'selected' : ''); ?>>連江縣</option>
+                <option value="新北市" <?= ($location == "新北市" ? 'selected' : ''); ?>>新北市</option>
+                <option value="宜蘭縣" <?= ($location == "宜蘭縣" ? 'selected' : ''); ?>>宜蘭縣</option>
+                <option value="新竹市" <?= ($location == "新竹市" ? 'selected' : ''); ?>>新竹市</option>
+                <option value="新竹縣" <?= ($location == "新竹縣" ? 'selected' : ''); ?>>新竹縣</option>
+                <option value="桃園市" <?= ($location == "桃園市" ? 'selected' : ''); ?>>桃園市</option>
+                <option value="苗栗縣" <?= ($location == "苗栗縣" ? 'selected' : ''); ?>>苗栗縣</option>
+                <option value="臺中市" <?= ($location == "臺中市" ? 'selected' : ''); ?>>臺中市</option>
+              </select>
+            </td>
+          </tr>
 
 
-       
 
 
-        </table>
-        <div class="py-2 d-flex ms0r justify-content-end">
-        
+
+          </table>
+          <div class="py-2 d-flex ms0r justify-content-end">
+          
           <button class="btn btn-success" type="submit">送出</button>
-        </div>
-      </form>
-      <div class="col-lg-2 mt-3"></div>
+          </div>
+        </form>
+        <div class="col-lg-2 mt-3"></div>
+      <?php else : ?>
+        <h1 class="mt-3 text-danger">使用者不存在</h1>
+      <?php endif; ?>
     </div>
     <!-- ================== -->
   </main>
-<?php else : ?>
-  <h1 class="mt-3 text-danger">使用者不存在</h1>
-<?php endif; ?>
-<!-- 判斷使用者是否存在 -->
-</div>
+
+  <!-- 判斷使用者是否存在 -->
 
 
-</div>
-</div>
-<!-- ===========圖片JS=========== -->
-<script>
-  // 圖片上傳
-  function displayImage(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
 
-      reader.onload = function(e) {
-        document.getElementById('previewImage').src = e.target.result;
-      };
+  <?php include("../js.php") ?>
 
-      reader.readAsDataURL(input.files[0]);
+  <!-- ===========圖片JS=========== -->
+  <script>
+    // 圖片上傳
+    function displayImage(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          document.getElementById('previewImage').src = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
     }
-  }
-</script>
-<script>
-  // 圖片讀取失敗時
-  const previewImage = document.getElementById('previewImage');
-  const profilePicPath = 'C:\\xampp\\htdocs\\project\\images\\profilepic.JPG';
+  </script>
+  <script>
+    // 圖片讀取失敗時
+    const previewImage = document.getElementById('previewImage');
+    const profilePicPath = 'C:\\xampp\\htdocs\\project\\images\\profilepic.JPG';
 
-  previewImage.onerror = function() {
-    previewImage.src = profilePicPath;
-  };
-</script>
-<!-- ===========圖片JS=========== -->
+    previewImage.onerror = function() {
+      previewImage.src = profilePicPath;
+    };
+  </script>
+  <!-- ===========圖片JS=========== -->
 </body>
 
 </html>
