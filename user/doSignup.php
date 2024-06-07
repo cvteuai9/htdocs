@@ -89,14 +89,14 @@ if ($password != $repassword) {
 
     exit;
 }
-if ($_FILES["image"]["size"] == 0) {
+if($_FILES["image"]["size"]==0){
     $filename = "user.png";
-} else {
+}else{
     $image = $_FILES["image"];
     // 上傳圖片至目標資料夾
     if ($_FILES["image"]["error"] == 0) {
         // move_uploaded_file({上傳文件在服務器上的臨時文件名稱}, {你希望文件移動到的位置(包含文件名稱)})
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], "../user_images/" . $_FILES["image"]["name"])) {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], "user_images/" . $_FILES["image"]["name"])) {
             echo "upload success";
         } else {
             echo "upload FAIL";
@@ -115,7 +115,8 @@ $sql = "INSERT INTO users(name, images_name, account,email, password,phone,locat
 if ($conn->query($sql) === TRUE) {
     $last_id = $conn->insert_id;
 
-    $errorMsg = "新資料輸入完成, id 為 $last_id";
+    $errorMsg = "註冊完成,請重新以帳號登入";
+    // $errorMsg = "新資料輸入完成, id 為 $last_id";
     $_SESSION["errorMsg"] =  $errorMsg;
     // echo "新資料輸入完成, id 為 $last_id ";
 } else {
@@ -125,21 +126,22 @@ if ($conn->query($sql) === TRUE) {
 // $row=$result->fetch_assoc();
 // unset($_SESSION["errorMsg"]);
 
-$_SESSION["user"] = [
-    "id" => $row["id"],
-    "account" => $row["account"],
-    "name" => $row["name"],
-    "email" => $row["email"],
-    "password" => $row["password"],
-    "birthday" => $row["date"],
-    "gender" => $row["gender"],
-    "location" => $row["location"],
-    "phone" => $row["phone"]
-
+$_SESSION["user"]=[
+    "id"=>$row["id"],
+    "account"=>$row["account"],
+    "name"=>$row["name"],
+    "email"=>$row["email"],
+    "password"=>$row["password"],
+    "birthday"=>$row["date"],
+    "gender"=>$row["gender"],
+    "location"=>$row["location"],
+    "phone"=>$row["phone"]
+    
 ];
 
 
 
 $conn->close();
 header("location: sign-up.php");
+
 // header("location: users.php");

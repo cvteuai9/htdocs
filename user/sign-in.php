@@ -1,18 +1,24 @@
 <?php
 session_start();
-if (isset($_SESSION["user"])) {
-  header("location: user.php");
+
+// 檢查是否已經銷毀過會話，無限迴圈銷毀，無法使errorMsg無法出現
+if (!isset($_SESSION['destroyed'])) {
+  // 執行 session_destroy() 並設置標記
+  session_destroy();
+} else {
+  // echo "Session was already destroyed.";
   exit;
 }
-
 ?>
+
+
 
 <!-- ============================== -->
 <!doctype html>
 <html lang="en">
 
 <head>
-  <title>test-sign-up</title>
+  <title>登入</title>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -72,8 +78,9 @@ if (isset($_SESSION["user"])) {
 <body>
   <div class="vh-100 d-flex justify-content-center align-items-center ">
     <div class="login-panel">
-      <h2 class="text-shadow-sm fw-bold">drinking tea...</h2>
-      <h6 class="text-dark text-shadow-sm fw-bold">登入您的帳戶</h6>
+      <img class="img-fluid" src="/tea.png" alt="">
+      <!-- <h5 class="text-shadow-sm fw-bold">drinking tea...</h5> -->
+      <h6 class="text-dark text-shadow-sm text-center fw-bold">登入您的帳戶</h6>
 
       <?php if (isset($_SESSION["errorTimes"]) && $_SESSION["errorTimes"] >= 5) : ?>
         <div class="text-dark text-center h4 my-3">登入錯誤次數太多<br>請稍後再嘗試</div>
@@ -93,10 +100,10 @@ if (isset($_SESSION["user"])) {
             <div class="form-floating position-relative">
               <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" oninput="checkInput()">
               <label for="floatingPassword">Password</label>
-              <div id="button1" class="btn position-absolute d-flex top-50 end-0  z-3 lookEye d-none" onclick="switchButton()">
+              <div id="button2" class="btn position-absolute d-flex top-50 end-0  z-3 lookEye d-none" onclick="switchButton()">
                 <i class="fa-solid fa-eye fa-lg" style="color: #0f4c3a;"></i>
               </div>
-              <div id="button2" class="btn position-absolute d-flex top-50 end-0 z-3 unlookEye d-none" onclick="switchButton()">
+              <div id="button1" class="btn position-absolute d-flex top-50 end-0 z-3 unlookEye d-none" onclick="switchButton()">
                 <i class="fa-solid fa-eye-slash fa-lg" style="color: #0f4c3a;"></i>
               </div>
             </div>

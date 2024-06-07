@@ -26,40 +26,43 @@ if (empty($password)) {
     exit;
 }
 
-// $password = md5($password);
+$password = md5($password);
 // echo "$account, $password";
 
 $sql = "SELECT * FROM users WHERE account= '$account' AND password = '$password' AND valid=1";
-$result = $conn->query($sql);
-$userCount = $result->num_rows;
+$result=$conn->query($sql);
+$userCount=$result->num_rows;
 
-if ($userCount == 0) {
-    $errorMsg = "帳號或密碼錯誤";
-    if (!isset($_SESSION["errorTimes"])) {
-        $_SESSION["errorTimes"] = 1;
-    } else {
+if($userCount==0){
+    $errorMsg="帳號或密碼錯誤";
+    if(!isset($_SESSION["errorTimes"])){
+        $_SESSION["errorTimes"]=1;
+    }else{
         $_SESSION["errorTimes"]++;
     }
-
+    
     $_SESSION["errorMsg"] = $errorMsg;
     header(("location: sign-in.php"));
     exit;
 }
 
-$row = $result->fetch_assoc();
+$row=$result->fetch_assoc();
 unset($_SESSION["errorMsg"]);
 unset($_SESSION["errorTimes"]);
 // var_dump(($row));
 
 
-$_SESSION["user"] = [
-    "id" => $row["id"],
-    "account" => $row["account"],
-    "name" => $row["name"],
-    "email" => $row["email"],
-    "phone" => $row["phone"]
-
+$_SESSION["user"]=[
+    "id"=>$row["id"],
+    "account"=>$row["account"],
+    "name"=>$row["name"],
+    "email"=>$row["email"],
+    "phone"=>$row["phone"]
+    
 ];
 
 
-header("location: user.php?id=" . $row["id"]);
+header("location: user.php?id=".$row["id"]);
+
+
+echo $sql;

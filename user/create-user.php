@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-  <title>Title</title>
+  <title>新增會員</title>
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -45,33 +45,31 @@
     <!---------------------------------------------這裡是內容 ------------------------------------->
     <div class="container">
       <div class="py-2">
-        <a href="users.php" class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員管理中心</a>
+        <a href="users.php" class="btn btn-success"><i class="fa-solid fa-arrow-left"></i>&nbsp回會員列表</a>
       </div>
       <form action="doCreateUser.php" method="post" enctype="multipart/form-data">
-
         <div class="row justify-content-center">
-          <div class="col-lg-4 mt-3">
+          <!-- 左側照片 -->
+          <div class="col-lg-4 mt-3 ">
             <div class="position-relative">
-              <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent " style="max-width: 350px;">
-                <img id="previewImage" src="../user_images/user.png">
+              <div class="ratio ratio-1x1 rounded-circle border border-5 overflow-hidden bg-transparent shadow p-3 mb-5 bg-body-tertiary rounded"> <img id="previewImage" src="../user_images/user.png">
               </div>
-              <div class="position-absolute  top-100 start-0 ">
+              <div class="position-absolute bottom-0 start-50 translate-middle-x ">
                 <input type="file" id="fileUpload" name="image" style="display: none;" onchange="displayImage(this)">
                 <!-- accept="image/*"  -->
-                <button type="button" class="btn btn-success" onclick="document.getElementById('fileUpload').click();">
+                <button type="button" class="btn btn-success   " onclick="document.getElementById('fileUpload').click();">
                   選擇圖片
                 </button>
               </div>
 
-
             </div>
           </div>
 
-          <!-- 左側照片 -->
-          <div class="col-lg-6 mt-3">
+          <!-- 右側資訊 -->
+          <div class="col-lg-6 ms-5 mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
 
 
-            <table class="table table-bordered align-middle justify-content-center">
+            <table class="table table-bordered align-middle justify-content-center  rounded">
               <tr>
                 <th for="" class="form-label">姓名</th>
                 <td><input type="text" class="form-control" name="name">
@@ -87,8 +85,16 @@
                 <td><input type="email" class="form-control" name="email"></td>
               </tr>
               <tr>
-                <th for="" class="form-label">密碼</th>
-                <td> <input type="text" class="form-control" name="password"></td>
+                <th for="" class="form-label ">密碼</th>
+                <td class="position-relative"> <input type="password" class="form-control " name="password" id="floatingPassword" placeholder="Password" name="password" oninput="checkInput()">
+                  <div id="button2" class="btn position-absolute d-flex top-50 end-0  z-3 lookEye d-none" onclick="switchButton()">
+                    <i class="fa-solid fa-eye fa-lg" style="color: #0f4c3a;"></i>
+                  </div>
+                  <div id="button1" class="btn position-absolute d-flex top-50 end-0 z-3 unlookEye d-none" onclick="switchButton()">
+                    <i class="fa-solid fa-eye-slash fa-lg" style="color: #0f4c3a;"></i>
+                  </div>
+                </td>
+
               </tr>
               <tr>
                 <th for="" class="form-label">電話</th>
@@ -176,7 +182,7 @@
       </form>
     </div>
   </main>
-  <?php include("../js.php") ?>
+
   <!-- ===========圖片JS=========== -->
   <script>
     // 圖片上傳
@@ -195,13 +201,50 @@
   <script>
     // 圖片讀取失敗時
     const previewImage = document.getElementById('previewImage');
-    const profilePicPath = '../user_images/profilepic.jpg';
+    const profilePicPath = 'C:\\xampp\\htdocs\\project\\images\\profilepic.JPG';
 
     previewImage.onerror = function() {
       previewImage.src = profilePicPath;
     };
   </script>
   <!-- ===========圖片JS=========== -->
+
+  <!-- 顯示密碼eye btn -->
+  <script>
+    function switchButton() {
+      var button1 = document.getElementById('button1');
+      var button2 = document.getElementById('button2');
+      var inputField = document.getElementById('floatingPassword');
+
+      if (button1.classList.contains('d-none')) {
+        button1.classList.remove('d-none');
+        button2.classList.add('d-none');
+        inputField.type = 'password';
+      } else {
+        button1.classList.add('d-none');
+        button2.classList.remove('d-none');
+        inputField.type = 'text';
+      }
+    }
+
+    function checkInput() {
+      var inputField = document.getElementById('floatingPassword');
+      var button1 = document.getElementById('button1');
+      var button2 = document.getElementById('button2');
+
+      if (inputField.value.trim() !== "") {
+        if (button2.classList.contains('d-none')) {
+          button1.classList.remove('d-none');
+        } else {
+          button2.classList.remove('d-none');
+        }
+      } else {
+        button1.classList.add('d-none');
+        button2.classList.add('d-none');
+      }
+    }
+  </script>
+  <!-- 顯示密碼eye btn -->
 
 </body>
 
