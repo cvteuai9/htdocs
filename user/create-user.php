@@ -182,7 +182,7 @@
       </form>
     </div>
   </main>
-
+  <?php include("../js.php") ?>
   <!-- ===========圖片JS=========== -->
   <script>
     // 圖片上傳
